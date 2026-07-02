@@ -11,6 +11,8 @@ public class UsuarioConfiguracao : IEntityTypeConfiguration<Usuario>
         builder.ToTable("usuarios");
         builder.HasKey(u => u.Id);
         builder.Property(u => u.NomeCompleto).IsRequired().HasMaxLength(150);
+        builder.Property(u => u.NomeUsuario).IsRequired().HasMaxLength(50);
+        builder.HasIndex(u => u.NomeUsuario).IsUnique();
         builder.Property(u => u.Email).IsRequired().HasMaxLength(200);
         builder.Property(u => u.SenhaHash).IsRequired();
         builder.Property(u => u.TokenRedefinicaoSenha).HasMaxLength(100);

@@ -11,7 +11,10 @@ public interface IUsuarioRepositorio
 {
     Task<Usuario?> ObterPorIdAsync(Guid id, CancellationToken ct = default);
     Task<Usuario?> ObterPorEmailAsync(string email, CancellationToken ct = default);
+    Task<Usuario?> ObterPorLoginAsync(string login, CancellationToken ct = default);
     Task<Usuario?> ObterPorTokenRedefinicaoAsync(string token, CancellationToken ct = default);
+    Task<Guid?> ObterJogadorIdAsync(Guid usuarioId, CancellationToken ct = default);
+    Task<Guid?> ObterClubeIdAsync(Guid usuarioId, CancellationToken ct = default);
     Task<(IEnumerable<Usuario> Itens, int Total)> ListarAsync(int pagina, int tamanhoPagina, string? busca, CancellationToken ct = default);
     Task<bool> EmailExisteAsync(string email, Guid? ignorarId = null, CancellationToken ct = default);
     Task AdicionarAsync(Usuario usuario, CancellationToken ct = default);

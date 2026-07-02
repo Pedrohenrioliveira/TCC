@@ -11,6 +11,11 @@ public class ClubeConfiguracao : IEntityTypeConfiguration<Clube>
         builder.ToTable("clubes");
         builder.HasKey(c => c.Id);
 
+        builder.HasOne(c => c.Usuario)
+               .WithMany()
+               .HasForeignKey(c => c.UsuarioId)
+               .OnDelete(DeleteBehavior.Cascade);
+
         builder.Property(c => c.Nome)
             .IsRequired()
             .HasMaxLength(150);

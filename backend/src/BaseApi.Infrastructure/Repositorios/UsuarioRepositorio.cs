@@ -21,6 +21,23 @@ public class UsuarioRepositorio(AppDbContext contexto) : IUsuarioRepositorio
             .Include(u => u.Perfil)
             .FirstOrDefaultAsync(u => u.Email == email, ct);
 
+    public async Task<Usuario?> ObterPorLoginAsync(string login, CancellationToken ct = default)
+        => await contexto.Usuarios
+            .Include(u => u.Perfil)
+            .FirstOrDefaultAsync(u => u.Email == login || u.NomeUsuario == login, ct);
+
+    public async Task<Guid?> ObterJogadorIdAsync(Guid usuarioId, CancellationToken ct = default)
+    {
+        var jogador = await contexto.Jogadores.AsNoTracking().FirstOrDefaultAsync(j => j.UsuarioId == usuarioId, ct);
+        return jogador?.Id;
+    }
+
+    public async Task<Guid?> ObterClubeIdAsync(Guid usuarioId, CancellationToken ct = default)
+    {
+        var clube = await contexto.Clubes.AsNoTracking().FirstOrDefaultAsync(c => c.UsuarioId == usuarioId, ct);
+        return clube?.Id;
+    }
+
     public async Task<Usuario?> ObterPorTokenRedefinicaoAsync(string token, CancellationToken ct = default)
         => await contexto.Usuarios
             .FirstOrDefaultAsync(u => u.TokenRedefinicaoSenha == token, ct);

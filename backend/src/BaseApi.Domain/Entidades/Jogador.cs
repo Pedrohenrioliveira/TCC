@@ -10,6 +10,10 @@ public class Jogador
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 
+    public Guid UsuarioId { get; set; }
+
+    public Usuario? Usuario { get; set; }
+
     /// <summary>
     /// Caminho ou URL da foto do atleta.
     /// </summary>

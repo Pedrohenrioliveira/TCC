@@ -11,6 +11,11 @@ public class JogadorConfiguracao : IEntityTypeConfiguration<Jogador>
         builder.ToTable("jogadores");
         builder.HasKey(j => j.Id);
 
+        builder.HasOne(j => j.Usuario)
+               .WithMany()
+               .HasForeignKey(j => j.UsuarioId)
+               .OnDelete(DeleteBehavior.Cascade);
+
         builder.Property(j => j.CaminhoFoto)
             .HasMaxLength(500);
 
