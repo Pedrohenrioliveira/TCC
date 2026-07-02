@@ -6,11 +6,10 @@ public class LoginValidator : AbstractValidator<LoginCommand>
 {
     public LoginValidator()
     {
-        RuleFor(x => x.Email)
-            .NotEmpty().WithMessage("E-mail é obrigatório.")
-            .EmailAddress().WithMessage("E-mail inválido.");
+        RuleFor(x => x.Login)
+            .NotEmpty().WithMessage("O E-mail ou Nome de Usuário é obrigatório.");
 
         RuleFor(x => x.Senha)
-            .NotEmpty().WithMessage("Senha é obrigatória.");
+            .NotEmpty().WithMessage("A Senha é obrigatória.");
     }
 }

@@ -3,9 +3,9 @@ using MediatR;
 namespace BaseApi.Application.Autenticacao.Commands.Login;
 
 /// <summary>
-/// Command de login. Recebe e-mail e senha, retorna o token JWT.
+/// Command de login. Recebe e-mail ou nome de usuário e senha.
 /// </summary>
-public record LoginCommand(string Email, string Senha) : IRequest<LoginResposta>;
+public record LoginCommand(string Login, string Senha, bool ManterConectado = false) : IRequest<LoginResposta>;
 
 /// <summary>
 /// Resposta do login com o token JWT e sua expiração.
@@ -15,6 +15,9 @@ public record LoginResposta(
     string AccessToken,
     DateTime ExpiraEm,
     string NomeCompleto,
+    string NomeUsuario,
     string Email,
-    string Perfil
+    string Perfil,
+    Guid? JogadorId = null,
+    Guid? ClubeId = null
 );
