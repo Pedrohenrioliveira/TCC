@@ -1,0 +1,37 @@
+<div class="upload-card">
+  <div class="avatar-container" (click)="triggerFileInput(fileInput)">
+    <div class="avatar-circle">
+      @if (imagePreview) {
+        <img [src]="imagePreview" alt="Preview da Foto do Atleta" class="preview-img" />
+      } @else {
+        <!-- Ícone do Usuário Silhueta -->
+        <svg class="user-placeholder-icon" viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      }
+    </div>
+    <!-- Botão flutuante de Câmera -->
+    <div class="camera-badge">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+        <circle cx="12" cy="13" r="4"></circle>
+      </svg>
+    </div>
+  </div>
+
+  <div class="upload-info">
+    <h3 class="upload-title">Foto do Atleta</h3>
+    <p class="upload-subtitle">Envie uma foto com o uniforme do clube.</p>
+  </div>
+
+  <!-- Botão Escolher Arquivo -->
+  <input #fileInput type="file" (change)="onFileChange($event)" accept=".jpg,.jpeg,.png" style="display: none;" />
+  <button type="button" class="btn-choose" (click)="triggerFileInput(fileInput)">
+    {{ imagePreview ? 'Alterar Foto' : 'Escolher Arquivo' }}
+  </button>
+  
+  @if (imagePreview) {
+    <button type="button" class="btn-clear" (click)="clearImage($event)">Remover Foto</button>
+  }
+</div>
