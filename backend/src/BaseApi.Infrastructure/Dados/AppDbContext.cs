@@ -37,7 +37,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         modelBuilder.Entity<Perfil>().HasData(
             new Perfil { Id = 1, Nome = "Admin",    Descricao = "Acesso total ao sistema" },
             new Perfil { Id = 2, Nome = "Gerente",  Descricao = "Acesso intermediário ao sistema" },
-            new Perfil { Id = 3, Nome = "Usuário",  Descricao = "Acesso básico ao sistema" }
+            new Perfil { Id = 3, Nome = "Usuário",  Descricao = "Acesso básico ao sistema" },
+            new Perfil { Id = 4, Nome = "Jogador",  Descricao = "Perfil de acesso para Jogadores" },
+            new Perfil { Id = 5, Nome = "Clube",    Descricao = "Perfil de acesso para Clubes" }
         );
     }
 
@@ -49,6 +51,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         {
             Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
             NomeCompleto = "Administrador do Sistema",
+            NomeUsuario = "admin",
             Email = "admin@baseapi.com",
             SenhaHash = BCrypt.Net.BCrypt.HashPassword("Admin@123"),
             PerfilId = 1,

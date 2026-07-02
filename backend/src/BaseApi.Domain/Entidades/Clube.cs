@@ -9,6 +9,10 @@ public class Clube
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 
+    public Guid UsuarioId { get; set; }
+
+    public Usuario? Usuario { get; set; }
+
     /// <summary>
     /// Caminho ou URL do arquivo do escudo do clube.
     /// </summary>

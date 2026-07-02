@@ -18,7 +18,7 @@ namespace BaseApi.API.Controllers;
 ///   POST /api/autenticacao/redefinir-senha  → Redefine a senha com o token
 ///
 /// Como usar o token JWT:
-///   1. Faça POST /api/autenticacao/login com { "email": "...", "senha": "..." }
+///   1. Faça POST /api/autenticacao/login com { "login": "...", "senha": "...", "manterConectado": false }
 ///   2. Copie o campo "accessToken" da resposta
 ///   3. No Swagger: clique em "Authorize" e cole: Bearer SEU_TOKEN
 ///   4. Todos os endpoints protegidos com [Authorize] aceitarão suas requisições
@@ -32,8 +32,9 @@ public class AutenticacaoController(IMediator mediator) : ControllerBase
     /// Realiza o login e retorna o token JWT de acesso.
     /// </summary>
     /// <remarks>
+    /// O campo Login aceita tanto o E-mail quanto o Nome de Usuário.
     /// Usuário padrão para testes:
-    ///   email: admin@baseapi.com
+    ///   login: admin@baseapi.com (ou apenas admin)
     ///   senha: Admin@123
     /// </remarks>
     [HttpPost("login")]
