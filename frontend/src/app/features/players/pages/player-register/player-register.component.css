@@ -1,0 +1,274 @@
+.register-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #fafafa;
+  color: #1e293b;
+  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Header com degradê cinza para branco */
+.register-header {
+  background: linear-gradient(to bottom, #eaeaea 0%, #fafafa 100%);
+  padding: 40px 24px 20px 24px;
+  text-align: center;
+}
+
+.header-content {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.header-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #006435;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.5px;
+}
+
+.header-subtitle {
+  font-size: 15px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Corpo principal da página */
+.register-main {
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px 48px 24px;
+  box-sizing: border-box;
+}
+
+.athlete-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #475569;
+}
+
+/* Estilização básica dos Inputs */
+.form-control {
+  font-family: inherit;
+  font-size: 15px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #1e293b;
+  outline: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+}
+
+.form-control::placeholder {
+  color: #94a3b8;
+}
+
+.form-control:focus {
+  border-color: #00874c;
+  box-shadow: 0 0 0 3px rgba(0, 135, 76, 0.15);
+}
+
+.form-control.is-invalid {
+  border-color: #ef4444;
+}
+
+.form-control.is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.error-feedback {
+  font-size: 12px;
+  color: #ef4444;
+  font-weight: 500;
+  margin-top: -2px;
+}
+
+/* Grupo de Pé Preferencial */
+.foot-toggle-group {
+  display: flex;
+  background-color: #f1f5f9;
+  border-radius: 12px;
+  padding: 4px;
+  border: 1px solid #e2e8f0;
+}
+
+.foot-btn {
+  flex: 1;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 0;
+  border: none;
+  border-radius: 8px;
+  background-color: transparent;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.foot-btn:hover {
+  color: #1e293b;
+}
+
+.foot-btn.active {
+  background-color: #ffffff;
+  color: #006435;
+  font-weight: 600;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Layout de Duas Colunas para Altura e Peso */
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.col {
+  flex: 1;
+}
+
+/* Container de Posições com Destaque Lateral Amarelo */
+.positions-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid #f1f5f9;
+  border-left: 4px solid #f59e0b; /* Accent amarelo-ouro */
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+}
+
+/* Estilização para custom dropdown select */
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.select-control {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 40px;
+}
+
+.select-wrapper::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid #64748b;
+  border-bottom: 2px solid #64748b;
+  transform: rotate(45deg);
+  pointer-events: none;
+  transition: transform 0.2s ease;
+}
+
+/* Custom Textarea */
+.textarea-control {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.5;
+}
+
+/* Botão Cadastrar (Pill Green Button) */
+.btn-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #005a30 0%, #006435 100%);
+  border: none;
+  border-radius: 9999px; /* Botão tipo pílula */
+  padding: 14px 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px -1px rgba(0, 100, 53, 0.2), 0 2px 4px -1px rgba(0, 100, 53, 0.1);
+  transition: all 0.2s ease;
+  margin-top: 12px;
+  width: 100%;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background: linear-gradient(135deg, #006435 0%, #00874c 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 15px -3px rgba(0, 100, 53, 0.3), 0 4px 6px -2px rgba(0, 100, 53, 0.15);
+}
+
+.btn-submit:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn-submit:disabled {
+  background-color: #cbd5e1;
+  background-image: none;
+  color: #94a3b8;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-icon {
+  flex-shrink: 0;
+}
+
+/* Spinner de Carregamento */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #ffffff;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsividade - Media Queries */
+@media (max-width: 480px) {
+  .register-header {
+    padding: 24px 16px 12px 16px;
+  }
+  
+  .header-title {
+    font-size: 26px;
+  }
+
+  .register-main {
+    padding: 0 16px 32px 16px;
+  }
+
+  .form-control {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  
+  .btn-submit {
+    padding: 12px 20px;
+    font-size: 15px;
+  }
+}

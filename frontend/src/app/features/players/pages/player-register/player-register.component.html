@@ -1,0 +1,193 @@
+<app-toast></app-toast>
+
+<div class="register-container">
+  <!-- Header com degradê cinza para branco -->
+  <header class="register-header">
+    <div class="header-content">
+      <h1 class="header-title">Cadastro de Novo Talento</h1>
+      <p class="header-subtitle">Registre um novo atleta no banco de dados.</p>
+    </div>
+  </header>
+
+  <main class="register-main">
+    <!-- Componente Customizado de Upload de Foto -->
+    <app-image-upload (imageSelected)="onImageSelected($event)"></app-image-upload>
+
+    <!-- Formulário do Atleta -->
+    <form [formGroup]="playerForm" (ngSubmit)="onSubmit()" class="athlete-form">
+      
+      <!-- Nome Completo -->
+      <div class="form-group">
+        <label for="nomeCompleto" class="form-label">Nome Completo</label>
+        <input 
+          type="text" 
+          id="nomeCompleto" 
+          formControlName="nomeCompleto" 
+          class="form-control" 
+          [class.is-invalid]="isFieldInvalid('nomeCompleto')"
+          placeholder="Ex: Gabriel Barbosa"
+        />
+        @if (isFieldInvalid('nomeCompleto')) {
+          <div class="error-feedback">Nome completo é obrigatório.</div>
+        }
+      </div>
+
+      <!-- Data de Nascimento -->
+      <div class="form-group">
+        <label for="dataNascimento" class="form-label">Data de Nascimento</label>
+        <input 
+          type="date" 
+          id="dataNascimento" 
+          formControlName="dataNascimento" 
+          class="form-control" 
+          [class.is-invalid]="isFieldInvalid('dataNascimento')"
+          placeholder="dd/mm/aaaa"
+        />
+        @if (isFieldInvalid('dataNascimento')) {
+          <div class="error-feedback">Data de nascimento é obrigatória.</div>
+        }
+      </div>
+
+      <!-- Pé Preferencial -->
+      <div class="form-group">
+        <label class="form-label">Pé Preferencial</label>
+        <div class="foot-toggle-group">
+          <button 
+            type="button" 
+            class="foot-btn" 
+            [class.active]="playerForm.get('pePreferencial')?.value === 1"
+            (click)="setPePreferencial(1)"
+          >
+            Esquerdo
+          </button>
+          <button 
+            type="button" 
+            class="foot-btn" 
+            [class.active]="playerForm.get('pePreferencial')?.value === 2"
+            (click)="setPePreferencial(2)"
+          >
+            Direito
+          </button>
+          <button 
+            type="button" 
+            class="foot-btn" 
+            [class.active]="playerForm.get('pePreferencial')?.value === 3"
+            (click)="setPePreferencial(3)"
+          >
+            Ambos
+          </button>
+        </div>
+      </div>
+
+      <!-- Altura e Peso Lado a Lado -->
+      <div class="form-row">
+        <!-- Altura -->
+        <div class="form-group col">
+          <label for="altura" class="form-label">Altura (cm)</label>
+          <input 
+            type="number" 
+            id="altura" 
+            formControlName="altura" 
+            class="form-control" 
+            [class.is-invalid]="isFieldInvalid('altura')"
+            placeholder="185"
+          />
+          @if (isFieldInvalid('altura')) {
+            <div class="error-feedback">Altura deve ser maior que 0.</div>
+          }
+        </div>
+
+        <!-- Peso -->
+        <div class="form-group col">
+          <label for="peso" class="form-label">Peso (kg)</label>
+          <input 
+            type="number" 
+            id="peso" 
+            formControlName="peso" 
+            step="0.1"
+            class="form-control" 
+            [class.is-invalid]="isFieldInvalid('peso')"
+            placeholder="78"
+          />
+          @if (isFieldInvalid('peso')) {
+            <div class="error-feedback">Peso deve ser maior que 0.</div>
+          }
+        </div>
+      </div>
+
+      <!-- Seção de Posições com Destaque Lateral Amarelo -->
+      <div class="positions-card">
+        <!-- Posição Principal -->
+        <div class="form-group">
+          <label for="posicaoPrincipal" class="form-label">Posição Principal</label>
+          <div class="select-wrapper">
+            <select 
+              id="posicaoPrincipal" 
+              formControlName="posicaoPrincipal" 
+              class="form-control select-control"
+              [class.is-invalid]="isFieldInvalid('posicaoPrincipal')"
+            >
+              <option value="" disabled selected>Selecionar Posição</option>
+              @for (pos of posicoes; track pos.value) {
+                <option [value]="pos.value">{{ pos.label }}</option>
+              }
+            </select>
+          </div>
+          @if (isFieldInvalid('posicaoPrincipal')) {
+            <div class="error-feedback">Posição principal é obrigatória.</div>
+          }
+        </div>
+
+        <!-- Posição Secundária (Opcional) -->
+        <div class="form-group">
+          <label for="posicaoSecundaria" class="form-label">Posição Secundária (Opcional)</label>
+          <div class="select-wrapper">
+            <select 
+              id="posicaoSecundaria" 
+              formControlName="posicaoSecundaria" 
+              class="form-control select-control"
+            >
+              <option [value]="null">Opcional</option>
+              @for (pos of posicoes; track pos.value) {
+                <option [value]="pos.value">{{ pos.label }}</option>
+              }
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bio e Histórico no Futebol -->
+      <div class="form-group">
+        <label for="bioHistorico" class="form-label">Bio e Histórico no Futebol</label>
+        <textarea 
+          id="bioHistorico" 
+          formControlName="bioHistorico" 
+          class="form-control textarea-control"
+          placeholder="Mencione clubes anteriores, títulos e características de jogo..."
+          rows="4"
+        ></textarea>
+      </div>
+
+      <!-- Botão Cadastrar -->
+      <button 
+        type="submit" 
+        class="btn-submit"
+        [disabled]="playerForm.invalid || playersFacade.loading()"
+      >
+        @if (playersFacade.loading()) {
+          <div class="spinner"></div>
+          Cadastrando Atleta...
+        } @else {
+          <!-- Ícone do jogador + plus -->
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="8.5" cy="7" r="4"></circle>
+            <line x1="20" y1="8" x2="20" y2="14"></line>
+            <line x1="23" y1="11" x2="17" y2="11"></line>
+          </svg>
+          Cadastrar Jogador
+        }
+      </button>
+    </form>
+  </main>
+</div>
