@@ -1,0 +1,157 @@
+<div class="login-page">
+  <div class="login-container">
+    
+    <!-- Logo -->
+    <div class="logo-box">
+      <!-- Simulando a logo de passarinho do print com SVG -->
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L4 5V11C4 16.55 7.42 21.73 12 23C16.58 21.73 20 16.55 20 11V5L12 2Z" stroke="#00874c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12 16L12 8" stroke="#00874c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M9 12L12 8L15 12" stroke="#00874c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <!-- Toggle Jogador/Clube -->
+    <div class="toggle-container">
+      <button 
+        class="toggle-btn" 
+        [class.active]="tipoLogin === 'jogador'" 
+        (click)="setTipoLogin('jogador')"
+      >
+        Jogador
+      </button>
+      <button 
+        class="toggle-btn" 
+        [class.active]="tipoLogin === 'clube'" 
+        (click)="setTipoLogin('clube')"
+      >
+        Clube
+      </button>
+    </div>
+
+    <!-- Card de Formulário -->
+    <div class="login-card">
+      
+      @if (tipoLogin === 'jogador') {
+        <!-- TELA DE LOGIN JOGADOR -->
+        <form [formGroup]="formularioLogin" (ngSubmit)="aoSubmeter()">
+          
+          <div class="form-group">
+            <label class="form-label">E-mail ou Nome de Usuário</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <input type="text" class="form-control" formControlName="email" placeholder="Seu usuário ou e-mail" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label class="form-label">Senha</label>
+              <a href="#" class="forgot-password">Forgot password?</a>
+            </div>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <input [type]="mostrarSenha ? 'text' : 'password'" class="form-control" formControlName="senha" placeholder="Sua senha secreta" />
+              <button type="button" class="btn-toggle-password" (click)="alternarVisualizacaoSenha()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="remember-me">
+            <label class="checkbox-container">
+              <input type="checkbox" formControlName="manterConectado" />
+              <span class="checkmark"></span>
+              Mantenha-me conectado
+            </label>
+          </div>
+
+          <button type="submit" class="btn-submit" [disabled]="formularioLogin.invalid">
+            Entrar
+            <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </form>
+      } @else {
+        <!-- TELA DE LOGIN CLUBE -->
+        <form [formGroup]="formularioClube" (ngSubmit)="aoSubmeterClube()">
+          
+          <div class="form-group">
+            <label class="form-label">E-mail Corporativo ou CNPJ</label>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
+              </svg>
+              <input type="text" class="form-control" formControlName="emailCorporativo" placeholder="exemplo@clube.com.br" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="label-row">
+              <label class="form-label">Senha de Acesso</label>
+              <a href="#" class="forgot-password">Esqueci a senha do Clube</a>
+            </div>
+            <div class="input-wrapper">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              <input [type]="mostrarSenha ? 'text' : 'password'" class="form-control" formControlName="senhaAcesso" placeholder="Sua senha restrita" />
+              <button type="button" class="btn-toggle-password" (click)="alternarVisualizacaoSenha()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="remember-me">
+            <label class="checkbox-container">
+              <input type="checkbox" formControlName="manterConectado" />
+              <span class="checkmark"></span>
+              Mantenha o clube conectado
+            </label>
+          </div>
+
+          <button type="submit" class="btn-submit" [disabled]="formularioClube.invalid">
+            Entrar como Clube
+            <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </form>
+      }
+
+    </div>
+
+    <!-- Ações Inferiores -->
+    <div class="footer-actions">
+      <p class="footer-title">AINDA NÃO TEM CONTA?</p>
+      
+      <a routerLink="/" class="action-btn">
+        <span class="action-subtitle">Sou atleta</span>
+        <span class="action-title">Cadastrar como Jogador</span>
+      </a>
+
+      <a routerLink="/clube" class="action-btn">
+        <span class="action-subtitle">Sou gestor</span>
+        <span class="action-title">Cadastrar como Clube</span>
+      </a>
+    </div>
+
+  </div>
+</div>
