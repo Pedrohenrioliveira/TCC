@@ -1,5 +1,7 @@
 export interface PlayerCreateRequest {
   caminhoFoto: string;
+  email: string;
+  senha: string;
   nomeCompleto: string;
   dataNascimento: string; // ISO ou string yyyy-MM-dd
   pePreferencial: number;

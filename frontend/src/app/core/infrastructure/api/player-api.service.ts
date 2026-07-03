@@ -7,7 +7,7 @@ import { PlayerCreateRequest, PlayerResponseData, RespostaApi } from './dtos/pla
   providedIn: 'root'
 })
 export class PlayerApiService {
-  private apiUrl = 'http://localhost:5200/api/jogadores'; // URL do backend C# (porta 5200 local, conforme README)
+  private apiUrl = 'http://localhost:5000/api/jogadores'; // URL do backend C#
 
   constructor(private http: HttpClient) {}
 

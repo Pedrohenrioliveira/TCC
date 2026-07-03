@@ -1,5 +1,7 @@
 export interface Player {
   id?: string;
+  email?: string;
+  senha?: string;
   caminhoFoto: string;
   nomeCompleto: string;
   dataNascimento: string; // Formato yyyy-MM-dd

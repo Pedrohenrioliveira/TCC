@@ -79,6 +79,34 @@
         </div>
       </div>
 
+      <!-- E-mail -->
+      <div class="form-group">
+        <label for="email" class="form-label">E-mail</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email" 
+          class="form-control" 
+          [class.is-invalid]="isFieldInvalid('email')"
+          placeholder="exemplo@email.com"
+        />
+        @if (isFieldInvalid('email')) {
+          <div class="error-feedback">E-mail inválido.</div>
+        }
+      </div>
+
+      <!-- Número de Contato -->
+      <div class="form-group">
+        <label for="numeroContato" class="form-label">Número de Contato</label>
+        <input 
+          type="text" 
+          id="numeroContato" 
+          formControlName="numeroContato" 
+          class="form-control" 
+          placeholder="(00) 00000-0000"
+        />
+      </div>
+
       <!-- Altura e Peso Lado a Lado -->
       <div class="form-row">
         <!-- Altura -->
@@ -113,6 +141,38 @@
             <div class="error-feedback">Peso deve ser maior que 0.</div>
           }
         </div>
+      </div>
+
+      <!-- Senha -->
+      <div class="form-group">
+        <label for="senha" class="form-label">Senha</label>
+        <input 
+          type="password" 
+          id="senha" 
+          formControlName="senha" 
+          class="form-control" 
+          [class.is-invalid]="isFieldInvalid('senha')"
+          placeholder="********"
+        />
+        @if (isFieldInvalid('senha')) {
+          <div class="error-feedback">A senha deve ter pelo menos 6 caracteres.</div>
+        }
+      </div>
+
+      <!-- Confirmar Senha -->
+      <div class="form-group">
+        <label for="confirmarSenha" class="form-label">Confirmar Senha</label>
+        <input 
+          type="password" 
+          id="confirmarSenha" 
+          formControlName="confirmarSenha" 
+          class="form-control" 
+          [class.is-invalid]="playerForm.hasError('mismatch') && playerForm.get('confirmarSenha')?.touched"
+          placeholder="********"
+        />
+        @if (playerForm.hasError('mismatch') && playerForm.get('confirmarSenha')?.touched) {
+          <div class="error-feedback">As senhas não coincidem.</div>
+        }
       </div>
 
       <!-- Seção de Posições com Destaque Lateral Amarelo -->
