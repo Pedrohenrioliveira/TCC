@@ -1,0 +1,150 @@
+<div class="register-container">
+  <header class="register-header">
+    <div class="header-content">
+      <h1 class="header-title">Cadastro de Clube</h1>
+      <p class="header-subtitle">Registre sua organização no Canarinho Scout.</p>
+    </div>
+  </header>
+
+  <main class="register-main">
+    <app-image-upload (imageSelected)="onImageSelected($event)"></app-image-upload>
+
+    <form [formGroup]="formularioCadastro" (ngSubmit)="aoSubmeter()" class="athlete-form">
+      
+      <div class="form-group">
+        <label for="nome" class="form-label">Nome do Clube</label>
+        <input 
+          type="text" 
+          id="nome" 
+          formControlName="nome" 
+          class="form-control" 
+          [class.is-invalid]="isFieldInvalid('nome')"
+          placeholder="Ex: Santos FC"
+        />
+        @if (isFieldInvalid('nome')) {
+          <div class="error-feedback">Nome do clube é obrigatório.</div>
+        }
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col">
+          <label for="anoFundacao" class="form-label">Ano de Fundação</label>
+          <input 
+            type="text" 
+            id="anoFundacao" 
+            formControlName="anoFundacao" 
+            class="form-control" 
+            [class.is-invalid]="isFieldInvalid('anoFundacao')"
+            placeholder="1912"
+          />
+        </div>
+        <div class="form-group col">
+          <label for="cidadeEstado" class="form-label">Cidade/Estado</label>
+          <input 
+            type="text" 
+            id="cidadeEstado" 
+            formControlName="cidadeEstado" 
+            class="form-control" 
+            [class.is-invalid]="isFieldInvalid('cidadeEstado')"
+            placeholder="Santos/SP"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="form-label">E-mail</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email" 
+          class="form-control" 
+          [class.is-invalid]="isFieldInvalid('email')"
+          placeholder="exemplo@clube.com"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="contato" class="form-label">Número de Contato</label>
+        <input 
+          type="text" 
+          id="contato" 
+          formControlName="contato" 
+          class="form-control" 
+          placeholder="(00) 00000-0000"
+        />
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col">
+          <label for="senha" class="form-label">Senha</label>
+          <input 
+            type="password" 
+            id="senha" 
+            formControlName="senha" 
+            class="form-control" 
+            [class.is-invalid]="isFieldInvalid('senha')"
+            placeholder="********"
+          />
+        </div>
+        <div class="form-group col">
+          <label for="confirmarSenha" class="form-label">Confirmar Senha</label>
+          <input 
+            type="password" 
+            id="confirmarSenha" 
+            formControlName="confirmarSenha" 
+            class="form-control" 
+            [class.is-invalid]="formularioCadastro.hasError('mismatch') && formularioCadastro.get('confirmarSenha')?.touched"
+            placeholder="********"
+          />
+          @if (formularioCadastro.hasError('mismatch') && formularioCadastro.get('confirmarSenha')?.touched) {
+            <div class="error-feedback">As senhas não coincidem.</div>
+          }
+        </div>
+      </div>
+
+      <div class="positions-card">
+        <div class="form-group">
+          <label for="competicao" class="form-label">Liga/Competição Atual</label>
+          <input 
+            type="text" 
+            id="competicao" 
+            formControlName="competicao" 
+            class="form-control"
+            [class.is-invalid]="isFieldInvalid('competicao')"
+            placeholder="Série A, Paulistão..."
+          />
+        </div>
+        
+        <div class="form-group">
+          <label for="estadio" class="form-label">Estádio Principal (Opcional)</label>
+          <input 
+            type="text" 
+            id="estadio" 
+            formControlName="estadio" 
+            class="form-control"
+            placeholder="Nome da Arena"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="historia" class="form-label">Breve História do Clube</label>
+        <textarea 
+          id="historia" 
+          formControlName="historia" 
+          class="form-control textarea-control"
+          [class.is-invalid]="isFieldInvalid('historia')"
+          placeholder="Conte sobre as conquistas, fundação e tradição do seu clube..."
+          rows="4"
+        ></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="formularioCadastro.invalid">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+        Cadastrar Clube
+      </button>
+    </form>
+  </main>
+</div>
