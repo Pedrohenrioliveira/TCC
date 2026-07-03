@@ -5,6 +5,8 @@ export class PlayerMapper {
   static toDto(player: Player): PlayerCreateRequest {
     return {
       caminhoFoto: player.caminhoFoto,
+      email: player.email || '',
+      senha: player.senha || '',
       nomeCompleto: player.nomeCompleto,
       dataNascimento: player.dataNascimento, // no formato yyyy-MM-dd
       pePreferencial: player.pePreferencial,

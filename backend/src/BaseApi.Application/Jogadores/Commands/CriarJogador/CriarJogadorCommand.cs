@@ -5,6 +5,8 @@ using System;
 namespace BaseApi.Application.Jogadores.Commands.CriarJogador;
 
 public record CriarJogadorCommand(
+    string Email,
+    string Senha,
     string CaminhoFoto,
     string NomeCompleto,
     DateTime DataNascimento,

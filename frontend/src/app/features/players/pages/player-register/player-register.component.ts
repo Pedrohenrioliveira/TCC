@@ -21,6 +21,10 @@ export class PlayerRegisterComponent {
     nomeCompleto: ['', [Validators.required]],
     dataNascimento: ['', [Validators.required]],
     pePreferencial: [2, [Validators.required]], // 1 = Esquerdo, 2 = Direito, 3 = Ambos
+    email: ['', [Validators.required, Validators.email]],
+    numeroContato: [''],
+    senha: ['', [Validators.required, Validators.minLength(6)]],
+    confirmarSenha: ['', [Validators.required]],
     altura: [null as number | null, [Validators.required, Validators.min(1)]],
     peso: [null as number | null, [Validators.required, Validators.min(0.1)]],
     posicaoPrincipal: ['', [Validators.required]],
@@ -28,7 +32,7 @@ export class PlayerRegisterComponent {
     bioHistorico: [''],
     caminhoFoto: [''],
     clubeId: [null]
-  });
+  }, { validators: this.passwordMatchValidator });
 
   // Lista de posições táticas baseadas no Enum do backend
   posicoes = [
@@ -41,6 +45,11 @@ export class PlayerRegisterComponent {
     { value: 7, label: 'Ponta' },
     { value: 8, label: 'Centroavante (Atacante)' }
   ];
+
+  passwordMatchValidator(g: FormGroup) {
+    return g.get('senha')?.value === g.get('confirmarSenha')?.value
+      ? null : { 'mismatch': true };
+  }
 
   onImageSelected(base64Image: string) {
     this.playerForm.patchValue({ caminhoFoto: base64Image });
@@ -62,8 +71,16 @@ export class PlayerRegisterComponent {
     }
 
     const formValue = this.playerForm.value;
+    
+    // Mesclando o número de contato na Bio para não alterar o backend
+    let bioFinal = formValue.bioHistorico || '';
+    if (formValue.numeroContato) {
+      bioFinal = `Contato: ${formValue.numeroContato}\n\n${bioFinal}`;
+    }
+
     const player: Player = {
       ...formValue,
+      bioHistorico: bioFinal,
       // Se não enviou foto, podemos passar uma string vazia ou um mock de avatar
       caminhoFoto: formValue.caminhoFoto || 'assets/default-avatar.png',
       // Garantir conversões de tipo corretas
