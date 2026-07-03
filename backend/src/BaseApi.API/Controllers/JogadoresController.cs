@@ -3,6 +3,7 @@ using BaseApi.Application.Jogadores.Commands.AtualizarJogador;
 using BaseApi.Application.Jogadores.Commands.CriarJogador;
 using BaseApi.Application.Jogadores.Commands.ExcluirJogador;
 using BaseApi.Application.Jogadores.Queries.ListarJogadores;
+using BaseApi.Application.Jogadores.Queries.ObterHomeDashboard;
 using BaseApi.Application.Jogadores.Queries.ObterJogadorPorId;
 using BaseApi.Domain.Enums;
 using MediatR;
@@ -55,6 +56,21 @@ public class JogadoresController(IMediator mediator) : ControllerBase
     {
         var resultado = await mediator.Send(new ObterJogadorPorIdQuery(id), ct);
         return Ok(RespostaApi<JogadorDetalheDto>.Sucesso(resultado));
+    }
+
+    // =========================================================
+    // GET /api/jogadores/{id}/home
+    // =========================================================
+    /// <summary>
+    /// Obtém os dados resumidos e estatísticas do dashboard home do jogador.
+    /// </summary>
+    [HttpGet("{id:guid}/home")]
+    [ProducesResponseType(typeof(RespostaApi<HomeDashboardDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(RespostaApi), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> ObterHomeDashboard(Guid id, CancellationToken ct)
+    {
+        var resultado = await mediator.Send(new ObterHomeDashboardQuery(id), ct);
+        return Ok(RespostaApi<HomeDashboardDto>.Sucesso(resultado));
     }
 
     // =========================================================
