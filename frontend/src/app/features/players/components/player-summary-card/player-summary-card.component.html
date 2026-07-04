@@ -1,0 +1,17 @@
+<div class="summary-card">
+  <div class="card-content">
+    <div class="player-info">
+      <h2 class="player-name">{{ name }}</h2>
+      <span class="player-position">{{ position }}</span>
+    </div>
+    
+    <div class="level-badge">
+      <span class="level-label">Nível</span>
+      <span class="level-value">{{ level }}</span>
+    </div>
+  </div>
+
+  <div class="player-image-container">
+    <img [src]="photoUrl || 'assets/default-avatar.png'" alt="Player Photo" class="player-photo">
+  </div>
+</div>

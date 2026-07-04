@@ -1,0 +1,19 @@
+<div class="stat-card">
+  <div class="stat-header">
+    <div class="icon-container">
+      <img [src]="iconPath" alt="Icon" *ngIf="iconPath">
+      <!-- Fallback icon -->
+      <svg *ngIf="!iconPath" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+        <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="variation" [ngClass]="{'positive': variationIsPositive, 'negative': !variationIsPositive}">
+      <svg *ngIf="variationIsPositive" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      {{ variation }}
+    </div>
+  </div>
+  
+  <div class="stat-value">{{ value }}</div>
+  <div class="stat-title">{{ title }}</div>
+</div>

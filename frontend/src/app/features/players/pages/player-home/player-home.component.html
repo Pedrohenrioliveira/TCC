@@ -1,0 +1,50 @@
+<div class="player-home-container">
+  
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Carregando seus dados...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="error-state">
+    <p>{{ error }}</p>
+    <button (click)="loadDashboardData()" class="retry-btn">Tentar novamente</button>
+  </div>
+
+  <!-- Content State -->
+  <div *ngIf="!loading && !error && dashboardData" class="content">
+    
+    <app-player-home-navbar 
+      [firstName]="getFirstName(dashboardData.nomeCompleto)">
+    </app-player-home-navbar>
+
+    <main class="home-main">
+      <app-player-summary-card
+        [name]="dashboardData.nomeCompleto"
+        [position]="dashboardData.posicaoPrincipal"
+        [level]="dashboardData.nivel"
+        [photoUrl]="dashboardData.caminhoFoto">
+      </app-player-summary-card>
+
+      <div class="stats-grid">
+        <app-stat-card
+          title="Gols na Temporada"
+          [value]="dashboardData.golsNaTemporada"
+          [variation]="'+' + dashboardData.variacaoGols + '%'"
+          [variationIsPositive]="true"
+          iconPath="assets/icons/ball.svg">
+        </app-stat-card>
+
+        <app-stat-card
+          title="Assistências"
+          [value]="dashboardData.assistencias"
+          [variation]="'+' + dashboardData.variacaoAssistencias + '%'"
+          [variationIsPositive]="true"
+          iconPath="assets/icons/shoe.svg">
+        </app-stat-card>
+      </div>
+    </main>
+
+  </div>
+</div>
