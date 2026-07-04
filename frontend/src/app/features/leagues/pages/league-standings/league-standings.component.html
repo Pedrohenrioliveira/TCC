@@ -1,0 +1,33 @@
+<div class="standings-container">
+  
+  <header class="page-header">
+    <h1 class="page-title">Classificação</h1>
+    <p class="page-subtitle">Acompanhe a tabela e o desempenho das equipes</p>
+  </header>
+
+  <app-league-tabs 
+    [tabs]="leagues" 
+    [activeTabId]="activeLeagueId" 
+    (tabChange)="onTabChange($event)">
+  </app-league-tabs>
+
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Buscando tabela...</p>
+  </div>
+
+  <div *ngIf="error" class="error-state">
+    <p>{{ error }}</p>
+    <button class="retry-btn" (click)="loadStandings(activeLeagueId)">Tentar novamente</button>
+  </div>
+
+  <div *ngIf="!loading && !error && tabelaData" class="table-wrapper fade-in">
+    <div class="table-header-info">
+      <h2 class="league-name">{{ tabelaData.nomeLiga }}</h2>
+      <span class="season-badge">Temporada 2026</span>
+    </div>
+
+    <app-standings-table [teams]="tabelaData.times"></app-standings-table>
+  </div>
+
+</div>

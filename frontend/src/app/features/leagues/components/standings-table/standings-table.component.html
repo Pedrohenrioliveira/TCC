@@ -1,0 +1,35 @@
+<div class="table-container">
+  <table class="standings-table">
+    <thead>
+      <tr>
+        <th class="col-pos">#</th>
+        <th class="col-team">Clube</th>
+        <th class="col-pts">Pts</th>
+        <th class="col-j">J</th>
+        <th class="col-v">V</th>
+        <th class="col-e">E</th>
+        <th class="col-d">D</th>
+        <th class="col-sg">SG</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let team of teams; let i = index" [class.highlight]="i < 4">
+        <td class="col-pos">
+          <span class="pos-badge" [class.top-tier]="i < 4">{{ team.posicao }}</span>
+        </td>
+        <td class="col-team">
+          <div class="team-info">
+            <img [src]="team.escudoUrl" alt="Escudo" class="team-logo" onerror="this.src='assets/default-shield.png'">
+            <span class="team-name">{{ team.nomeClube }}</span>
+          </div>
+        </td>
+        <td class="col-pts font-bold">{{ team.pontos }}</td>
+        <td class="col-j">{{ team.jogos }}</td>
+        <td class="col-v">{{ team.vitorias }}</td>
+        <td class="col-e">{{ team.empates }}</td>
+        <td class="col-d">{{ team.derrotas }}</td>
+        <td class="col-sg">{{ team.saldoGols }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

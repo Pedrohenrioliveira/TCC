@@ -1,0 +1,98 @@
+.standings-container {
+  background-color: var(--background, #ffffff);
+  min-height: 100vh;
+  padding: 2rem 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-900, #101828);
+  margin: 0 0 4px 0;
+}
+
+.page-subtitle {
+  font-size: 1rem;
+  color: var(--text-500, #667085);
+  margin: 0;
+}
+
+.table-wrapper {
+  background: white;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--border-color, #eaecf0);
+}
+
+.table-header-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.league-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-900, #101828);
+  margin: 0;
+}
+
+.season-badge {
+  background: var(--surface-100, #f2f4f7);
+  color: var(--text-600, #475467);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.loading-state, .error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 40vh;
+  gap: 1rem;
+  color: var(--text-500, #667085);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(18, 183, 106, 0.2);
+  border-left-color: #12b76a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.retry-btn {
+  background: #12b76a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}

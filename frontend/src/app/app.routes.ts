@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { PlayerHomeComponent } from './features/players/pages/player-home/player-home.component';
+import { LeagueStandingsComponent } from './features/leagues/pages/league-standings/league-standings.component';
 
 export const routes: Routes = [
   {
@@ -9,6 +10,10 @@ export const routes: Routes = [
   {
     path: 'player/home',
     component: PlayerHomeComponent
+  },
+  {
+    path: 'player/leagues',
+    component: LeagueStandingsComponent
   },
   {
     path: '',
