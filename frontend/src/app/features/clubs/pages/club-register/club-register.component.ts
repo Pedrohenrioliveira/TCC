@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { ImageUploadComponent } from '../../../players/components/image-upload/image-upload.component';
 
 @Component({
@@ -12,6 +13,7 @@ import { ImageUploadComponent } from '../../../players/components/image-upload/i
 })
 export class ClubRegisterComponent {
   private construtorDeFormulario = inject(FormBuilder);
+  private http = inject(HttpClient);
 
   public formularioCadastro: FormGroup = this.construtorDeFormulario.group({
     caminhoEscudo: [''],
@@ -47,9 +49,30 @@ export class ClubRegisterComponent {
       return;
     }
 
-    const dadosDoClube = this.formularioCadastro.value;
-    console.log('Dados prontos para envio:', dadosDoClube);
-    alert('Clube cadastrado com sucesso! (Integração com backend pendente)');
+    const formValue = this.formularioCadastro.value;
+    
+    // Mapeando para o CriarClubeCommand do Backend
+    const command = {
+      caminhoEscudo: formValue.caminhoEscudo || 'assets/default-shield.png',
+      nome: formValue.nome,
+      anoFundacao: Number(formValue.anoFundacao),
+      cidadeEstado: formValue.cidadeEstado,
+      ligaCompeticao: formValue.competicao,
+      estadioPrincipal: formValue.estadio || null,
+      breveHistoria: `Contato: ${formValue.contato}\n\n${formValue.historia}`
+    };
+
+    this.http.post('http://localhost:5000/api/clubes', command).subscribe({
+      next: () => {
+        alert('Clube cadastrado com sucesso!');
+        this.formularioCadastro.reset();
+        window.location.href = '/login';
+      },
+      error: (err) => {
+        console.error('Erro ao cadastrar clube:', err);
+        alert('Erro ao cadastrar clube. Verifique os dados inseridos.');
+      }
+    });
   }
 
   private marcarCamposComoTocados(): void {

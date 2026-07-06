@@ -1,0 +1,229 @@
+.tournaments-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+  color: var(--text-secondary, #a1a1aa);
+  font-size: 1rem;
+}
+
+.filters-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: var(--surface-light, #27272a);
+  border: 1px solid var(--border-color, #3f3f46);
+  color: var(--text-primary, #ffffff);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.filter-btn:hover {
+  background: var(--surface-hover, #3f3f46);
+}
+
+.filter-btn.active {
+  background: var(--primary-color, #eab308);
+  color: var(--bg-dark, #18181b);
+  border-color: var(--primary-color, #eab308);
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.tournament-card {
+  background: var(--surface-light, #27272a);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-color, #3f3f46);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.tournament-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  border-color: var(--primary-color, #eab308);
+}
+
+.card-image {
+  position: relative;
+  height: 160px;
+  width: 100%;
+  background: #3f3f46;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+}
+
+.status-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.status-aberto {
+  background: rgba(34, 197, 94, 0.9);
+  color: #fff;
+}
+
+.status-andamento {
+  background: rgba(234, 179, 8, 0.9);
+  color: #18181b;
+}
+
+.status-finalizado {
+  background: rgba(161, 161, 170, 0.9);
+  color: #18181b;
+}
+
+.card-content {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary, #ffffff);
+  margin-bottom: 1rem;
+}
+
+.card-detail {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary, #a1a1aa);
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-detail .icon {
+  color: var(--primary-color, #eab308);
+}
+
+.card-footer {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-color, #3f3f46);
+}
+
+.teams-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.teams-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary, #a1a1aa);
+}
+
+.teams-value {
+  font-weight: 600;
+  color: var(--text-primary, #ffffff);
+}
+
+.action-btn {
+  background: var(--primary-color, #eab308);
+  color: var(--bg-dark, #18181b);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.action-btn:hover:not([disabled]) {
+  background: #facc15;
+}
+
+.action-btn[disabled] {
+  background: var(--surface-hover, #3f3f46);
+  color: var(--text-secondary, #a1a1aa);
+  cursor: not-allowed;
+}
+
+.loading-state, .error-state, .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  background: var(--surface-light, #27272a);
+  border-radius: 12px;
+  border: 1px solid var(--border-color, #3f3f46);
+}
+
+.retry-btn {
+  margin-top: 1rem;
+  background: transparent;
+  border: 1px solid var(--primary-color, #eab308);
+  color: var(--primary-color, #eab308);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(234, 179, 8, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--primary-color, #eab308);
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

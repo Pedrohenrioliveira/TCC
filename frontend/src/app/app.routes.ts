@@ -16,6 +16,10 @@ export const routes: Routes = [
     component: LeagueStandingsComponent
   },
   {
+    path: 'player/tournaments',
+    loadComponent: () => import('./features/tournaments/pages/tournament-list/tournament-list.component').then(m => m.TournamentListComponent)
+  },
+  {
     path: '',
     loadComponent: () => import('./features/players/pages/player-register/player-register.component').then(m => m.PlayerRegisterComponent)
   },

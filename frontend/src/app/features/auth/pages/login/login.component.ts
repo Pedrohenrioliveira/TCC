@@ -42,12 +42,9 @@ export class LoginComponent {
 
   public aoSubmeter(): void {
     if (this.formularioLogin.valid) {
-      const dadosLogin = {
-        ...this.formularioLogin.value,
-        tipo: 'jogador'
-      };
-      console.log('Login Jogador Submetido:', dadosLogin);
-      alert('Login de Atleta realizado com sucesso! (Integração mockada)');
+      console.log('Login Jogador Submetido');
+      // Redireciona para a home do jogador simulando um login de sucesso
+      this.roteador.navigate(['/player/home']);
     } else {
       this.marcarCamposComoTocados(this.formularioLogin);
     }
@@ -55,12 +52,10 @@ export class LoginComponent {
 
   public aoSubmeterClube(): void {
     if (this.formularioClube.valid) {
-      const dadosLoginClube = {
-        ...this.formularioClube.value,
-        tipo: 'clube'
-      };
-      console.log('Login Clube Submetido:', dadosLoginClube);
-      alert('Login de Clube realizado com sucesso! (Integração mockada)');
+      console.log('Login Clube Submetido');
+      // Como a home do clube ainda não existe, pode ir para a home do jogador ou outra rota.
+      // Vou redirecionar para a login novamente mas poderia ser /club/home se existir.
+      this.roteador.navigate(['/login']);
     } else {
       this.marcarCamposComoTocados(this.formularioClube);
     }

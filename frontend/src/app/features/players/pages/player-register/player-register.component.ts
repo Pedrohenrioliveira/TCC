@@ -83,8 +83,8 @@ export class PlayerRegisterComponent {
       bioHistorico: bioFinal,
       // Se não enviou foto, podemos passar uma string vazia ou um mock de avatar
       caminhoFoto: formValue.caminhoFoto || 'assets/default-avatar.png',
-      // Garantir conversões de tipo corretas
-      altura: Number(formValue.altura),
+      // Garantir conversões de tipo corretas (altura deve ser inteiro em cm)
+      altura: Math.round(Number(formValue.altura)),
       peso: Number(formValue.peso),
       posicaoPrincipal: Number(formValue.posicaoPrincipal),
       posicaoSecundaria: formValue.posicaoSecundaria ? Number(formValue.posicaoSecundaria) : null
@@ -92,7 +92,14 @@ export class PlayerRegisterComponent {
 
     this.playersFacade.registerPlayer(player).subscribe({
       next: () => {
+        alert('Jogador cadastrado com sucesso!');
         this.resetForm();
+        // Redireciona o usuário para a área do jogador (home)
+        window.location.href = '/player/home';
+      },
+      error: (err) => {
+        console.error('Erro ao cadastrar:', err);
+        alert('Erro ao cadastrar jogador. Verifique os dados inseridos.');
       }
     });
   }
