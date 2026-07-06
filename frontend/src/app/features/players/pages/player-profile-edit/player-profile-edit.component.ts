@@ -12,7 +12,7 @@ import { PlayerProfileService, PlayerDetails } from '../../services/player-profi
 })
 export class PlayerProfileEditComponent implements OnInit {
   // TODO: Obter do auth
-  jogadorId = '00000000-0000-0000-0000-000000000001'; 
+  jogadorId = localStorage.getItem('loggedUserId') || '00000000-0000-0000-0000-000000000001'; 
   player!: PlayerDetails;
   loading = true;
   error: string | null = null;
@@ -53,7 +53,7 @@ export class PlayerProfileEditComponent implements OnInit {
     this.loading = true;
     this.profileService.getProfile(this.jogadorId).subscribe({
       next: (res) => {
-        if (res.sucesso) {
+        if (res.ok) {
           this.player = res.dados;
           this.photoUrl = this.player.caminhoFoto;
           
@@ -91,7 +91,7 @@ export class PlayerProfileEditComponent implements OnInit {
     if (this.personalForm.invalid) return;
     this.profileService.updatePersonalData(this.jogadorId, this.personalForm.value).subscribe({
       next: (res) => {
-        if (res.sucesso) {
+        if (res.ok) {
           alert('Dados pessoais atualizados!');
         } else {
           alert('Erro: ' + res.mensagem);
@@ -105,7 +105,7 @@ export class PlayerProfileEditComponent implements OnInit {
     if (this.physicalForm.invalid) return;
     this.profileService.updatePhysicalData(this.jogadorId, this.physicalForm.value).subscribe({
       next: (res) => {
-        if (res.sucesso) {
+        if (res.ok) {
           alert('Dados físicos atualizados!');
         } else {
           alert('Erro: ' + res.mensagem);
@@ -119,7 +119,7 @@ export class PlayerProfileEditComponent implements OnInit {
     if (!url) return;
     this.profileService.updatePhoto(this.jogadorId, url).subscribe({
       next: (res) => {
-        if (res.sucesso) {
+        if (res.ok) {
           this.photoUrl = url;
           alert('Foto atualizada!');
         } else {

@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
-import { PlayerHomeComponent } from './features/players/pages/player-home/player-home.component';
-import { LeagueStandingsComponent } from './features/leagues/pages/league-standings/league-standings.component';
+import { PlayerLayoutComponent } from './core/layout/player-layout/player-layout.component';
 
 export const routes: Routes = [
   {
@@ -8,24 +7,35 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/pages/login/login.component').then(m => m.LoginComponent)
   },
   {
-    path: 'player/home',
-    component: PlayerHomeComponent
-  },
-  {
-    path: 'player/leagues',
-    component: LeagueStandingsComponent
-  },
-  {
-    path: 'player/tournaments',
-    loadComponent: () => import('./features/tournaments/pages/tournament-list/tournament-list.component').then(m => m.TournamentListComponent)
-  },
-  {
-    path: 'player/profile',
-    loadComponent: () => import('./features/players/pages/player-profile-edit/player-profile-edit.component').then(m => m.PlayerProfileEditComponent)
-  },
-  {
-    path: 'player/club-requests',
-    loadComponent: () => import('./features/club-requests/pages/request-list/request-list.component').then(m => m.RequestListComponent)
+    path: 'player',
+    component: PlayerLayoutComponent,
+    children: [
+      {
+        path: 'home',
+        loadComponent: () => import('./features/players/pages/player-home/player-home.component').then(m => m.PlayerHomeComponent)
+      },
+      {
+        path: 'leagues',
+        loadComponent: () => import('./features/leagues/pages/league-standings/league-standings.component').then(m => m.LeagueStandingsComponent)
+      },
+      {
+        path: 'tournaments',
+        loadComponent: () => import('./features/tournaments/pages/tournament-list/tournament-list.component').then(m => m.TournamentListComponent)
+      },
+      {
+        path: 'profile',
+        loadComponent: () => import('./features/players/pages/player-profile-edit/player-profile-edit.component').then(m => m.PlayerProfileEditComponent)
+      },
+      {
+        path: 'club-requests',
+        loadComponent: () => import('./features/club-requests/pages/request-list/request-list.component').then(m => m.RequestListComponent)
+      },
+      {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+      }
+    ]
   },
   {
     path: '',
@@ -40,4 +50,3 @@ export const routes: Routes = [
     redirectTo: ''
   }
 ];
-

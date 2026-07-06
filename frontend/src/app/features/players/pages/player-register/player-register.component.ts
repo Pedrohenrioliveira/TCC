@@ -91,7 +91,10 @@ export class PlayerRegisterComponent {
     };
 
     this.playersFacade.registerPlayer(player).subscribe({
-      next: () => {
+      next: (createdPlayer) => {
+        if (createdPlayer && createdPlayer.id) {
+          localStorage.setItem('loggedUserId', createdPlayer.id);
+        }
         alert('Jogador cadastrado com sucesso!');
         this.resetForm();
         // Redireciona o usuário para a área do jogador (home)
@@ -99,7 +102,8 @@ export class PlayerRegisterComponent {
       },
       error: (err) => {
         console.error('Erro ao cadastrar:', err);
-        alert('Erro ao cadastrar jogador. Verifique os dados inseridos.');
+        const serverMsg = err.error?.mensagem || 'Erro ao cadastrar jogador. Verifique os dados inseridos.';
+        alert(serverMsg);
       }
     });
   }

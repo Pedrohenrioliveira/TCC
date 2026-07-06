@@ -13,6 +13,7 @@ export class RequestListComponent implements OnInit {
   requests: ClubRequest[] = [];
   loading = false;
   error: string | null = null;
+  activeStatus: number | undefined = undefined;
   // TODO: Pegar do token autenticado
   jogadorId = '00000000-0000-0000-0000-000000000001'; 
 
@@ -22,13 +23,21 @@ export class RequestListComponent implements OnInit {
     this.loadRequests();
   }
 
+  onFilterClick(status: number | undefined): void {
+    this.activeStatus = status;
+    // se precisar filtrar localmente
+  }
+
   loadRequests(): void {
     this.loading = true;
     this.error = null;
 
-    this.requestService.getRequests(this.jogadorId).subscribe({
+    // Usar o ID do usuário cadastrado, ou o mock de teste
+    const playerId = localStorage.getItem('loggedUserId') || '00000000-0000-0000-0000-000000000001';
+
+    this.requestService.getRequests(playerId).subscribe({
       next: (res) => {
-        if (res.sucesso) {
+        if (res.ok) {
           this.requests = res.dados;
         } else {
           this.error = res.mensagem;
@@ -71,7 +80,7 @@ export class RequestListComponent implements OnInit {
   private updateStatus(id: string, status: number): void {
     this.requestService.updateStatus(id, status).subscribe({
       next: (res) => {
-        if (res.sucesso) {
+        if (res.ok) {
           this.loadRequests();
         } else {
           alert('Erro: ' + res.mensagem);

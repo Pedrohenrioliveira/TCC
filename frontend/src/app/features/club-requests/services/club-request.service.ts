@@ -13,7 +13,7 @@ export interface ClubRequest {
 }
 
 export interface ApiResponse<T> {
-  sucesso: boolean;
+  ok: boolean;
   mensagem: string;
   dados: T;
   erros: string[];

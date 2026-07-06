@@ -1,23 +1,17 @@
-<div class="summary-card">
-  <div class="card-content">
-    <div class="player-info">
-      <h2 class="player-name">{{ name }}</h2>
-      <span class="player-position">{{ position }}</span>
-    </div>
-    
-    <div class="level-badge">
-      <span class="level-label">Nível</span>
-      <span class="level-value">{{ level }}</span>
-    </div>
-    
-    <div style="margin-top: 1rem;">
-      <a routerLink="/player/profile" class="edit-profile-btn">
-        Editar Perfil
-      </a>
+<div class="summary-card" routerLink="/player/profile">
+  <div class="card-avatar">
+    <img [src]="photoUrl || 'assets/default-avatar.png'" alt="Player Photo" class="player-photo">
+  </div>
+  <div class="card-info">
+    <h2 class="player-name">{{ name }}</h2>
+    <div class="player-tags">
+      <span class="tag-position">{{ position }}</span>
+      <span class="tag-level">Nível {{ level }}</span>
     </div>
   </div>
-
-  <div class="player-image-container">
-    <img [src]="photoUrl || 'assets/default-avatar.png'" alt="Player Photo" class="player-photo">
+  <div class="card-action">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#666666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
   </div>
 </div>

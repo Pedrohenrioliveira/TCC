@@ -15,9 +15,10 @@
   <!-- Content State -->
   <div *ngIf="!loading && !error && dashboardData" class="content">
     
-    <app-player-home-navbar
-      [firstName]="getFirstName(dashboardData.nomeCompleto)">
-    </app-player-home-navbar>
+    <div class="greeting-section">
+      <h1 class="greeting-message">Olá, {{ getFirstName(dashboardData.nomeCompleto) }}!</h1>
+      <p class="greeting-sub">Pronto para entrar em campo hoje?</p>
+    </div>
 
     <main class="home-main">
       <app-player-summary-card

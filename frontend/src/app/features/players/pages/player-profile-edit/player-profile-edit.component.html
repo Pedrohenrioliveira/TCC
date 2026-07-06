@@ -10,117 +10,105 @@
   </div>
 
   <div *ngIf="!loading && !error" class="profile-content fade-in">
-    <header class="profile-header">
-      <div class="photo-section">
-        <div class="photo-wrapper">
-          <img *ngIf="photoUrl" [src]="photoUrl" alt="Sua foto de perfil">
-          <div *ngIf="!photoUrl" class="photo-placeholder">
-            <span>{{ player.nomeCompleto.charAt(0) }}</span>
-          </div>
-          <button class="edit-photo-btn" (click)="photoInput.click()">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-              <circle cx="12" cy="13" r="4"></circle>
-            </svg>
-          </button>
-          <input type="file" #photoInput style="display: none" (change)="updatePhoto('https://robohash.org/'+ player.nomeCompleto + '?set=set5')" accept="image/*">
+    
+    <div class="photo-section">
+      <div class="photo-wrapper">
+        <img *ngIf="photoUrl" [src]="photoUrl" alt="Sua foto de perfil">
+        <div *ngIf="!photoUrl" class="photo-placeholder">
+          <span>{{ player.nomeCompleto.charAt(0) || 'U' }}</span>
         </div>
-        <div class="header-info">
-          <h1 class="player-name">{{ player.nomeCompleto }}</h1>
-          <p class="player-club" *ngIf="player.nomeClube">{{ player.nomeClube }}</p>
-        </div>
+        <button class="edit-photo-btn" (click)="photoInput.click()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+            <circle cx="12" cy="13" r="4"></circle>
+          </svg>
+        </button>
+        <input type="file" #photoInput style="display: none" (change)="updatePhoto('https://robohash.org/'+ player.nomeCompleto + '?set=set5')" accept="image/*">
       </div>
-    </header>
+      <p class="photo-instruction">Toque para alterar a foto</p>
+    </div>
 
     <div class="tabs-container">
-      <div class="tabs">
-        <button class="tab-btn" [class.active]="activeTab === 'personal'" (click)="switchTab('personal')">
-          Dados Pessoais
-        </button>
-        <button class="tab-btn" [class.active]="activeTab === 'physical'" (click)="switchTab('physical')">
-          Dados Físicos & Técnicos
-        </button>
-      </div>
-
-      <div class="tab-content" *ngIf="activeTab === 'personal'">
-        <form [formGroup]="personalForm" (ngSubmit)="savePersonalData()">
-          <div class="form-group">
-            <label for="nomeCompleto">Nome Completo</label>
-            <input id="nomeCompleto" type="text" formControlName="nomeCompleto" class="form-control">
-          </div>
-          
-          <div class="form-group">
-            <label for="dataNascimento">Data de Nascimento</label>
-            <input id="dataNascimento" type="date" formControlName="dataNascimento" class="form-control">
-          </div>
-
-          <div class="form-group">
-            <label for="bioHistorico">Bio / Histórico</label>
-            <textarea id="bioHistorico" formControlName="bioHistorico" class="form-control" rows="4"></textarea>
-          </div>
-
-          <button type="submit" class="submit-btn" [disabled]="personalForm.invalid">Salvar Dados Pessoais</button>
-        </form>
-      </div>
-
-      <div class="tab-content" *ngIf="activeTab === 'physical'">
-        <form [formGroup]="physicalForm" (ngSubmit)="savePhysicalData()">
-          
-          <div class="form-row">
-            <div class="form-group half">
-              <label for="altura">Altura (cm)</label>
-              <input id="altura" type="number" formControlName="altura" class="form-control">
-            </div>
-            <div class="form-group half">
-              <label for="peso">Peso (kg)</label>
-              <input id="peso" type="number" step="0.1" formControlName="peso" class="form-control">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="pePreferencial">Pé Preferencial</label>
-            <select id="pePreferencial" formControlName="pePreferencial" class="form-control">
-              <option [value]="1">Esquerdo</option>
-              <option [value]="2">Direito</option>
-              <option [value]="3">Ambidestro</option>
-            </select>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group half">
-              <label for="posicaoPrincipal">Posição Principal</label>
-              <select id="posicaoPrincipal" formControlName="posicaoPrincipal" class="form-control">
-                <option [value]="1">Goleiro</option>
-                <option [value]="2">Lateral Direito</option>
-                <option [value]="3">Zagueiro</option>
-                <option [value]="4">Lateral Esquerdo</option>
-                <option [value]="5">Volante</option>
-                <option [value]="6">Meio-Campo</option>
-                <option [value]="7">Ponta</option>
-                <option [value]="8">Centroavante</option>
-              </select>
-            </div>
-            
-            <div class="form-group half">
-              <label for="posicaoSecundaria">Posição Secundária (Opcional)</label>
-              <select id="posicaoSecundaria" formControlName="posicaoSecundaria" class="form-control">
-                <option [ngValue]="null">Nenhuma</option>
-                <option [value]="1">Goleiro</option>
-                <option [value]="2">Lateral Direito</option>
-                <option [value]="3">Zagueiro</option>
-                <option [value]="4">Lateral Esquerdo</option>
-                <option [value]="5">Volante</option>
-                <option [value]="6">Meio-Campo</option>
-                <option [value]="7">Ponta</option>
-                <option [value]="8">Centroavante</option>
-              </select>
-            </div>
-          </div>
-
-          <button type="submit" class="submit-btn" [disabled]="physicalForm.invalid">Salvar Dados Físicos</button>
-        </form>
-      </div>
-
+      <button class="tab-btn" [class.active]="activeTab === 'personal'" (click)="switchTab('personal')">Dados Pessoais</button>
+      <button class="tab-btn" [class.active]="activeTab === 'physical'" (click)="switchTab('physical')">Físico e Técnico</button>
     </div>
+
+    <div class="tab-content" *ngIf="activeTab === 'personal'">
+      <form [formGroup]="personalForm" (ngSubmit)="savePersonalData()">
+        <div class="form-group">
+          <label for="nomeCompleto">Nome Completo</label>
+          <input id="nomeCompleto" type="text" formControlName="nomeCompleto" class="form-control" placeholder="Seu nome completo">
+        </div>
+        
+        <div class="form-group">
+          <label for="dataNascimento">Data de Nascimento</label>
+          <input id="dataNascimento" type="date" formControlName="dataNascimento" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <label for="bioHistorico">Biografia (opcional)</label>
+          <textarea id="bioHistorico" formControlName="bioHistorico" class="form-control" rows="4" placeholder="Conte um pouco sobre você..."></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn" [disabled]="personalForm.invalid">Salvar Dados Pessoais</button>
+      </form>
+    </div>
+
+    <div class="tab-content" *ngIf="activeTab === 'physical'">
+      <form [formGroup]="physicalForm" (ngSubmit)="savePhysicalData()">
+        
+        <div class="form-row">
+          <div class="form-group half">
+            <label for="altura">Altura (cm)</label>
+            <input id="altura" type="number" formControlName="altura" class="form-control" placeholder="Ex: 175">
+          </div>
+          <div class="form-group half">
+            <label for="peso">Peso (kg)</label>
+            <input id="peso" type="number" step="0.1" formControlName="peso" class="form-control" placeholder="Ex: 70.5">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="pePreferencial">Pé Preferencial</label>
+          <select id="pePreferencial" formControlName="pePreferencial" class="form-control">
+            <option [value]="1">Esquerdo</option>
+            <option [value]="2">Direito</option>
+            <option [value]="3">Ambidestro</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="posicaoPrincipal">Posição Principal</label>
+          <select id="posicaoPrincipal" formControlName="posicaoPrincipal" class="form-control">
+            <option [value]="1">Goleiro</option>
+            <option [value]="2">Lateral Direito</option>
+            <option [value]="3">Zagueiro</option>
+            <option [value]="4">Lateral Esquerdo</option>
+            <option [value]="5">Volante</option>
+            <option [value]="6">Meio-Campo</option>
+            <option [value]="7">Ponta</option>
+            <option [value]="8">Centroavante</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="posicaoSecundaria">Posição Secundária (Opcional)</label>
+          <select id="posicaoSecundaria" formControlName="posicaoSecundaria" class="form-control">
+            <option [ngValue]="null">Nenhuma</option>
+            <option [value]="1">Goleiro</option>
+            <option [value]="2">Lateral Direito</option>
+            <option [value]="3">Zagueiro</option>
+            <option [value]="4">Lateral Esquerdo</option>
+            <option [value]="5">Volante</option>
+            <option [value]="6">Meio-Campo</option>
+            <option [value]="7">Ponta</option>
+            <option [value]="8">Centroavante</option>
+          </select>
+        </div>
+
+        <button type="submit" class="submit-btn" [disabled]="physicalForm.invalid">Salvar Dados Físicos</button>
+      </form>
+    </div>
+
   </div>
 </div>

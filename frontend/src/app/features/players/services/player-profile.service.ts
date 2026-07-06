@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface ApiResponse<T> {
-  sucesso: boolean;
+  ok: boolean;
   mensagem: string;
   dados: T;
   erros: string[];

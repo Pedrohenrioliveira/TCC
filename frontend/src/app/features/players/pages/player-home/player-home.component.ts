@@ -10,7 +10,6 @@ import { PlayerHomeService, HomeDashboardDto } from '../../services/player-home.
   standalone: true,
   imports: [
     CommonModule,
-    PlayerHomeNavbarComponent,
     PlayerSummaryCardComponent,
     StatCardComponent
   ],
@@ -29,12 +28,12 @@ export class PlayerHomeComponent implements OnInit {
   }
 
   loadDashboardData(): void {
-    // Simulando ID estático por enquanto
-    const playerId = '00000000-0000-0000-0000-000000000000'; 
+    // Usar o ID do usuário cadastrado, ou o mock de teste caso não tenha feito login/cadastro
+    const playerId = localStorage.getItem('loggedUserId') || '00000000-0000-0000-0000-000000000001';
     
     this.playerHomeService.getHomeDashboard(playerId).subscribe({
       next: (response) => {
-        if (response.sucesso) {
+        if (response.ok) {
           this.dashboardData = response.dados;
         } else {
           this.error = response.mensagem;

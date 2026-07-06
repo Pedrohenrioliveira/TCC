@@ -33,6 +33,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         SeedPerfis(modelBuilder);
         SeedUsuarioAdmin(modelBuilder);
         SeedCampeonatos(modelBuilder);
+        SeedJogadores(modelBuilder);
+        SeedClubes(modelBuilder);
         SeedSolicitacoesClubes(modelBuilder);
     }
 
@@ -104,9 +106,54 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         );
     }
 
+    private static void SeedJogadores(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Jogador>().HasData(
+            new Jogador
+            {
+                Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                UsuarioId = Guid.Parse("00000000-0000-0000-0000-000000000001"), // Vinculado ao admin
+                NomeCompleto = "Pedro Oliveira (Teste)",
+                DataNascimento = new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+                PePreferencial = BaseApi.Domain.Enums.PePreferencial.Ambos,
+                Altura = 180,
+                Peso = 75,
+                PosicaoPrincipal = BaseApi.Domain.Enums.PosicaoJogador.MeioCampo,
+                BioHistorico = "Jogador de teste do sistema.",
+                CaminhoFoto = "https://robohash.org/pedro?set=set5"
+            }
+        );
+    }
+
+    private static void SeedClubes(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Clube>().HasData(
+            new Clube
+            {
+                Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                UsuarioId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                Nome = "Clube Atlético Teste",
+                AnoFundacao = 1990,
+                CidadeEstado = "São Paulo / SP",
+                LigaCompeticao = "Série A",
+                BreveHistoria = "Um clube criado para testes.",
+                CaminhoEscudo = "https://robohash.org/clube1?set=set1"
+            }
+        );
+    }
+
     private static void SeedSolicitacoesClubes(ModelBuilder modelBuilder)
     {
-        // Necessário criar instâncias de Clube e Jogador antes
-        // modelBuilder.Entity<SolicitacaoClube>().HasData(...
+        modelBuilder.Entity<SolicitacaoClube>().HasData(
+            new SolicitacaoClube
+            {
+                Id = Guid.Parse("44444444-4444-4444-4444-444444444444"),
+                JogadorId = Guid.Parse("00000000-0000-0000-0000-000000000001"),
+                ClubeId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                Mensagem = "Gostaria de participar da seletiva do Clube Atlético Teste.",
+                Status = BaseApi.Domain.Entidades.StatusSolicitacao.Pendente,
+                DataSolicitacao = new DateTime(2026, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+            }
+        );
     }
 }

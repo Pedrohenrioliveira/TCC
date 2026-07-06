@@ -2,9 +2,9 @@
   <table class="standings-table">
     <thead>
       <tr>
-        <th class="col-pos">#</th>
-        <th class="col-team">Clube</th>
-        <th class="col-pts">Pts</th>
+        <th class="col-pos">POS</th>
+        <th class="col-team">CLUBE</th>
+        <th class="col-pts">P</th>
         <th class="col-j">J</th>
         <th class="col-v">V</th>
         <th class="col-e">E</th>
@@ -13,13 +13,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let team of teams; let i = index" [class.highlight]="i < 4">
+      <tr *ngFor="let team of teams; let i = index">
         <td class="col-pos">
-          <span class="pos-badge" [class.top-tier]="i < 4">{{ team.posicao }}</span>
+          <span class="pos-text" [class.top-tier]="i < 3">{{ team.posicao }}º</span>
         </td>
         <td class="col-team">
           <div class="team-info">
-            <img [src]="team.escudoUrl" alt="Escudo" class="team-logo" onerror="this.src='assets/default-shield.png'">
+            <div class="team-logo-wrapper">
+              <img [src]="team.escudoUrl" alt="Escudo" class="team-logo" onerror="this.src='assets/default-shield.png'">
+            </div>
             <span class="team-name">{{ team.nomeClube }}</span>
           </div>
         </td>
@@ -32,4 +34,20 @@
       </tr>
     </tbody>
   </table>
+  <div class="table-footer">
+    <button class="view-more-btn">
+      Ver tabela completa
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<div class="table-legend">
+  <span class="legend-item"><strong>P:</strong> Pontos</span>
+  <span class="legend-item"><strong>J:</strong> Jogos</span>
+  <span class="legend-item"><strong>V:</strong> Vitórias</span>
+  <span class="legend-item"><strong>E:</strong> Empates</span>
+  <span class="legend-item"><strong>D:</strong> Derrotas</span>
 </div>

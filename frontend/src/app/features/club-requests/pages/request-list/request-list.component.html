@@ -1,8 +1,14 @@
 <div class="requests-container">
   <header class="page-header">
-    <h1 class="page-title">Solicitações de Clubes</h1>
-    <p class="page-subtitle">Gerencie os convites e requisições para participar de equipes</p>
+    <h1 class="page-title">Solicitações</h1>
+    <p class="page-subtitle">Gerencie convites de clubes para você participar.</p>
   </header>
+
+  <div class="filters-container">
+    <button class="filter-btn" [class.active]="activeStatus === 1" (click)="onFilterClick(1)">Pendentes</button>
+    <button class="filter-btn" [class.active]="activeStatus === 2" (click)="onFilterClick(2)">Aceitas</button>
+    <button class="filter-btn" [class.active]="activeStatus === 3" (click)="onFilterClick(3)">Recusadas</button>
+  </div>
 
   <div *ngIf="loading" class="loading-state">
     <div class="spinner"></div>
@@ -20,27 +26,31 @@
 
   <div *ngIf="!loading && !error && requests.length > 0" class="requests-list fade-in">
     <div *ngFor="let req of requests" class="request-card">
-      <div class="card-header">
-        <div class="club-info">
-          <div class="club-avatar">
-            <span *ngIf="!req.escudoClube">{{ req.nomeClube.charAt(0) }}</span>
-            <img *ngIf="req.escudoClube" [src]="req.escudoClube" alt="{{ req.nomeClube }}">
-          </div>
-          <h3 class="club-name">{{ req.nomeClube }}</h3>
-        </div>
-        <span class="status-badge" [ngClass]="getStatusClass(req.status)">
-          {{ getStatusName(req.status) }}
-        </span>
-      </div>
-      
-      <div class="card-body">
-        <p class="request-message">"{{ req.mensagem }}"</p>
-        <span class="request-date">Recebida em: {{ req.dataSolicitacao | date:'dd/MM/yyyy HH:mm' }}</span>
+      <div class="club-avatar-wrapper">
+        <img *ngIf="req.escudoClube" [src]="req.escudoClube" alt="{{ req.nomeClube }}" class="club-avatar">
+        <svg *ngIf="!req.escudoClube" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="default-shield-icon">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
       </div>
 
-      <div class="card-footer" *ngIf="req.status === 1">
-        <button class="action-btn accept-btn" (click)="acceptRequest(req.id)">Aceitar</button>
-        <button class="action-btn reject-btn" (click)="rejectRequest(req.id)">Recusar</button>
+      <div class="request-content">
+        <h3 class="club-name">{{ req.nomeClube }}</h3>
+        <p class="request-date">Enviado em {{ req.dataSolicitacao | date:'dd/MM/yyyy' }}</p>
+        <p class="request-message" *ngIf="req.mensagem">"{{ req.mensagem }}"</p>
+      </div>
+
+      <div class="request-actions" *ngIf="req.status === 1">
+        <button class="action-btn accept-btn" (click)="acceptRequest(req.id)" aria-label="Aceitar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </button>
+        <button class="action-btn reject-btn" (click)="rejectRequest(req.id)" aria-label="Recusar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
       </div>
     </div>
   </div>

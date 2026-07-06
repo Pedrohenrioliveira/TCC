@@ -25,10 +25,16 @@ public class CriarJogadorHandler(
                 throw new ExcecaoDominio("O clube informado não foi encontrado.");
         }
 
+        // Verifica se o e-mail já está em uso
+        var emailExiste = await usuarioRepositorio.EmailExisteAsync(command.Email.ToLowerInvariant().Trim(), null, ct);
+        if (emailExiste)
+            throw new ExcecaoDominio("Já existe um usuário cadastrado com este e-mail.");
+
         // 1. Criar o usuário para o Jogador
         var usuario = new Usuario
         {
             NomeCompleto = command.NomeCompleto.Trim(),
+            NomeUsuario = command.Email.ToLowerInvariant().Trim(), // Usa o e-mail como username para evitar erro de constraint unique
             Email = command.Email.ToLowerInvariant().Trim(),
             SenhaHash = senhaServico.GerarHash(command.Senha),
             PerfilId = 3, // Perfil de Jogador / Usuário

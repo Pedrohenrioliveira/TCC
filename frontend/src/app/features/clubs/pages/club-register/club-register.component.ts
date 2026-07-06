@@ -70,7 +70,8 @@ export class ClubRegisterComponent {
       },
       error: (err) => {
         console.error('Erro ao cadastrar clube:', err);
-        alert('Erro ao cadastrar clube. Verifique os dados inseridos.');
+        const serverMsg = err.error?.mensagem || 'Erro ao cadastrar clube. Verifique os dados inseridos.';
+        alert(serverMsg);
       }
     });
   }

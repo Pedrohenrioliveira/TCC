@@ -1,3 +1,20 @@
+:root {
+  --primary-dark-green: #0D503C;
+  --accent-light-green: #82F282;
+  --secondary-light-green: #E0F5E0;
+  --bg-color: #FAFAFA;
+  --card-bg: #FFFFFF;
+  --text-dark: #1A1A1A;
+  --text-muted: #666666;
+  --error-bg: #FBEAEA;
+  --error-text: #A03030;
+  --pending-bg: #EAEAEA;
+  --pending-text: #555555;
+  --border-radius-card: 24px;
+  --border-radius-pill: 9999px;
+  --border-color: #EAEAEA;
+}
+
 /* Reset e estilos globais */
 html, body {
   margin: 0;
@@ -5,7 +22,8 @@ html, body {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  background-color: #fafafa;
+  background-color: var(--bg-color);
+  color: var(--text-dark);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

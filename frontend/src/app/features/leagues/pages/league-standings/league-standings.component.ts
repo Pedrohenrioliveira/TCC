@@ -44,7 +44,7 @@ export class LeagueStandingsComponent implements OnInit {
 
     this.leagueService.getStandings(mockId).subscribe({
       next: (res) => {
-        if (res.sucesso) {
+        if (res.ok) {
           this.tabelaData = res.dados;
           // Sobrescreve o nome da liga com base na tab selecionada
           const selected = this.leagues.find(l => l.id === leagueId);

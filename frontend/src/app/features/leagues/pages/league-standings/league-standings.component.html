@@ -22,10 +22,7 @@
   </div>
 
   <div *ngIf="!loading && !error && tabelaData" class="table-wrapper fade-in">
-    <div class="table-header-info">
-      <h2 class="league-name">{{ tabelaData.nomeLiga }}</h2>
-      <span class="season-badge">Temporada 2026</span>
-    </div>
+    <!-- Tabela -->
 
     <app-standings-table [teams]="tabelaData.times"></app-standings-table>
   </div>

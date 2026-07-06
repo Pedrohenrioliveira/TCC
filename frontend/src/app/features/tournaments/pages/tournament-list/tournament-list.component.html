@@ -1,7 +1,6 @@
 <div class="tournaments-container">
   <header class="page-header">
     <h1 class="page-title">Campeonatos</h1>
-    <p class="page-subtitle">Acompanhe e inscreva-se nos torneios disponíveis</p>
   </header>
 
   <div class="filters-container">
@@ -27,30 +26,43 @@
 
   <div *ngIf="!loading && !error && tournaments.length > 0" class="cards-grid fade-in">
     <div *ngFor="let t of tournaments" class="tournament-card">
-      <div class="card-image">
-        <img [src]="t.caminhoLogo" alt="Logo {{ t.nome }}">
-        <span class="status-badge" [ngClass]="getStatusClass(t.status)">
-          {{ getStatusName(t.status) }}
-        </span>
+      <div class="card-logo-wrapper">
+        <img *ngIf="t.caminhoLogo" [src]="t.caminhoLogo" alt="Logo" class="card-logo">
+        <svg *ngIf="!t.caminhoLogo" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="default-logo-icon">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+          <path d="M2 12h20"></path>
+        </svg>
       </div>
+
       <div class="card-content">
-        <h3 class="card-title">{{ t.nome }}</h3>
-        <p class="card-detail">
-          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2" class="icon"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-          {{ t.local }}
-        </p>
-        <p class="card-detail">
-          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2" class="icon"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-          {{ t.dataInicio | date:'dd/MM/yyyy' }} a {{ t.dataFim | date:'dd/MM/yyyy' }}
-        </p>
+        <div class="card-header">
+          <div class="card-title-group">
+            <h3 class="card-title">{{ t.nome }}</h3>
+            <p class="card-category">Categoria: Amador A</p>
+          </div>
+          <span class="status-badge" [ngClass]="getStatusClass(t.status)">
+            {{ getStatusName(t.status) }}
+          </span>
+        </div>
+
+        <div class="card-details">
+          <div class="detail-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span>{{ t.dataInicio | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="detail-item">
+            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span>{{ t.local }}</span>
+          </div>
+        </div>
         
         <div class="card-footer">
-          <div class="teams-info">
-            <span class="teams-label">Equipes máx:</span>
-            <span class="teams-value">{{ t.limiteEquipes }}</span>
-          </div>
-          <button class="action-btn" [disabled]="t.status !== 1">
-            {{ t.status === 1 ? 'Inscrever-se' : 'Visualizar' }}
+          <button class="action-link" [disabled]="t.status !== 1">
+            Ver detalhes
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
           </button>
         </div>
       </div>

@@ -15,7 +15,7 @@ export interface HomeDashboardDto {
 }
 
 export interface RespostaApi<T> {
-  sucesso: boolean;
+  ok: boolean;
   mensagem: string;
   dados: T;
   erros: string[];
