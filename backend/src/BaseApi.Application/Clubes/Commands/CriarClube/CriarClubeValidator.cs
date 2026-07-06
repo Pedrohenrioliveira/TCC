@@ -13,7 +13,7 @@ public class CriarClubeValidator : AbstractValidator<CriarClubeCommand>
             .MaximumLength(150).WithMessage("Nome deve ter no máximo 150 caracteres.");
 
         RuleFor(x => x.AnoFundacao)
-            .InclusiveBetween(1800, DateTime.UtcNow.Year + 1)
+            .GreaterThan(0)
             .WithMessage("Ano de fundação inválido.");
 
         RuleFor(x => x.CidadeEstado)

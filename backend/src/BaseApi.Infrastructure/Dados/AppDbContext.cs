@@ -17,6 +17,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Perfil> Perfis => Set<Perfil>();
     public DbSet<Clube> Clubes => Set<Clube>();
     public DbSet<Jogador> Jogadores => Set<Jogador>();
+    public DbSet<Campeonato> Campeonatos => Set<Campeonato>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -30,6 +31,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         // =============================================
         SeedPerfis(modelBuilder);
         SeedUsuarioAdmin(modelBuilder);
+        SeedCampeonatos(modelBuilder);
     }
 
     private static void SeedPerfis(ModelBuilder modelBuilder)
@@ -59,5 +61,44 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             CriadoEm = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
             AtualizadoEm = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)
         });
+    }
+
+    private static void SeedCampeonatos(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Campeonato>().HasData(
+            new Campeonato
+            {
+                Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                Nome = "Copa Regional Norte 2026",
+                Local = "Estádio Municipal",
+                DataInicio = new DateTime(2026, 8, 1, 0, 0, 0, DateTimeKind.Utc),
+                DataFim = new DateTime(2026, 12, 1, 0, 0, 0, DateTimeKind.Utc),
+                Status = StatusCampeonato.Aberto,
+                CaminhoLogo = "assets/campeonato1.jpg",
+                LimiteEquipes = 16
+            },
+            new Campeonato
+            {
+                Id = Guid.Parse("22222222-2222-2222-2222-222222222222"),
+                Nome = "Liga dos Campeões Amadora",
+                Local = "Vários Estádios",
+                DataInicio = new DateTime(2026, 5, 1, 0, 0, 0, DateTimeKind.Utc),
+                DataFim = new DateTime(2026, 10, 1, 0, 0, 0, DateTimeKind.Utc),
+                Status = StatusCampeonato.EmAndamento,
+                CaminhoLogo = "assets/campeonato2.jpg",
+                LimiteEquipes = 32
+            },
+            new Campeonato
+            {
+                Id = Guid.Parse("33333333-3333-3333-3333-333333333333"),
+                Nome = "Torneio de Inverno 2025",
+                Local = "Arena Sul",
+                DataInicio = new DateTime(2025, 6, 1, 0, 0, 0, DateTimeKind.Utc),
+                DataFim = new DateTime(2025, 8, 1, 0, 0, 0, DateTimeKind.Utc),
+                Status = StatusCampeonato.Finalizado,
+                CaminhoLogo = "assets/campeonato3.jpg",
+                LimiteEquipes = 8
+            }
+        );
     }
 }

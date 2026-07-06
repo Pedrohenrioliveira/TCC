@@ -20,18 +20,16 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration config)
     {
-        // Configura o EF Core com MySQL (Pomelo)
-        var connectionString = config.GetConnectionString("MySQL");
-        // MySQL 8.0 — versão fixada para evitar conexão em design-time
-        var serverVersion = new MySqlServerVersion(new Version(8, 0, 0));
+        // Configura o EF Core com InMemoryDatabase
         services.AddDbContext<AppDbContext>(opt =>
-            opt.UseMySql(connectionString, serverVersion));
+            opt.UseInMemoryDatabase("TccDb"));
 
         // Repositórios
         services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
         services.AddScoped<IPerfilRepositorio, PerfilRepositorio>();
         services.AddScoped<IClubeRepositorio, ClubeRepositorio>();
         services.AddScoped<IJogadorRepositorio, JogadorRepositorio>();
+        services.AddScoped<ICampeonatoRepositorio, CampeonatoRepositorio>();
 
         // Serviços de infraestrutura
         services.AddScoped<ITokenServico, TokenServico>();

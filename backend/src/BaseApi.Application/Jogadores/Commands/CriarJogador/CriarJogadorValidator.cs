@@ -12,18 +12,16 @@ public class CriarJogadorValidator : AbstractValidator<CriarJogadorCommand>
             .MaximumLength(150).WithMessage("Nome deve ter no máximo 150 caracteres.");
 
         RuleFor(x => x.DataNascimento)
-            .NotEmpty().WithMessage("Data de nascimento é obrigatória.")
-            .LessThan(DateTime.UtcNow.AddYears(-5)).WithMessage("O atleta deve ter pelo menos 5 anos de idade.")
-            .GreaterThan(DateTime.UtcNow.AddYears(-100)).WithMessage("Data de nascimento inválida.");
+            .NotEmpty().WithMessage("Data de nascimento é obrigatória.");
 
         RuleFor(x => x.PePreferencial)
             .IsInEnum().WithMessage("Pé preferencial inválido.");
 
         RuleFor(x => x.Altura)
-            .InclusiveBetween(50, 250).WithMessage("Altura deve estar entre 50cm e 250cm.");
+            .InclusiveBetween(1, 300).WithMessage("Altura inválida.");
 
         RuleFor(x => x.Peso)
-            .InclusiveBetween(20.0, 200.0).WithMessage("Peso deve estar entre 20kg e 200kg.");
+            .InclusiveBetween(1.0, 300.0).WithMessage("Peso inválido.");
 
         RuleFor(x => x.PosicaoPrincipal)
             .IsInEnum().WithMessage("Posição principal inválida.");
@@ -33,7 +31,6 @@ public class CriarJogadorValidator : AbstractValidator<CriarJogadorCommand>
             .When(x => x.PosicaoSecundaria.HasValue);
 
         RuleFor(x => x.BioHistorico)
-            .NotEmpty().WithMessage("Bio e histórico no futebol são obrigatórios.")
             .MaximumLength(1000).WithMessage("Bio deve ter no máximo 1000 caracteres.");
     }
 }
