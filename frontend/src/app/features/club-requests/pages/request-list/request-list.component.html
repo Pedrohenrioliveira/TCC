@@ -1,0 +1,47 @@
+<div class="requests-container">
+  <header class="page-header">
+    <h1 class="page-title">Solicitações de Clubes</h1>
+    <p class="page-subtitle">Gerencie os convites e requisições para participar de equipes</p>
+  </header>
+
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Buscando solicitações...</p>
+  </div>
+
+  <div *ngIf="error" class="error-state">
+    <p>{{ error }}</p>
+    <button class="retry-btn" (click)="loadRequests()">Tentar novamente</button>
+  </div>
+
+  <div *ngIf="!loading && !error && requests.length === 0" class="empty-state">
+    Nenhuma solicitação encontrada no momento.
+  </div>
+
+  <div *ngIf="!loading && !error && requests.length > 0" class="requests-list fade-in">
+    <div *ngFor="let req of requests" class="request-card">
+      <div class="card-header">
+        <div class="club-info">
+          <div class="club-avatar">
+            <span *ngIf="!req.escudoClube">{{ req.nomeClube.charAt(0) }}</span>
+            <img *ngIf="req.escudoClube" [src]="req.escudoClube" alt="{{ req.nomeClube }}">
+          </div>
+          <h3 class="club-name">{{ req.nomeClube }}</h3>
+        </div>
+        <span class="status-badge" [ngClass]="getStatusClass(req.status)">
+          {{ getStatusName(req.status) }}
+        </span>
+      </div>
+      
+      <div class="card-body">
+        <p class="request-message">"{{ req.mensagem }}"</p>
+        <span class="request-date">Recebida em: {{ req.dataSolicitacao | date:'dd/MM/yyyy HH:mm' }}</span>
+      </div>
+
+      <div class="card-footer" *ngIf="req.status === 1">
+        <button class="action-btn accept-btn" (click)="acceptRequest(req.id)">Aceitar</button>
+        <button class="action-btn reject-btn" (click)="rejectRequest(req.id)">Recusar</button>
+      </div>
+    </div>
+  </div>
+</div>

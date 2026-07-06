@@ -20,6 +20,10 @@ export const routes: Routes = [
     loadComponent: () => import('./features/tournaments/pages/tournament-list/tournament-list.component').then(m => m.TournamentListComponent)
   },
   {
+    path: 'player/club-requests',
+    loadComponent: () => import('./features/club-requests/pages/request-list/request-list.component').then(m => m.RequestListComponent)
+  },
+  {
     path: '',
     loadComponent: () => import('./features/players/pages/player-register/player-register.component').then(m => m.PlayerRegisterComponent)
   },

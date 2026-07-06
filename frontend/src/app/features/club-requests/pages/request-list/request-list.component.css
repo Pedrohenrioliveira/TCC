@@ -1,0 +1,196 @@
+.requests-container {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+  color: var(--text-secondary, #a1a1aa);
+  font-size: 1rem;
+}
+
+.requests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.request-card {
+  background: var(--surface-light, #27272a);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--border-color, #3f3f46);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.request-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  border-color: var(--primary-color, #eab308);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.club-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.club-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--surface-hover, #3f3f46);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary-color, #eab308);
+  overflow: hidden;
+}
+
+.club-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.club-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary, #ffffff);
+}
+
+.status-badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.status-pendente {
+  background: rgba(234, 179, 8, 0.2);
+  color: var(--primary-color, #eab308);
+  border: 1px solid var(--primary-color, #eab308);
+}
+
+.status-aceita {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+  border: 1px solid #4ade80;
+}
+
+.status-recusada {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border: 1px solid #f87171;
+}
+
+.card-body {
+  margin-bottom: 1.5rem;
+}
+
+.request-message {
+  font-size: 1rem;
+  color: var(--text-primary, #ffffff);
+  font-style: italic;
+  margin-bottom: 0.5rem;
+  background: rgba(0,0,0,0.2);
+  padding: 1rem;
+  border-left: 4px solid var(--primary-color, #eab308);
+  border-radius: 4px;
+}
+
+.request-date {
+  font-size: 0.875rem;
+  color: var(--text-secondary, #a1a1aa);
+}
+
+.card-footer {
+  display: flex;
+  gap: 1rem;
+  border-top: 1px solid var(--border-color, #3f3f46);
+  padding-top: 1rem;
+}
+
+.action-btn {
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.accept-btn {
+  background: #22c55e;
+  color: #fff;
+}
+
+.accept-btn:hover {
+  background: #16a34a;
+}
+
+.reject-btn {
+  background: transparent;
+  border: 1px solid #ef4444;
+  color: #f87171;
+}
+
+.reject-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.loading-state, .error-state, .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  background: var(--surface-light, #27272a);
+  border-radius: 12px;
+  border: 1px solid var(--border-color, #3f3f46);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(234, 179, 8, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--primary-color, #eab308);
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
