@@ -144,6 +144,42 @@ public class JogadoresController(IMediator mediator) : ControllerBase
     }
 
     // =========================================================
+    // PUT /api/jogadores/{id}/pessoais
+    // =========================================================
+    [HttpPut("{id:guid}/pessoais")]
+    [ProducesResponseType(typeof(RespostaApi<Unit>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> AtualizarPessoais(Guid id, [FromBody] AtualizarDadosPessoaisCommand command, CancellationToken ct)
+    {
+        if (id != command.JogadorId) return BadRequest();
+        var resultado = await mediator.Send(command, ct);
+        return Ok(resultado);
+    }
+
+    // =========================================================
+    // PUT /api/jogadores/{id}/fisicos
+    // =========================================================
+    [HttpPut("{id:guid}/fisicos")]
+    [ProducesResponseType(typeof(RespostaApi<Unit>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> AtualizarFisicos(Guid id, [FromBody] AtualizarDadosFisicosCommand command, CancellationToken ct)
+    {
+        if (id != command.JogadorId) return BadRequest();
+        var resultado = await mediator.Send(command, ct);
+        return Ok(resultado);
+    }
+
+    // =========================================================
+    // PUT /api/jogadores/{id}/foto
+    // =========================================================
+    [HttpPut("{id:guid}/foto")]
+    [ProducesResponseType(typeof(RespostaApi<Unit>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> AtualizarFoto(Guid id, [FromBody] AtualizarFotoCommand command, CancellationToken ct)
+    {
+        if (id != command.JogadorId) return BadRequest();
+        var resultado = await mediator.Send(command, ct);
+        return Ok(resultado);
+    }
+
+    // =========================================================
     // DELETE /api/jogadores/{id}
     // =========================================================
     /// <summary>
