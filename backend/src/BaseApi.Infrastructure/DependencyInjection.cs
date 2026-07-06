@@ -30,6 +30,7 @@ public static class DependencyInjection
         services.AddScoped<IClubeRepositorio, ClubeRepositorio>();
         services.AddScoped<IJogadorRepositorio, JogadorRepositorio>();
         services.AddScoped<ICampeonatoRepositorio, CampeonatoRepositorio>();
+        services.AddScoped<ISolicitacaoClubeRepositorio, SolicitacaoClubeRepositorio>();
 
         // Serviços de infraestrutura
         services.AddScoped<ITokenServico, TokenServico>();

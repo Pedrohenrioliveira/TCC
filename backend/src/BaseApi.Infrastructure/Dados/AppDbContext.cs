@@ -18,6 +18,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Clube> Clubes => Set<Clube>();
     public DbSet<Jogador> Jogadores => Set<Jogador>();
     public DbSet<Campeonato> Campeonatos => Set<Campeonato>();
+    public DbSet<SolicitacaoClube> SolicitacoesClubes => Set<SolicitacaoClube>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -32,6 +33,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         SeedPerfis(modelBuilder);
         SeedUsuarioAdmin(modelBuilder);
         SeedCampeonatos(modelBuilder);
+        SeedSolicitacoesClubes(modelBuilder);
     }
 
     private static void SeedPerfis(ModelBuilder modelBuilder)
@@ -100,5 +102,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                 LimiteEquipes = 8
             }
         );
+    }
+
+    private static void SeedSolicitacoesClubes(ModelBuilder modelBuilder)
+    {
+        // Necessário criar instâncias de Clube e Jogador antes
+        // modelBuilder.Entity<SolicitacaoClube>().HasData(...
     }
 }
