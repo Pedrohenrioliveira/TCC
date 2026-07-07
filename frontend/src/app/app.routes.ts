@@ -21,6 +21,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/clubs/pages/club-roster/club-roster.component').then(m => m.ClubRosterComponent)
       },
       {
+        path: 'requests',
+        loadComponent: () => import('./features/clubs/pages/club-requests/club-requests.component').then(m => m.ClubRequestsComponent)
+      },
+      {
         path: 'tournaments',
         loadComponent: () => import('./features/clubs/pages/club-tournaments/club-tournaments.component').then(m => m.ClubTournamentsComponent)
       },
