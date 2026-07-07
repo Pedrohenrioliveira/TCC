@@ -33,6 +33,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/clubs/pages/club-profile-edit/club-profile-edit.component').then(m => m.ClubProfileEditComponent)
       },
       {
+        path: 'player/:id',
+        loadComponent: () => import('./features/players/pages/player-profile-view/player-profile-view.component').then(m => m.PlayerProfileViewComponent)
+      },
+      {
         path: '',
         redirectTo: 'home',
         pathMatch: 'full'

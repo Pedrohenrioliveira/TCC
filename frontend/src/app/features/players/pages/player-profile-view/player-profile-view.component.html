@@ -1,0 +1,71 @@
+<div class="profile-view-container">
+  
+  <div class="header-actions">
+    <button class="btn-back" (click)="voltar()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      Voltar
+    </button>
+  </div>
+
+  @if (loading) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Carregando perfil...</p>
+    </div>
+  } @else if (error) {
+    <div class="error-state">
+      <p>{{ error }}</p>
+      <button class="btn primary" (click)="voltar()">Voltar</button>
+    </div>
+  } @else if (player) {
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="avatar-wrapper">
+          <img [src]="player.caminhoFoto || 'https://ui-avatars.com/api/?name=' + player.nomeCompleto + '&background=random&size=150'" 
+               [alt]="player.nomeCompleto" 
+               class="player-avatar">
+        </div>
+        <h1 class="player-name">{{ player.nomeCompleto }}</h1>
+        <p class="player-location">Brasil</p>
+        
+        <div class="pills-row">
+          <span class="pill primary">{{ getPosicaoNome(player.posicaoPrincipal) }}</span>
+          @if (player.posicaoSecundaria) {
+            <span class="pill outline">{{ getPosicaoNome(player.posicaoSecundaria) }}</span>
+          }
+        </div>
+      </div>
+
+      <div class="profile-body">
+        <h2 class="section-title">Informações Físicas</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-label">Altura</span>
+            <span class="info-value">{{ player.altura ? (player.altura / 100 | number:'1.2-2') + 'm' : 'Não informada' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Peso</span>
+            <span class="info-value">{{ player.peso ? player.peso + ' kg' : 'Não informado' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Pé Preferencial</span>
+            <span class="info-value">{{ getPePreferencialNome(player.pePreferencial) }}</span>
+          </div>
+        </div>
+
+        <h2 class="section-title">Biografia e Histórico</h2>
+        <div class="bio-content">
+          <p>{{ player.bioHistorico || 'Nenhuma biografia disponível no momento.' }}</p>
+        </div>
+      </div>
+      
+      <!-- Se precisar de ação como "Convidar para clube", pode adicionar aqui no futuro -->
+      <!-- <div class="profile-actions">
+        <button class="btn primary full-width">Convidar para Teste</button>
+      </div> -->
+    </div>
+  }
+</div>

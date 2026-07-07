@@ -10,75 +10,44 @@
 
   <h1 class="page-title">Jogadores Cadastrados</h1>
 
-  <div class="players-grid">
-    
-    <!-- Card 1 -->
-    <div class="player-card">
-      <div class="avatar-wrapper">
-        <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="Ricardo Silva" class="player-avatar">
-        <div class="status-indicator online"></div>
-      </div>
-      <h3 class="player-name">Ricardo Silva</h3>
-      <p class="player-location">São Paulo, SP</p>
-      
-      <div class="pills-row">
-        <span class="pill primary">Atacante</span>
-        <span class="pill secondary">Nível Pro</span>
-      </div>
-
-      <button class="view-profile-btn">Ver Perfil</button>
+  @if (loading) {
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Carregando jogadores...</p>
     </div>
-
-    <!-- Card 2 -->
-    <div class="player-card">
-      <div class="avatar-wrapper">
-        <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="Lucas Mendes" class="player-avatar">
-        <div class="status-indicator online"></div>
-      </div>
-      <h3 class="player-name">Lucas Mendes</h3>
-      <p class="player-location">Campinas, SP</p>
-      
-      <div class="pills-row">
-        <span class="pill primary">Goleiro</span>
-        <span class="pill secondary">Intermediário</span>
-      </div>
-
-      <button class="view-profile-btn">Ver Perfil</button>
+  } @else if (error) {
+    <div class="error-state">
+      <p>{{ error }}</p>
+      <button class="btn primary" (click)="carregarJogadores()">Tentar Novamente</button>
     </div>
+  } @else {
+    <div class="players-grid">
+      @for (player of players; track player.id) {
+        <div class="player-card">
+          <div class="avatar-wrapper">
+            <!-- Usando a foto do jogador ou uma imagem padrão baseada no nome se não existir foto -->
+            <img [src]="player.caminhoFoto || 'https://ui-avatars.com/api/?name=' + player.nomeCompleto + '&background=random'" 
+                 [alt]="player.nomeCompleto" 
+                 class="player-avatar">
+            <div class="status-indicator online"></div>
+          </div>
+          <h3 class="player-name">{{ player.nomeCompleto }}</h3>
+          
+          <!-- Mock location if not available -->
+          <p class="player-location">Brasil</p>
+          
+          <div class="pills-row">
+            <span class="pill primary">{{ getPosicaoNome(player.posicaoPrincipal) }}</span>
+            <span class="pill secondary">{{ getNivelMock(player.id) }}</span>
+          </div>
 
-    <!-- Card 3 -->
-    <div class="player-card">
-      <div class="avatar-wrapper">
-        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="Fernanda Costa" class="player-avatar">
-        <div class="status-indicator online"></div>
-      </div>
-      <h3 class="player-name">Fernanda Costa</h3>
-      <p class="player-location">Rio de Janeiro, RJ</p>
-      
-      <div class="pills-row">
-        <span class="pill primary">Meio-campo</span>
-        <span class="pill secondary">Avançado</span>
-      </div>
-
-      <button class="view-profile-btn">Ver Perfil</button>
+          <button class="view-profile-btn" (click)="verPerfil(player.id)">Ver Perfil</button>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <p>Nenhum jogador encontrado.</p>
+        </div>
+      }
     </div>
-
-    <!-- Card 4 -->
-    <div class="player-card">
-      <div class="avatar-wrapper">
-        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="Marcos Rocha" class="player-avatar">
-        <div class="status-indicator online"></div>
-      </div>
-      <h3 class="player-name">Marcos Rocha</h3>
-      <p class="player-location">Belo Horizonte, MG</p>
-      
-      <div class="pills-row">
-        <span class="pill primary">Zagueiro</span>
-        <span class="pill secondary">Master</span>
-      </div>
-
-      <button class="view-profile-btn">Ver Perfil</button>
-    </div>
-
-  </div>
+  }
 </div>
