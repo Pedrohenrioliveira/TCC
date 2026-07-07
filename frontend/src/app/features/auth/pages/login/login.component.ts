@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,18 +14,19 @@ import { RouterModule, Router } from '@angular/router';
 export class LoginComponent {
   private construtorDeFormulario = inject(FormBuilder);
   private roteador = inject(Router);
+  private authService = inject(AuthService);
 
   public tipoLogin: 'jogador' | 'clube' = 'jogador';
   public mostrarSenha = false;
+  public loading = false;
+  public errorMessage: string | null = null;
 
-  // Formulário do Jogador
   public formularioLogin: FormGroup = this.construtorDeFormulario.group({
     email: ['', [Validators.required]],
     senha: ['', [Validators.required]],
     manterConectado: [false]
   });
 
-  // Formulário do Clube
   public formularioClube: FormGroup = this.construtorDeFormulario.group({
     emailCorporativo: ['', [Validators.required]],
     senhaAcesso: ['', [Validators.required]],
@@ -33,7 +35,8 @@ export class LoginComponent {
 
   public setTipoLogin(tipo: 'jogador' | 'clube'): void {
     this.tipoLogin = tipo;
-    this.mostrarSenha = false; // reseta a visualização de senha ao trocar
+    this.mostrarSenha = false;
+    this.errorMessage = null;
   }
 
   public alternarVisualizacaoSenha(): void {
@@ -42,9 +45,34 @@ export class LoginComponent {
 
   public aoSubmeter(): void {
     if (this.formularioLogin.valid) {
-      console.log('Login Jogador Submetido');
-      // Redireciona para a home do jogador simulando um login de sucesso
-      this.roteador.navigate(['/player/home']);
+      this.loading = true;
+      this.errorMessage = null;
+      
+      const payload = {
+        login: this.formularioLogin.value.email,
+        senha: this.formularioLogin.value.senha,
+        manterConectado: this.formularioLogin.value.manterConectado
+      };
+
+      this.authService.login(payload).subscribe({
+        next: (res) => {
+          this.loading = false;
+          if (res.ok) {
+            this.authService.salvarSessao(res.dados);
+            if (res.dados.clubeId || res.dados.perfil?.toLowerCase() === 'clube') {
+              this.roteador.navigate(['/club/home']);
+            } else {
+              this.roteador.navigate(['/player/home']);
+            }
+          } else {
+            this.errorMessage = res.mensagem || 'Credenciais inválidas.';
+          }
+        },
+        error: (err) => {
+          this.loading = false;
+          this.errorMessage = err.error?.mensagem || 'Erro ao conectar com o servidor.';
+        }
+      });
     } else {
       this.marcarCamposComoTocados(this.formularioLogin);
     }
@@ -52,9 +80,34 @@ export class LoginComponent {
 
   public aoSubmeterClube(): void {
     if (this.formularioClube.valid) {
-      console.log('Login Clube Submetido');
-      // Agora que a home do clube existe, redirecionamos para lá
-      this.roteador.navigate(['/club/home']);
+      this.loading = true;
+      this.errorMessage = null;
+
+      const payload = {
+        login: this.formularioClube.value.emailCorporativo,
+        senha: this.formularioClube.value.senhaAcesso,
+        manterConectado: this.formularioClube.value.manterConectado
+      };
+
+      this.authService.login(payload).subscribe({
+        next: (res) => {
+          this.loading = false;
+          if (res.ok) {
+            this.authService.salvarSessao(res.dados);
+            if (res.dados.jogadorId && !res.dados.clubeId) {
+              this.roteador.navigate(['/player/home']);
+            } else {
+              this.roteador.navigate(['/club/home']);
+            }
+          } else {
+            this.errorMessage = res.mensagem || 'Credenciais inválidas.';
+          }
+        },
+        error: (err) => {
+          this.loading = false;
+          this.errorMessage = err.error?.mensagem || 'Erro ao conectar com o servidor.';
+        }
+      });
     } else {
       this.marcarCamposComoTocados(this.formularioClube);
     }

@@ -75,9 +75,14 @@
             </label>
           </div>
 
-          <button type="submit" class="btn-submit" [disabled]="formularioLogin.invalid">
-            Entrar
-            <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <div *ngIf="errorMessage" class="error-message" style="color: #DC2626; margin-bottom: 12px; font-size: 14px; text-align: center;">
+            {{ errorMessage }}
+          </div>
+
+          <button type="submit" class="btn-submit" [disabled]="formularioLogin.invalid || loading">
+            <span *ngIf="loading">Entrando...</span>
+            <span *ngIf="!loading">Entrar</span>
+            <svg *ngIf="!loading" class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
@@ -126,9 +131,14 @@
             </label>
           </div>
 
-          <button type="submit" class="btn-submit" [disabled]="formularioClube.invalid">
-            Entrar como Clube
-            <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <div *ngIf="errorMessage" class="error-message" style="color: #DC2626; margin-bottom: 12px; font-size: 14px; text-align: center;">
+            {{ errorMessage }}
+          </div>
+
+          <button type="submit" class="btn-submit" [disabled]="formularioClube.invalid || loading">
+            <span *ngIf="loading">Entrando...</span>
+            <span *ngIf="!loading">Entrar como Clube</span>
+            <svg *ngIf="!loading" class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
