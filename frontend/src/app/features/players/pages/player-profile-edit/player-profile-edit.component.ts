@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { PlayerProfileService, PlayerDetails } from '../../services/player-profile.service';
 
 @Component({
@@ -25,7 +26,8 @@ export class PlayerProfileEditComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private profileService: PlayerProfileService
+    private profileService: PlayerProfileService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -128,5 +130,13 @@ export class PlayerProfileEditComponent implements OnInit {
       },
       error: () => alert('Erro na comunicação com a API.')
     });
+  }
+
+  logout(): void {
+    if (confirm('Tem certeza que deseja sair?')) {
+      localStorage.removeItem('loggedUserId');
+      localStorage.removeItem('userRole');
+      this.router.navigate(['/login']);
+    }
   }
 }
