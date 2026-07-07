@@ -1,10 +1,39 @@
 import { Routes } from '@angular/router';
 import { PlayerLayoutComponent } from './core/layout/player-layout/player-layout.component';
 
+import { ClubLayoutComponent } from './core/layout/club-layout/club-layout.component';
+
 export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () => import('./features/auth/pages/login/login.component').then(m => m.LoginComponent)
+  },
+  {
+    path: 'club',
+    component: ClubLayoutComponent,
+    children: [
+      {
+        path: 'home',
+        loadComponent: () => import('./features/clubs/pages/club-home/club-home.component').then(m => m.ClubHomeComponent)
+      },
+      {
+        path: 'roster',
+        loadComponent: () => import('./features/clubs/pages/club-roster/club-roster.component').then(m => m.ClubRosterComponent)
+      },
+      {
+        path: 'tournaments',
+        loadComponent: () => import('./features/clubs/pages/club-tournaments/club-tournaments.component').then(m => m.ClubTournamentsComponent)
+      },
+      {
+        path: 'profile',
+        loadComponent: () => import('./features/clubs/pages/club-profile-edit/club-profile-edit.component').then(m => m.ClubProfileEditComponent)
+      },
+      {
+        path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+      }
+    ]
   },
   {
     path: 'player',

@@ -57,6 +57,8 @@ export class ClubRegisterComponent {
       nome: formValue.nome,
       anoFundacao: Number(formValue.anoFundacao),
       cidadeEstado: formValue.cidadeEstado,
+      email: formValue.email,
+      senha: formValue.senha,
       ligaCompeticao: formValue.competicao,
       estadioPrincipal: formValue.estadio || null,
       breveHistoria: `Contato: ${formValue.contato}\n\n${formValue.historia}`

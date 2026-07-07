@@ -8,11 +8,19 @@ public class CriarClubeValidator : AbstractValidator<CriarClubeCommand>
 {
     public CriarClubeValidator(IClubeRepositorio repositorio)
     {
-        RuleFor(x => x.Nome)
-            .NotEmpty().WithMessage("Nome do clube é obrigatório.")
-            .MaximumLength(150).WithMessage("Nome deve ter no máximo 150 caracteres.");
+        RuleFor(c => c.Nome)
+            .NotEmpty().WithMessage("O nome do clube é obrigatório.")
+            .MaximumLength(100).WithMessage("O nome do clube deve ter no máximo 100 caracteres.");
 
-        RuleFor(x => x.AnoFundacao)
+        RuleFor(c => c.Email)
+            .NotEmpty().WithMessage("O e-mail é obrigatório.")
+            .EmailAddress().WithMessage("O e-mail informado é inválido.");
+
+        RuleFor(c => c.Senha)
+            .NotEmpty().WithMessage("A senha é obrigatória.")
+            .MinimumLength(8).WithMessage("A senha deve ter no mínimo 8 caracteres.");
+
+        RuleFor(c => c.AnoFundacao)
             .GreaterThan(0)
             .WithMessage("Ano de fundação inválido.");
 

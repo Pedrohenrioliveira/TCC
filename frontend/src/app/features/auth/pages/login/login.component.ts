@@ -53,9 +53,8 @@ export class LoginComponent {
   public aoSubmeterClube(): void {
     if (this.formularioClube.valid) {
       console.log('Login Clube Submetido');
-      // Como a home do clube ainda não existe, pode ir para a home do jogador ou outra rota.
-      // Vou redirecionar para a login novamente mas poderia ser /club/home se existir.
-      this.roteador.navigate(['/login']);
+      // Agora que a home do clube existe, redirecionamos para lá
+      this.roteador.navigate(['/club/home']);
     } else {
       this.marcarCamposComoTocados(this.formularioClube);
     }

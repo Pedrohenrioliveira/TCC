@@ -1,0 +1,158 @@
+.tournaments-container {
+  padding: 16px 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin: 0 0 24px 0;
+}
+
+.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 32px;
+}
+
+.tournament-card {
+  border-radius: var(--border-radius-card);
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+}
+
+.light-card {
+  background-color: white;
+  border: 1px solid var(--border-color);
+}
+
+.dark-card {
+  background-color: var(--primary-dark-green);
+  color: white;
+  box-shadow: 0 8px 24px rgba(13, 80, 60, 0.2);
+}
+
+/* Header within card */
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.title-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.t-title {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.light-card .t-title {
+  color: var(--text-dark);
+}
+
+.dark-card .t-title {
+  color: white;
+}
+
+/* Badges */
+.status-badge {
+  padding: 4px 12px;
+  border-radius: var(--border-radius-pill);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.status-badge.open {
+  background-color: var(--secondary-light-green);
+  color: var(--primary-dark-green);
+}
+
+.status-badge.warning {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Icon circles */
+.icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #f0f2fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--primary-dark-green);
+}
+
+.icon-circle.dark-icon {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+/* Details list */
+.card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+}
+
+.light-card .detail-row {
+  color: var(--text-muted);
+}
+
+.dark-card .detail-row {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Buttons */
+.action-btn {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: var(--border-radius-pill);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dark-btn {
+  background-color: var(--primary-dark-green);
+  color: white;
+}
+
+.dark-btn:hover {
+  background-color: #0A3D2E;
+}
+
+.light-btn {
+  background-color: white;
+  color: var(--primary-dark-green);
+}
+
+.light-btn:hover {
+  background-color: #f0f2fb;
+}
