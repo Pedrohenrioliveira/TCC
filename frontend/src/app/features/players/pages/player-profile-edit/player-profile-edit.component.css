@@ -200,8 +200,207 @@ textarea.form-control {
 .fade-in {
   animation: fadeIn 0.3s ease;
 }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.photo-wrapper {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: var(--secondary-light-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.photo-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.photo-placeholder {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--primary-dark-green);
+}
+
+.edit-photo-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--primary-dark-green);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 2px solid var(--bg-color);
+}
+
+.photo-instruction {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.tabs-container {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 24px;
+}
+
+.tabs-container::-webkit-scrollbar {
+  display: none;
+}
+
+.tab-btn {
+  background: #F0F0F0;
+  border: none;
+  padding: 10px 24px;
+  border-radius: var(--border-radius-pill);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  flex: 1;
+}
+
+.tab-btn:hover {
+  background: #EAEAEA;
+  color: var(--text-dark);
+}
+
+.tab-btn.active {
+  background: var(--primary-dark-green);
+  color: white;
+}
+
+.tab-content {
+  animation: fadeIn 0.3s ease;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-group.half {
+  flex: 1;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: white;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--text-dark);
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+  font-family: inherit;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-dark-green);
+}
+
+textarea.form-control {
+  resize: vertical;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--primary-dark-green);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-pill);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 24px;
+  transition: background-color 0.2s;
+}
+
+.submit-btn:disabled {
+  background-color: #EAEAEA;
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+/* States */
+.loading-state, .error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 40vh;
+  gap: 16px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(13, 80, 60, 0.2);
+  border-left-color: var(--primary-dark-green);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.retry-btn {
+  background: var(--primary-dark-green);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease;
+}
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+.logout-section { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-color); display: flex; justify-content: center; } 
+.btn-logout { display: flex; align-items: center; gap: 8px; padding: 12px 24px; background: transparent; border: 1px solid #DC2626; color: #DC2626; border-radius: 20px; font-weight: 700; font-size: 15px; cursor: pointer; transition: all 0.2s ease; } 
+.btn-logout:hover { background: #FEF2F2; }

@@ -51,12 +51,12 @@ public class LoginHandler(
         Guid? jogadorId = null;
         Guid? clubeId = null;
 
-        // Se o usuário tem perfil de Jogador ou Clube, tenta buscar o Id
-        if (usuario.PerfilId == 4) // Jogador
+        // Se o usuário tem perfil de Jogador (3) ou Clube (2), tenta buscar o Id
+        if (usuario.PerfilId == 3) // Jogador
         {
             jogadorId = await repositorio.ObterJogadorIdAsync(usuario.Id, ct);
         }
-        else if (usuario.PerfilId == 5) // Clube
+        else if (usuario.PerfilId == 2) // Clube
         {
             clubeId = await repositorio.ObterClubeIdAsync(usuario.Id, ct);
         }

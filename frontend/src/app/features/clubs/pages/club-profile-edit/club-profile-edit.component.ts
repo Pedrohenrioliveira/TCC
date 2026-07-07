@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ClubProfileService, ClubDetails } from '../../services/club-profile.service';
 import { ImageUploadComponent } from '../../../players/components/image-upload/image-upload.component';
 
@@ -23,14 +24,14 @@ export class ClubProfileEditComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private profileService: ClubProfileService
+    private profileService: ClubProfileService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.initForm();
     this.loadProfile();
   }
-
   initForm(): void {
     this.profileForm = this.fb.group({
       nome: ['', Validators.required],
@@ -109,5 +110,13 @@ export class ClubProfileEditComponent implements OnInit {
       },
       error: () => alert('Erro na comunicação com a API.')
     });
+  }
+
+  logout(): void {
+    if (confirm('Tem certeza que deseja sair?')) {
+      localStorage.removeItem('loggedUserId');
+      localStorage.removeItem('userRole');
+      this.router.navigate(['/login']);
+    }
   }
 }
