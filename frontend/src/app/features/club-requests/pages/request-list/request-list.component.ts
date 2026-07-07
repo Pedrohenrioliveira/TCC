@@ -13,7 +13,7 @@ export class RequestListComponent implements OnInit {
   requests: ClubRequest[] = [];
   loading = false;
   error: string | null = null;
-  activeStatus: number | undefined = undefined;
+  activeStatus: number = 1;
   // TODO: Pegar do token autenticado
   jogadorId = '00000000-0000-0000-0000-000000000001'; 
 
@@ -23,16 +23,18 @@ export class RequestListComponent implements OnInit {
     this.loadRequests();
   }
 
-  onFilterClick(status: number | undefined): void {
+  get filteredRequests() {
+    return this.requests.filter(r => r.status === this.activeStatus);
+  }
+
+  onFilterClick(status: number): void {
     this.activeStatus = status;
-    // se precisar filtrar localmente
   }
 
   loadRequests(): void {
     this.loading = true;
     this.error = null;
 
-    // Usar o ID do usuário cadastrado, ou o mock de teste
     const playerId = localStorage.getItem('loggedUserId') || '00000000-0000-0000-0000-000000000001';
 
     this.requestService.getRequests(playerId).subscribe({
@@ -67,26 +69,5 @@ export class RequestListComponent implements OnInit {
       case 3: return 'status-recusada';
       default: return '';
     }
-  }
-
-  acceptRequest(id: string): void {
-    this.updateStatus(id, 2);
-  }
-
-  rejectRequest(id: string): void {
-    this.updateStatus(id, 3);
-  }
-
-  private updateStatus(id: string, status: number): void {
-    this.requestService.updateStatus(id, status).subscribe({
-      next: (res) => {
-        if (res.ok) {
-          this.loadRequests();
-        } else {
-          alert('Erro: ' + res.mensagem);
-        }
-      },
-      error: () => alert('Erro ao atualizar status.')
-    });
   }
 }

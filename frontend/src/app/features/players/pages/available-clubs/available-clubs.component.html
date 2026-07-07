@@ -1,0 +1,24 @@
+<div class="clubs-container">
+  <header class="page-header">
+    <h1 class="page-title">Clubes Disponíveis</h1>
+    <p class="page-subtitle">Encontre um clube e solicite sua entrada.</p>
+  </header>
+
+  <div *ngIf="loading" class="loading-state">Buscando clubes...</div>
+  <div *ngIf="error" class="error-state">{{ error }}</div>
+
+  <div *ngIf="!loading && !error" class="clubs-list">
+    <div *ngFor="let club of clubs" class="club-card">
+      <div class="club-header">
+        <img *ngIf="club.caminhoEscudo" [src]="club.caminhoEscudo" alt="Escudo do clube" class="club-escudo">
+        <h3>{{ club.nome }}</h3>
+      </div>
+      <p class="club-info">{{ club.cidadeEstado }} - {{ club.ligaCompeticao }}</p>
+      
+      <div class="request-action">
+        <input type="text" [(ngModel)]="mensagem" placeholder="Sua mensagem de apresentação..." class="msg-input" />
+        <button class="request-btn" (click)="solicitarEntrada(club.id)">Solicitar entrada</button>
+      </div>
+    </div>
+  </div>
+</div>

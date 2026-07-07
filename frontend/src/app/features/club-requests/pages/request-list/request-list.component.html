@@ -20,12 +20,12 @@
     <button class="retry-btn" (click)="loadRequests()">Tentar novamente</button>
   </div>
 
-  <div *ngIf="!loading && !error && requests.length === 0" class="empty-state">
+  <div *ngIf="!loading && !error && filteredRequests.length === 0" class="empty-state">
     Nenhuma solicitação encontrada no momento.
   </div>
 
-  <div *ngIf="!loading && !error && requests.length > 0" class="requests-list fade-in">
-    <div *ngFor="let req of requests" class="request-card">
+  <div *ngIf="!loading && !error && filteredRequests.length > 0" class="requests-list fade-in">
+    <div *ngFor="let req of filteredRequests" class="request-card">
       <div class="club-avatar-wrapper">
         <img *ngIf="req.escudoClube" [src]="req.escudoClube" alt="{{ req.nomeClube }}" class="club-avatar">
         <svg *ngIf="!req.escudoClube" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="default-shield-icon">
@@ -37,20 +37,6 @@
         <h3 class="club-name">{{ req.nomeClube }}</h3>
         <p class="request-date">Enviado em {{ req.dataSolicitacao | date:'dd/MM/yyyy' }}</p>
         <p class="request-message" *ngIf="req.mensagem">"{{ req.mensagem }}"</p>
-      </div>
-
-      <div class="request-actions" *ngIf="req.status === 1">
-        <button class="action-btn accept-btn" (click)="acceptRequest(req.id)" aria-label="Aceitar">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
-        </button>
-        <button class="action-btn reject-btn" (click)="rejectRequest(req.id)" aria-label="Recusar">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
       </div>
     </div>
   </div>

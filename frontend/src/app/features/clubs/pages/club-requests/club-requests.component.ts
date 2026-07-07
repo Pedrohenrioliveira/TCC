@@ -1,16 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-export interface PlayerRequest {
-  id: string;
-  jogadorId: string;
-  nomeJogador: string;
-  fotoJogador: string | null;
-  posicao: string;
-  mensagem: string;
-  dataSolicitacao: Date;
-  status: number; // 1 = Pendente, 2 = Aceita, 3 = Recusada
-}
+import { ClubRequest, ClubRequestService } from '../../../club-requests/services/club-request.service';
 
 @Component({
   selector: 'app-club-requests',
@@ -20,51 +10,36 @@ export interface PlayerRequest {
   styleUrls: ['./club-requests.component.css']
 })
 export class ClubRequestsComponent implements OnInit {
-  requests: PlayerRequest[] = [];
+  requests: ClubRequest[] = [];
   loading = false;
+  error: string | null = null;
   activeStatus: number = 1; // Default to Pendentes
 
+  constructor(private requestService: ClubRequestService) {}
+
   ngOnInit(): void {
-    this.loadMockRequests();
+    this.loadRequests();
   }
 
-  loadMockRequests() {
+  loadRequests() {
     this.loading = true;
-    setTimeout(() => {
-      this.requests = [
-        {
-          id: 'req1',
-          jogadorId: 'jog1',
-          nomeJogador: 'Marcos Silva',
-          fotoJogador: 'https://robohash.org/Marcos?set=set5',
-          posicao: 'Meio-Campo',
-          mensagem: 'Gostaria de fazer um teste no time!',
-          dataSolicitacao: new Date('2023-10-01T10:00:00'),
-          status: 1
-        },
-        {
-          id: 'req2',
-          jogadorId: 'jog2',
-          nomeJogador: 'João Pedro',
-          fotoJogador: 'https://robohash.org/Joao?set=set5',
-          posicao: 'Atacante',
-          mensagem: 'Tenho experiência em campeonatos regionais.',
-          dataSolicitacao: new Date('2023-10-02T14:30:00'),
-          status: 1
-        },
-        {
-          id: 'req3',
-          jogadorId: 'jog3',
-          nomeJogador: 'Lucas Martins',
-          fotoJogador: null,
-          posicao: 'Zagueiro',
-          mensagem: '',
-          dataSolicitacao: new Date('2023-09-28T09:15:00'),
-          status: 2
+    this.error = null;
+    const clubeId = localStorage.getItem('loggedUserId') || '11111111-1111-1111-1111-111111111111';
+
+    this.requestService.getRequestsForClub(clubeId).subscribe({
+      next: (res: any) => {
+        if (res.ok) {
+          this.requests = res.dados;
+        } else {
+          this.error = res.mensagem;
         }
-      ];
-      this.loading = false;
-    }, 500);
+        this.loading = false;
+      },
+      error: () => {
+        this.error = 'Erro ao carregar solicitações do clube.';
+        this.loading = false;
+      }
+    });
   }
 
   get filteredRequests() {
@@ -76,17 +51,24 @@ export class ClubRequestsComponent implements OnInit {
   }
 
   acceptRequest(id: string): void {
-    const req = this.requests.find(r => r.id === id);
-    if (req) {
-      req.status = 2; // Aceita
-    }
+    this.updateStatus(id, 2);
   }
 
   rejectRequest(id: string): void {
-    const req = this.requests.find(r => r.id === id);
-    if (req) {
-      req.status = 3; // Recusada
-    }
+    this.updateStatus(id, 3);
+  }
+
+  private updateStatus(id: string, status: number): void {
+    this.requestService.updateStatus(id, status).subscribe({
+      next: (res: any) => {
+        if (res.ok) {
+          this.loadRequests();
+        } else {
+          alert('Erro: ' + res.mensagem);
+        }
+      },
+      error: () => alert('Erro ao atualizar status.')
+    });
   }
 
   getStatusName(statusId: number): string {
