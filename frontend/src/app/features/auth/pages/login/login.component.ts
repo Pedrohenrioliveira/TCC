@@ -58,12 +58,14 @@ export class LoginComponent {
         next: (res) => {
           this.loading = false;
           if (res.ok) {
-            this.authService.salvarSessao(res.dados);
-            if (res.dados.clubeId || res.dados.perfil?.toLowerCase() === 'clube') {
-              this.roteador.navigate(['/club/home']);
-            } else {
-              this.roteador.navigate(['/player/home']);
+            const isClube = res.dados.clubeId || res.dados.perfil?.toLowerCase() === 'clube';
+            if (isClube) {
+              this.errorMessage = 'Esta conta pertence a um clube. Por favor, mude para a aba "Sou Clube".';
+              return;
             }
+            
+            this.authService.salvarSessao(res.dados);
+            this.roteador.navigate(['/player/home']);
           } else {
             this.errorMessage = res.mensagem || 'Credenciais inválidas.';
           }
@@ -93,12 +95,14 @@ export class LoginComponent {
         next: (res) => {
           this.loading = false;
           if (res.ok) {
-            this.authService.salvarSessao(res.dados);
-            if (res.dados.jogadorId && !res.dados.clubeId) {
-              this.roteador.navigate(['/player/home']);
-            } else {
-              this.roteador.navigate(['/club/home']);
+            const isJogador = res.dados.jogadorId && !res.dados.clubeId || res.dados.perfil?.toLowerCase() === 'jogador';
+            if (isJogador) {
+              this.errorMessage = 'Esta conta pertence a um jogador. Por favor, mude para a aba "Sou Jogador".';
+              return;
             }
+
+            this.authService.salvarSessao(res.dados);
+            this.roteador.navigate(['/club/home']);
           } else {
             this.errorMessage = res.mensagem || 'Credenciais inválidas.';
           }
