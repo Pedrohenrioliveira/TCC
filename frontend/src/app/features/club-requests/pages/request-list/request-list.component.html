@@ -1,7 +1,7 @@
 <div class="requests-container">
   <header class="page-header">
-    <h1 class="page-title">Solicitações</h1>
-    <p class="page-subtitle">Gerencie convites de clubes para você participar.</p>
+    <h1 class="page-title">Minhas Solicitações</h1>
+    <p class="page-subtitle">Acompanhe o histórico de solicitações que você enviou aos clubes.</p>
   </header>
 
   <div class="filters-container">
@@ -21,7 +21,7 @@
   </div>
 
   <div *ngIf="!loading && !error && filteredRequests.length === 0" class="empty-state">
-    Nenhuma solicitação encontrada no momento.
+    Nenhuma solicitação encontrada neste status.
   </div>
 
   <div *ngIf="!loading && !error && filteredRequests.length > 0" class="requests-list fade-in">
@@ -37,6 +37,10 @@
         <h3 class="club-name">{{ req.nomeClube }}</h3>
         <p class="request-date">Enviado em {{ req.dataSolicitacao | date:'dd/MM/yyyy' }}</p>
         <p class="request-message" *ngIf="req.mensagem">"{{ req.mensagem }}"</p>
+      </div>
+
+      <div class="status-badge" [ngClass]="getStatusClass(req.status)">
+        {{ getStatusName(req.status) }}
       </div>
     </div>
   </div>

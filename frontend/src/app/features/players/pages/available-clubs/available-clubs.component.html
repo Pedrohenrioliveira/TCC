@@ -14,10 +14,36 @@
         <h3>{{ club.nome }}</h3>
       </div>
       <p class="club-info">{{ club.cidadeEstado }} - {{ club.ligaCompeticao }}</p>
+      <div class="club-actions">
+        <button class="btn-perfil" (click)="verPerfil(club)">Ver Perfil</button>
+      </div>
       
       <div class="request-action">
-        <input type="text" [(ngModel)]="mensagem" placeholder="Sua mensagem de apresentação..." class="msg-input" />
-        <button class="request-btn" (click)="solicitarEntrada(club.id)">Solicitar entrada</button>
+        <input type="text" [(ngModel)]="mensagem" placeholder="Sua mensagem de apresentação..." class="msg-input" [disabled]="pendingClubsIds.has(club.id)" />
+        <button class="request-btn" (click)="solicitarEntrada(club.id)" [disabled]="pendingClubsIds.has(club.id)" [ngClass]="{'btn-disabled': pendingClubsIds.has(club.id)}">
+          {{ pendingClubsIds.has(club.id) ? 'Solicitação Pendente' : 'Enviar Solicitação' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Perfil do Clube -->
+<div class="modal-overlay" *ngIf="selectedClub" (click)="fecharPerfil()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="fecharPerfil()">&times;</button>
+    <div class="modal-header">
+      <img *ngIf="selectedClub.caminhoEscudo" [src]="selectedClub.caminhoEscudo" class="modal-escudo">
+      <h2>{{ selectedClub.nome }}</h2>
+    </div>
+    <div class="modal-body">
+      <p><strong>Fundação:</strong> {{ selectedClub.anoFundacao }}</p>
+      <p><strong>Local:</strong> {{ selectedClub.cidadeEstado }}</p>
+      <p><strong>Liga:</strong> {{ selectedClub.ligaCompeticao }}</p>
+      <p><strong>Estádio:</strong> {{ selectedClub.estadioPrincipal || 'Não informado' }}</p>
+      <div class="historia">
+        <strong>História:</strong>
+        <p>{{ selectedClub.breveHistoria }}</p>
       </div>
     </div>
   </div>

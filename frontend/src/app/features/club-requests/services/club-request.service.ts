@@ -7,12 +7,18 @@ export interface ClubRequest {
   clubeId?: string;
   nomeClube?: string;
   escudoClube?: string;
-  jogadorId?: string;
+  jogadorId: string;
   nomeJogador?: string;
   caminhoFotoJogador?: string;
   mensagem: string;
   status: number; // 1 = Pendente, 2 = Aceita, 3 = Recusada
   dataSolicitacao: string;
+}
+
+export interface ClubRequestForClub extends ClubRequest {
+  jogadorId: string;
+  nomeJogador: string;
+  caminhoFotoJogador: string;
 }
 
 export interface ApiResponse<T> {
@@ -35,15 +41,15 @@ export class ClubRequestService {
     return this.http.get<ApiResponse<ClubRequest[]>>(`${this.apiUrlPlayer}/${jogadorId}`);
   }
 
-  getRequestsForClub(clubeId: string): Observable<ApiResponse<ClubRequest[]>> {
-    return this.http.get<ApiResponse<ClubRequest[]>>(`${this.apiUrlClub}/${clubeId}`);
+  getRequestsForClub(clubeId: string): Observable<ApiResponse<ClubRequestForClub[]>> {
+    return this.http.get<ApiResponse<ClubRequestForClub[]>>(`${this.apiUrlClub}/${clubeId}`);
   }
 
   createRequest(jogadorId: string, clubeId: string, mensagem: string): Observable<ApiResponse<string>> {
     return this.http.post<ApiResponse<string>>(this.apiUrlPlayer, { jogadorId, clubeId, mensagem });
   }
 
-  updateStatus(id: string, novoStatus: number): Observable<ApiResponse<any>> {
-    return this.http.put<ApiResponse<any>>(`${this.apiUrlClub}/${id}/status`, { id, novoStatus });
+  updateStatus(id: string, status: number): Observable<ApiResponse<void>> {
+    return this.http.put<ApiResponse<void>>(`${this.apiUrlClub}/${id}/status`, { id, novoStatus: status });
   }
 }

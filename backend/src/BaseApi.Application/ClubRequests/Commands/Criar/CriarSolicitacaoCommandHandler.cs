@@ -13,6 +13,12 @@ public class CriarSolicitacaoCommandHandler(ISolicitacaoClubeRepositorio reposit
 {
     public async Task<RespostaApi<Guid>> Handle(CriarSolicitacaoCommand request, CancellationToken ct)
     {
+        var solicitacoesExistentes = await repositorio.ListarPorJogadorAsync(request.JogadorId, ct);
+        if (System.Linq.Enumerable.Any(solicitacoesExistentes, s => s.ClubeId == request.ClubeId && s.Status == StatusSolicitacao.Pendente))
+        {
+            return RespostaApi<Guid>.Falha("Você já possui uma solicitação pendente para este clube.");
+        }
+
         var solicitacao = new SolicitacaoClube
         {
             JogadorId = request.JogadorId,

@@ -29,26 +29,48 @@
       </div>
 
       <div class="request-content">
-        <h3 class="player-name">{{ req.nomeJogador }}</h3>
+        <h3 class="player-name">
+          {{ req.nomeJogador }}
+          <button class="btn-perfil-sm" (click)="verPerfilJogador(req.jogadorId)">Ver Perfil</button>
+        </h3>
         <p class="request-date">Recebido em {{ req.dataSolicitacao | date:'dd/MM/yyyy' }}</p>
         <p class="request-message" *ngIf="req.mensagem">"{{ req.mensagem }}"</p>
       </div>
 
       <div class="request-actions" *ngIf="req.status === 1">
         <button class="action-btn accept-btn" (click)="acceptRequest(req.id)" aria-label="Aceitar">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
+          ✅ Aceitar
         </button>
         <button class="action-btn reject-btn" (click)="rejectRequest(req.id)" aria-label="Recusar">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
+          ❌ Rejeitar
         </button>
       </div>
       <div class="status-badge" *ngIf="req.status !== 1" [ngClass]="getStatusClass(req.status)">
         {{ getStatusName(req.status) }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Perfil do Jogador -->
+<div class="modal-overlay" *ngIf="selectedPlayer" (click)="fecharPerfil()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="fecharPerfil()">&times;</button>
+    <div class="modal-header">
+      <img *ngIf="selectedPlayer.caminhoFoto" [src]="selectedPlayer.caminhoFoto" class="modal-escudo">
+      <div *ngIf="!selectedPlayer.caminhoFoto" class="default-avatar-large">
+        {{ selectedPlayer.nomeCompleto ? selectedPlayer.nomeCompleto.charAt(0) : 'J' }}
+      </div>
+      <h2>{{ selectedPlayer.nomeCompleto }}</h2>
+    </div>
+    <div class="modal-body">
+      <p><strong>Nascimento:</strong> {{ selectedPlayer.dataNascimento | date:'dd/MM/yyyy' }}</p>
+      <p><strong>Pé Preferencial:</strong> {{ selectedPlayer.pePreferencial === 1 ? 'Direito' : (selectedPlayer.pePreferencial === 2 ? 'Esquerdo' : 'Ambidestro') }}</p>
+      <p><strong>Altura:</strong> {{ selectedPlayer.altura }} cm</p>
+      <p><strong>Peso:</strong> {{ selectedPlayer.peso }} kg</p>
+      <div class="historia">
+        <strong>Histórico:</strong>
+        <p>{{ selectedPlayer.bioHistorico }}</p>
       </div>
     </div>
   </div>
