@@ -2,12 +2,13 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using BaseApi.Application.Comum.Modelos;
+using BaseApi.Domain.Entidades;
 using BaseApi.Domain.Interfaces.Repositorios;
 using MediatR;
 
 namespace BaseApi.Application.ClubRequests.Commands.AtualizarStatus;
 
-public class AtualizarStatusSolicitacaoCommandHandler(ISolicitacaoClubeRepositorio repositorio) 
+public class AtualizarStatusSolicitacaoCommandHandler(ISolicitacaoClubeRepositorio repositorio, IJogadorRepositorio jogadorRepositorio) 
     : IRequestHandler<AtualizarStatusSolicitacaoCommand, RespostaApi<Unit>>
 {
     public async Task<RespostaApi<Unit>> Handle(AtualizarStatusSolicitacaoCommand request, CancellationToken ct)
@@ -21,6 +22,18 @@ public class AtualizarStatusSolicitacaoCommandHandler(ISolicitacaoClubeRepositor
         solicitacao.DataResposta = DateTime.UtcNow;
 
         repositorio.Atualizar(solicitacao);
+
+        // Se o status for Aceito (2), atualizar o clube do jogador
+        if (request.NovoStatus == StatusSolicitacao.Aceita)
+        {
+            var jogador = await jogadorRepositorio.ObterPorIdAsync(solicitacao.JogadorId, ct);
+            if (jogador != null)
+            {
+                jogador.ClubeId = solicitacao.ClubeId;
+                jogadorRepositorio.Atualizar(jogador);
+            }
+        }
+
         await repositorio.SalvarAsync(ct);
 
         return RespostaApi<Unit>.Sucesso(Unit.Value, "Status da solicitação atualizado com sucesso.");
