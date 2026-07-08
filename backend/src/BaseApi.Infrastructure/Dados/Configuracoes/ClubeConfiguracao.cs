@@ -21,7 +21,7 @@ public class ClubeConfiguracao : IEntityTypeConfiguration<Clube>
             .HasMaxLength(150);
 
         builder.Property(c => c.CaminhoEscudo)
-            .HasMaxLength(500);
+            .HasColumnType("LONGTEXT");
 
         builder.Property(c => c.AnoFundacao)
             .IsRequired();

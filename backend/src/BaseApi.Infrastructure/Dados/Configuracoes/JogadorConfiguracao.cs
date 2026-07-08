@@ -17,7 +17,7 @@ public class JogadorConfiguracao : IEntityTypeConfiguration<Jogador>
                .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(j => j.CaminhoFoto)
-            .HasMaxLength(500);
+            .HasColumnType("LONGTEXT");
 
         builder.Property(j => j.NomeCompleto)
             .IsRequired()

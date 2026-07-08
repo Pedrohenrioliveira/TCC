@@ -23,7 +23,7 @@
             <circle cx="12" cy="13" r="4"></circle>
           </svg>
         </button>
-        <input type="file" #photoInput style="display: none" (change)="updatePhoto('https://robohash.org/'+ player.nomeCompleto + '?set=set5')" accept="image/*">
+        <input type="file" #photoInput style="display: none" (change)="onFileSelected($event)" accept="image/*">
       </div>
       <p class="photo-instruction">Toque para alterar a foto</p>
     </div>

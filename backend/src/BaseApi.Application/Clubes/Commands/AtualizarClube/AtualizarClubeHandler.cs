@@ -1,9 +1,6 @@
 using BaseApi.Domain.Excecoes;
 using BaseApi.Domain.Interfaces.Repositorios;
 using MediatR;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace BaseApi.Application.Clubes.Commands.AtualizarClube;
 

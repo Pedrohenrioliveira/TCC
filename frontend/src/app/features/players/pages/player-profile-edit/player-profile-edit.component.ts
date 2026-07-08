@@ -132,6 +132,18 @@ export class PlayerProfileEditComponent implements OnInit {
     });
   }
 
+  onFileSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        this.updatePhoto(base64String);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   logout(): void {
     if (confirm('Tem certeza que deseja sair?')) {
       localStorage.removeItem('loggedUserId');
