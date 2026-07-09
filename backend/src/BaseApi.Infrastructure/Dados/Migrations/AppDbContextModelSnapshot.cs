@@ -60,7 +60,7 @@ namespace BaseApi.Infrastructure.Dados.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Campeonatos");
+                    b.ToTable("Campeonatos", (string)null);
 
                     b.HasData(
                         new
@@ -340,7 +340,7 @@ namespace BaseApi.Infrastructure.Dados.Migrations
 
                     b.HasIndex("JogadorId");
 
-                    b.ToTable("SolicitacoesClubes");
+                    b.ToTable("SolicitacoesClubes", (string)null);
 
                     b.HasData(
                         new

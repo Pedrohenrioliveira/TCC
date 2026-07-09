@@ -64,6 +64,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/players/pages/player-profile-edit/player-profile-edit.component').then(m => m.PlayerProfileEditComponent)
       },
       {
+        path: 'available-clubs',
+        loadComponent: () => import('./features/players/pages/available-clubs/available-clubs.component').then(m => m.AvailableClubsComponent)
+      },
+      {
         path: 'club-requests',
         loadComponent: () => import('./features/club-requests/pages/request-list/request-list.component').then(m => m.RequestListComponent)
       },

@@ -32,6 +32,10 @@ export class ClubProfileService {
     return this.http.get<ApiResponse<ClubDetails>>(`${this.apiUrl}/${id}`);
   }
 
+  getAllClubs(): Observable<ApiResponse<ClubDetails[]>> {
+    return this.http.get<ApiResponse<ClubDetails[]>>(this.apiUrl);
+  }
+
   updateProfile(id: string, data: any): Observable<ApiResponse<any>> {
     return this.http.put<ApiResponse<any>>(`${this.apiUrl}/${id}`, data);
   }
