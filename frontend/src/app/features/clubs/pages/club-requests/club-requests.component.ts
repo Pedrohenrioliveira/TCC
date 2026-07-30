@@ -44,11 +44,12 @@ export class ClubRequestsComponent implements OnInit {
     this.loading = true;
     this.error = null;
     
-    // Para facilitar o teste sem tela de login, lemos o último clube que o jogador solicitou entrada.
-    // Se não houver, tenta o loggedUserId ou usa o ID do "Clube Atlético Teste" de fallback.
-    let clubeId = localStorage.getItem('lastAppliedClubId');
+    // O ID do clube autenticado fica salvo no 'loggedClubId' (não usar lastAppliedClubId pois isso é global)
+    let clubeId = localStorage.getItem('loggedClubId');
+    
     if (!clubeId) {
-       clubeId = localStorage.getItem('loggedUserId') || '11111111-1111-1111-1111-111111111111';
+       // Apenas por fallback para testes
+       clubeId = '11111111-1111-1111-1111-111111111111';
     }
 
     this.requestService.getRequestsForClub(clubeId).subscribe({
