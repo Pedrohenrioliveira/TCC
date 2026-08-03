@@ -1,15 +1,61 @@
 <div class="tournaments-container">
   
-  <h1 class="page-title">Campeonatos</h1>
+  <div class="header-actions">
+    <h1 class="page-title">Campeonatos</h1>
+    <button class="action-btn dark-btn" (click)="toggleForm()">
+      {{ showForm ? 'Voltar para Lista' : '+ Novo Campeonato' }}
+    </button>
+  </div>
 
-  <div class="cards-list">
-    
-    <!-- Card 1 -->
-    <div class="tournament-card light-card">
+  <!-- Form Section -->
+  <div class="form-section light-card" *ngIf="showForm">
+    <h3 class="t-title mb-3">Criar Novo Campeonato</h3>
+    <form [formGroup]="form" (ngSubmit)="criarCampeonato()" class="modern-form">
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nome do Campeonato</label>
+          <input type="text" formControlName="nome" placeholder="Ex: Copa dos Campeões">
+        </div>
+        <div class="form-group">
+          <label>Local (Estádio/Arena)</label>
+          <input type="text" formControlName="local" placeholder="Ex: Arena Sul">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Data de Início</label>
+          <input type="date" formControlName="dataInicio">
+        </div>
+        <div class="form-group">
+          <label>Data de Fim</label>
+          <input type="date" formControlName="dataFim">
+        </div>
+        <div class="form-group">
+          <label>Limite de Equipes</label>
+          <input type="number" formControlName="limiteEquipes" min="2">
+        </div>
+      </div>
+
+      <button type="submit" class="action-btn dark-btn" [disabled]="form.invalid">Salvar Campeonato</button>
+    </form>
+  </div>
+
+  <!-- List Section -->
+  <div class="cards-list" *ngIf="!showForm">
+    <div *ngIf="campeonatos.length === 0" class="empty-state">
+      <p>Nenhum campeonato encontrado.</p>
+    </div>
+
+    <!-- Card -->
+    <div class="tournament-card light-card" *ngFor="let camp of campeonatos">
       <div class="card-top">
         <div class="title-col">
-          <h3 class="t-title">Copa dos Campeões 2024</h3>
-          <span class="status-badge open">Inscrições Abertas</span>
+          <h3 class="t-title">{{ camp.nome }}</h3>
+          <span class="status-badge" [ngClass]="{'open': camp.status === 1, 'warning': camp.status === 2, 'closed': camp.status === 3}">
+            {{ camp.status === 1 ? 'Aberto' : (camp.status === 2 ? 'Em Andamento' : 'Finalizado') }}
+          </span>
         </div>
         <div class="icon-circle">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -23,113 +69,17 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
           </svg>
-          <span>Categoria: Adulto Masculino - Livre</span>
+          <span>Limite: {{ camp.limiteEquipes }} Equipes</span>
         </div>
         <div class="detail-row">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
           </svg>
-          <span>Início: 15 de Outubro, 2024</span>
+          <span>Início: {{ camp.dataInicio | date:'dd/MM/yyyy' }}</span>
         </div>
       </div>
 
-      <button class="action-btn dark-btn">Inscrever Clube</button>
-    </div>
-
-    <!-- Card 2 -->
-    <div class="tournament-card light-card">
-      <div class="card-top">
-        <div class="title-col">
-          <h3 class="t-title">Liga das Estrelas Sub-20</h3>
-          <span class="status-badge open">Inscrições Abertas</span>
-        </div>
-        <div class="icon-circle">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path>
-          </svg>
-        </div>
-      </div>
-
-      <div class="card-details">
-        <div class="detail-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-          </svg>
-          <span>Categoria: Juvenil Sub-20</span>
-        </div>
-        <div class="detail-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
-          <span>Início: 02 de Novembro, 2024</span>
-        </div>
-      </div>
-
-      <button class="action-btn dark-btn">Inscrever Clube</button>
-    </div>
-
-    <!-- Card 3 -->
-    <div class="tournament-card light-card">
-      <div class="card-top">
-        <div class="title-col">
-          <h3 class="t-title">Torneio Relâmpago Verão</h3>
-          <span class="status-badge open">Inscrições Abertas</span>
-        </div>
-        <div class="icon-circle">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-        </div>
-      </div>
-
-      <div class="card-details">
-        <div class="detail-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-          </svg>
-          <span>Categoria: Society Misto</span>
-        </div>
-        <div class="detail-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
-          <span>Início: 20 de Janeiro, 2025</span>
-        </div>
-      </div>
-
-      <button class="action-btn dark-btn">Inscrever Clube</button>
-    </div>
-
-    <!-- Card 4 Highlighted -->
-    <div class="tournament-card dark-card">
-      <div class="card-top">
-        <div class="title-col">
-          <h3 class="t-title">Elite Amadora Regional</h3>
-          <span class="status-badge warning">Últimas Vagas</span>
-        </div>
-        <div class="icon-circle dark-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-          </svg>
-        </div>
-      </div>
-
-      <div class="card-details">
-        <div class="detail-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-          </svg>
-          <span>Categoria: Profissionalizante</span>
-        </div>
-        <div class="detail-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
-          <span>Início: 12 de Dezembro, 2024</span>
-        </div>
-      </div>
-
-      <button class="action-btn light-btn">Inscrever Clube</button>
+      <button class="action-btn dark-btn mt-2" (click)="inscreverClube(camp.id)" *ngIf="camp.status === 1">Inscrever Meu Clube</button>
     </div>
 
   </div>
