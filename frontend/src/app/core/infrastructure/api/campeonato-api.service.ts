@@ -52,4 +52,12 @@ export class CampeonatoApiService {
       headers: { 'Content-Type': 'application/json' }
     });
   }
+
+  obterClassificacao(campeonatoId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${campeonatoId}/classificacao`);
+  }
+
+  obterRodadas(campeonatoId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${campeonatoId}/rodadas`);
+  }
 }

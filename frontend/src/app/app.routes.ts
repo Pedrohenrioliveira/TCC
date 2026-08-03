@@ -29,6 +29,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/clubs/pages/club-tournaments/club-tournaments.component').then(m => m.ClubTournamentsComponent)
       },
       {
+        path: 'tournaments/:id',
+        loadComponent: () => import('./features/clubs/pages/club-tournament-details/club-tournament-details.component').then(m => m.ClubTournamentDetailsComponent)
+      },
+      {
         path: 'profile',
         loadComponent: () => import('./features/clubs/pages/club-profile-edit/club-profile-edit.component').then(m => m.ClubProfileEditComponent)
       },

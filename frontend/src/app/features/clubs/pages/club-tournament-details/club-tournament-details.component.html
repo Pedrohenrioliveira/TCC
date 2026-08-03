@@ -1,0 +1,100 @@
+<div class="tournament-details-container">
+  
+  <div class="header-actions">
+    <button class="back-btn" routerLink="/club/tournaments">← Voltar</button>
+    <h1 class="page-title">Detalhes do Campeonato</h1>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn" [class.active]="viewMode === 'tabela'" (click)="viewMode = 'tabela'">Classificação</button>
+    <button class="tab-btn" [class.active]="viewMode === 'calendario'" (click)="viewMode = 'calendario'">Calendário</button>
+  </div>
+
+  <!-- Tabela de Classificação -->
+  <div class="content-section" *ngIf="viewMode === 'tabela'">
+    <div class="table-card light-card">
+      <table class="standings-table">
+        <thead>
+          <tr>
+            <th>Pos</th>
+            <th class="club-col">Clube</th>
+            <th>P</th>
+            <th>J</th>
+            <th>V</th>
+            <th>E</th>
+            <th>D</th>
+            <th>GP</th>
+            <th>GC</th>
+            <th>SG</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of classificacao; let i = index">
+            <td class="pos-col"><strong>{{ i + 1 }}</strong></td>
+            <td class="club-col">{{ row.nomeClube }}</td>
+            <td><strong>{{ row.pontos }}</strong></td>
+            <td>{{ row.partidasJogadas }}</td>
+            <td>{{ row.vitorias }}</td>
+            <td>{{ row.empates }}</td>
+            <td>{{ row.derrotas }}</td>
+            <td>{{ row.golsPro }}</td>
+            <td>{{ row.golsContra }}</td>
+            <td>{{ row.saldoGols }}</td>
+          </tr>
+          <tr *ngIf="classificacao.length === 0">
+            <td colspan="10" class="empty-state">Tabela ainda não iniciada.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Calendário de Partidas -->
+  <div class="content-section" *ngIf="viewMode === 'calendario'">
+    <div *ngFor="let rodada of rodadas" class="round-card light-card mb-4">
+      <h3 class="round-title">Rodada {{ rodada.numero }}</h3>
+      
+      <div class="matches-list">
+        <div class="match-item" *ngFor="let partida of rodada.partidas">
+          
+          <div class="match-date-loc">
+            <span>{{ partida.dataHora | date:'dd/MM/yy HH:mm' }}</span>
+            <span>📍 {{ partida.local }}</span>
+          </div>
+
+          <div class="match-teams">
+            <div class="team-name text-right">{{ partida.nomeMandante }}</div>
+            <div class="score-box" *ngIf="partida.status === 3; else pendenteScore">
+              <span>{{ partida.golsMandante }}</span>
+              <span class="x-divider">x</span>
+              <span>{{ partida.golsVisitante }}</span>
+            </div>
+            <ng-template #pendenteScore>
+              <div class="score-box pendente">
+                vs
+              </div>
+            </ng-template>
+            <div class="team-name">{{ partida.nomeVisitante }}</div>
+          </div>
+
+          <div class="match-actions">
+            <button class="action-btn dark-btn btn-sm" (click)="lancarPlacar(partida.id)" *ngIf="partida.status !== 3">
+              Lançar Placar
+            </button>
+            <span class="status-badge closed" *ngIf="partida.status === 3">Finalizada</span>
+          </div>
+
+        </div>
+        
+        <div *ngIf="rodada.partidas.length === 0" class="empty-state">
+          Nenhuma partida agendada.
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="rodadas.length === 0" class="empty-state light-card">
+      O calendário ainda não foi gerado.
+    </div>
+  </div>
+
+</div>

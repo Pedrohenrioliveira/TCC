@@ -79,7 +79,10 @@
         </div>
       </div>
 
-      <button class="action-btn dark-btn mt-2" (click)="inscreverClube(camp.id)" *ngIf="camp.status === 1">Inscrever Meu Clube</button>
+      <div class="card-actions">
+        <button class="action-btn dark-btn mt-2" (click)="inscreverClube(camp.id)" *ngIf="camp.status === 1">Inscrever Meu Clube</button>
+        <button class="action-btn light-btn mt-2" [routerLink]="['/club/tournaments', camp.id]">Ver Detalhes</button>
+      </div>
     </div>
 
   </div>

@@ -1,13 +1,14 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { CampeonatoApiService, CampeonatoDto } from '../../../core/infrastructure/api/campeonato-api.service';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-club-tournaments',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './club-tournaments.component.html',
   styleUrl: './club-tournaments.component.css'
 })
