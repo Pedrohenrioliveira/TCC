@@ -19,6 +19,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Jogador> Jogadores => Set<Jogador>();
     public DbSet<Campeonato> Campeonatos => Set<Campeonato>();
     public DbSet<SolicitacaoClube> SolicitacoesClubes => Set<SolicitacaoClube>();
+    public DbSet<Rodada> Rodadas => Set<Rodada>();
+    public DbSet<Partida> Partidas => Set<Partida>();
+    public DbSet<Classificacao> Classificacoes => Set<Classificacao>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
