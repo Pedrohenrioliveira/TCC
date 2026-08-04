@@ -30,6 +30,10 @@ export interface InscricaoCampeonatoDto {
   caminhoEscudo: string;
   status: number; // 1 = Pendente, 2 = Aprovada, 3 = Rejeitada
   aceitouRegulamento: boolean;
+  nomeResponsavel: string;
+  telefoneResponsavel: string;
+  caminhoDocumentoIdentidade: string;
+  caminhoComprovantePagamento: string;
   dataSolicitacao: string;
 }
 
@@ -57,11 +61,7 @@ export class CampeonatoApiService {
     return this.http.put<any>(`${this.apiUrl}/${id}/status`, status);
   }
 
-  inscreverClube(campeonatoId: string, clubeId: string, aceitouRegulamento: boolean): Observable<any> {
-    const payload = {
-      clubeId: clubeId,
-      aceitouRegulamento: aceitouRegulamento
-    };
+  inscreverClube(campeonatoId: string, payload: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/${campeonatoId}/clubes`, payload);
   }
 

@@ -1,13 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CampeonatoApiService, CampeonatoDto, InscricaoCampeonatoDto } from '../../../../core/infrastructure/api/campeonato-api.service';
 
 @Component({
   selector: 'app-club-tournaments',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule],
   templateUrl: './club-tournaments.component.html',
   styleUrl: './club-tournaments.component.css'
 })
@@ -34,6 +34,10 @@ export class ClubTournamentsComponent implements OnInit {
   showInscricaoModal = false;
   campeonatoAlvoInscricao: CampeonatoDto | null = null;
   aceitouRegulamento = false;
+  nomeResponsavel = '';
+  telefoneResponsavel = '';
+  base64DocumentoIdentidade = '';
+  base64ComprovantePagamento = '';
 
   constructor() {
     this.form = this.fb.group({
@@ -154,6 +158,10 @@ export class ClubTournamentsComponent implements OnInit {
   abrirModalInscricao(camp: CampeonatoDto) {
     this.campeonatoAlvoInscricao = camp;
     this.aceitouRegulamento = false;
+    this.nomeResponsavel = '';
+    this.telefoneResponsavel = '';
+    this.base64DocumentoIdentidade = '';
+    this.base64ComprovantePagamento = '';
     this.showInscricaoModal = true;
   }
 
@@ -162,15 +170,49 @@ export class ClubTournamentsComponent implements OnInit {
     this.campeonatoAlvoInscricao = null;
   }
 
+  onFileSelected(event: any, tipo: 'documento' | 'comprovante') {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        if (tipo === 'documento') {
+          this.base64DocumentoIdentidade = e.target.result;
+        } else {
+          this.base64ComprovantePagamento = e.target.result;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   inscreverClube() {
     if (!this.campeonatoAlvoInscricao) return;
     
+    if (!this.nomeResponsavel || !this.telefoneResponsavel) {
+      alert('Preencha o nome e o telefone do responsável.');
+      return;
+    }
+
+    if (!this.base64DocumentoIdentidade || !this.base64ComprovantePagamento) {
+      alert('Anexe a imagem do documento e o comprovante de pagamento.');
+      return;
+    }
+
     if (!this.aceitouRegulamento) {
       alert('Você deve aceitar o regulamento para solicitar a inscrição.');
       return;
     }
 
-    this.api.inscreverClube(this.campeonatoAlvoInscricao.id, this.currentClubId, this.aceitouRegulamento).subscribe({
+    const payload = {
+      clubeId: this.currentClubId,
+      aceitouRegulamento: this.aceitouRegulamento,
+      nomeResponsavel: this.nomeResponsavel,
+      telefoneResponsavel: this.telefoneResponsavel,
+      base64DocumentoIdentidade: this.base64DocumentoIdentidade,
+      base64ComprovantePagamento: this.base64ComprovantePagamento
+    };
+
+    this.api.inscreverClube(this.campeonatoAlvoInscricao.id, payload).subscribe({
       next: (res: any) => {
         if (res.ok) {
           alert('Solicitação de inscrição enviada com sucesso! Aguarde a aprovação.');

@@ -25,6 +25,10 @@ export class ClubTournamentDetailsComponent implements OnInit {
   isAdmin = false;
   
   viewMode: 'tabela' | 'calendario' | 'inscricoes' = 'tabela';
+  
+  // Modal de Análise
+  showAnaliseModal = false;
+  inscricaoEmAnalise: InscricaoCampeonatoDto | null = null;
 
   ngOnInit(): void {
     this.campeonatoId = this.route.snapshot.paramMap.get('id') || '';
@@ -71,6 +75,16 @@ export class ClubTournamentDetailsComponent implements OnInit {
     });
   }
 
+  abrirModalAnalise(inscricao: InscricaoCampeonatoDto) {
+    this.inscricaoEmAnalise = inscricao;
+    this.showAnaliseModal = true;
+  }
+
+  fecharModalAnalise() {
+    this.showAnaliseModal = false;
+    this.inscricaoEmAnalise = null;
+  }
+
   processarInscricao(inscricaoId: string, aprovar: boolean) {
     const acao = aprovar ? 'aprovar' : 'rejeitar';
     if (!confirm(`Tem certeza que deseja ${acao} esta inscrição?`)) return;
@@ -80,6 +94,7 @@ export class ClubTournamentDetailsComponent implements OnInit {
         if (res.ok) {
           alert(res.mensagem);
           this.carregarInscricoes();
+          this.fecharModalAnalise();
           if (aprovar) {
             this.carregarClassificacao();
           }
@@ -89,6 +104,12 @@ export class ClubTournamentDetailsComponent implements OnInit {
       },
       error: (err: any) => console.error(err)
     });
+  }
+
+  // Helper para montar url de imagem
+  getFullImageUrl(path: string): string {
+    if (!path) return '';
+    return `http://localhost:5000${path}`;
   }
 
   // Method to launch a score (Lançamento de Placar)

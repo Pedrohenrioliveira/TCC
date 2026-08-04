@@ -115,6 +115,123 @@
           <tr *ngFor="let inscricao of inscricoes">
             <td>{{ inscricao.dataSolicitacao | date:'dd/MM/yyyy HH:mm' }}</td>
             <td><strong>{{ inscricao.nomeClube }}</strong></td>
+<div class="tournament-details-container">
+  
+  <div class="header-actions">
+    <button class="back-btn" [routerLink]="isAdmin ? '/admin/tournaments' : '/club/tournaments'">← Voltar</button>
+    <h1 class="page-title">Detalhes do Campeonato</h1>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn" [class.active]="viewMode === 'tabela'" (click)="viewMode = 'tabela'">Classificação</button>
+    <button class="tab-btn" [class.active]="viewMode === 'calendario'" (click)="viewMode = 'calendario'">Calendário</button>
+    <button class="tab-btn" *ngIf="isAdmin" [class.active]="viewMode === 'inscricoes'" (click)="viewMode = 'inscricoes'">Inscrições Pendentes</button>
+  </div>
+
+  <!-- Tabela de Classificação -->
+  <div class="content-section" *ngIf="viewMode === 'tabela'">
+    <div class="table-card light-card">
+      <table class="standings-table">
+        <thead>
+          <tr>
+            <th>Pos</th>
+            <th class="club-col">Clube</th>
+            <th>P</th>
+            <th>J</th>
+            <th>V</th>
+            <th>E</th>
+            <th>D</th>
+            <th>GP</th>
+            <th>GC</th>
+            <th>SG</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of classificacao; let i = index">
+            <td class="pos-col"><strong>{{ i + 1 }}</strong></td>
+            <td class="club-col">{{ row.nomeClube }}</td>
+            <td><strong>{{ row.pontos }}</strong></td>
+            <td>{{ row.partidasJogadas }}</td>
+            <td>{{ row.vitorias }}</td>
+            <td>{{ row.empates }}</td>
+            <td>{{ row.derrotas }}</td>
+            <td>{{ row.golsPro }}</td>
+            <td>{{ row.golsContra }}</td>
+            <td>{{ row.saldoGols }}</td>
+          </tr>
+          <tr *ngIf="classificacao.length === 0">
+            <td colspan="10" class="empty-state">Tabela ainda não iniciada.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Calendário de Partidas -->
+  <div class="content-section" *ngIf="viewMode === 'calendario'">
+    <div *ngFor="let rodada of rodadas" class="round-card light-card mb-4">
+      <h3 class="round-title">Rodada {{ rodada.numero }}</h3>
+      
+      <div class="matches-list">
+        <div class="match-item" *ngFor="let partida of rodada.partidas">
+          
+          <div class="match-date-loc">
+            <span>{{ partida.dataHora | date:'dd/MM/yy HH:mm' }}</span>
+            <span>📍 {{ partida.local }}</span>
+          </div>
+
+          <div class="match-teams">
+            <div class="team-name text-right">{{ partida.nomeMandante }}</div>
+            <div class="score-box" *ngIf="partida.status === 3; else pendenteScore">
+              <span>{{ partida.golsMandante }}</span>
+              <span class="x-divider">x</span>
+              <span>{{ partida.golsVisitante }}</span>
+            </div>
+            <ng-template #pendenteScore>
+              <div class="score-box pendente">
+                vs
+              </div>
+            </ng-template>
+            <div class="team-name">{{ partida.nomeVisitante }}</div>
+          </div>
+
+          <div class="match-actions" *ngIf="isAdmin">
+            <button class="action-btn dark-btn btn-sm" (click)="lancarPlacar(partida.id)" *ngIf="partida.status !== 3">
+              Lançar Placar
+            </button>
+            <span class="status-badge closed" *ngIf="partida.status === 3">Finalizada</span>
+          </div>
+
+        </div>
+        
+        <div *ngIf="rodada.partidas.length === 0" class="empty-state">
+          Nenhuma partida agendada.
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="rodadas.length === 0" class="empty-state light-card">
+      O calendário ainda não foi gerado.
+    </div>
+  </div>
+
+  <!-- Inscrições Pendentes (Admin) -->
+  <div class="content-section" *ngIf="viewMode === 'inscricoes'">
+    <div class="table-card light-card">
+      <table class="standings-table">
+        <thead>
+          <tr>
+            <th>Data Solicitação</th>
+            <th>Clube</th>
+            <th>Aceitou Termos</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let inscricao of inscricoes">
+            <td>{{ inscricao.dataSolicitacao | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td><strong>{{ inscricao.nomeClube }}</strong></td>
             <td>{{ inscricao.aceitouRegulamento ? 'Sim ✅' : 'Não ❌' }}</td>
             <td>
               <span class="status-badge" [ngClass]="{'warning': inscricao.status === 1, 'success': inscricao.status === 2, 'closed': inscricao.status === 3}">
@@ -123,8 +240,7 @@
             </td>
             <td>
               <div class="admin-actions" style="display: flex; gap: 8px;" *ngIf="inscricao.status === 1">
-                <button class="action-btn success-btn btn-sm" style="background-color: #28a745; color: white; padding: 4px 8px;" (click)="processarInscricao(inscricao.id, true)">Aprovar</button>
-                <button class="action-btn danger-btn btn-sm" style="background-color: #dc3545; color: white; padding: 4px 8px;" (click)="processarInscricao(inscricao.id, false)">Rejeitar</button>
+                <button class="action-btn dark-btn btn-sm" (click)="abrirModalAnalise(inscricao)">🔍 Analisar Dados</button>
               </div>
             </td>
           </tr>
@@ -133,6 +249,65 @@
           </tr>
         </tbody>
       </table>
+    </div>
+  </div>
+
+  <!-- Modal de Análise de Dados da Inscrição -->
+  <div class="modal-backdrop" *ngIf="showAnaliseModal && inscricaoEmAnalise">
+    <div class="modal-content light-card" style="max-width: 600px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-3">
+        <h3 class="t-title">Análise de Inscrição</h3>
+        <button class="action-btn light-btn btn-sm" (click)="fecharModalAnalise()">X</button>
+      </div>
+
+      <div class="club-header mb-4" style="display: flex; align-items: center; gap: 15px;">
+        <img [src]="getFullImageUrl(inscricaoEmAnalise.caminhoEscudo)" alt="Escudo" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+        <div>
+          <h4 style="margin: 0; font-size: 1.2rem;">{{ inscricaoEmAnalise.nomeClube }}</h4>
+          <span style="font-size: 0.9rem; color: #666;">Data da solicitação: {{ inscricaoEmAnalise.dataSolicitacao | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+      </div>
+
+      <div class="info-grid mb-4" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: #f8f9fa; padding: 15px; border-radius: 8px;">
+        <div>
+          <label style="font-size: 0.8rem; color: #666; display: block; margin-bottom: 4px;">Nome do Responsável</label>
+          <strong>{{ inscricaoEmAnalise.nomeResponsavel || 'Não informado' }}</strong>
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: #666; display: block; margin-bottom: 4px;">Telefone / WhatsApp</label>
+          <strong>{{ inscricaoEmAnalise.telefoneResponsavel || 'Não informado' }}</strong>
+        </div>
+        <div>
+          <label style="font-size: 0.8rem; color: #666; display: block; margin-bottom: 4px;">Termo e Regulamento</label>
+          <strong>{{ inscricaoEmAnalise.aceitouRegulamento ? 'Aceito ✅' : 'Não Aceito ❌' }}</strong>
+        </div>
+      </div>
+
+      <div class="docs-grid mb-4" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div class="doc-box">
+          <label style="font-weight: 500; margin-bottom: 8px; display: block;">Documento de Identidade</label>
+          <div *ngIf="!inscricaoEmAnalise.caminhoDocumentoIdentidade" style="padding: 20px; background: #eee; text-align: center; border-radius: 8px; color: #888;">
+            Nenhum anexo
+          </div>
+          <a *ngIf="inscricaoEmAnalise.caminhoDocumentoIdentidade" [href]="getFullImageUrl(inscricaoEmAnalise.caminhoDocumentoIdentidade)" target="_blank">
+            <img [src]="getFullImageUrl(inscricaoEmAnalise.caminhoDocumentoIdentidade)" alt="Identidade" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
+          </a>
+        </div>
+        <div class="doc-box">
+          <label style="font-weight: 500; margin-bottom: 8px; display: block;">Comprovante de Pagamento</label>
+          <div *ngIf="!inscricaoEmAnalise.caminhoComprovantePagamento" style="padding: 20px; background: #eee; text-align: center; border-radius: 8px; color: #888;">
+            Nenhum anexo
+          </div>
+          <a *ngIf="inscricaoEmAnalise.caminhoComprovantePagamento" [href]="getFullImageUrl(inscricaoEmAnalise.caminhoComprovantePagamento)" target="_blank">
+            <img [src]="getFullImageUrl(inscricaoEmAnalise.caminhoComprovantePagamento)" alt="Comprovante" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
+          </a>
+        </div>
+      </div>
+
+      <div class="modal-actions" style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+        <button class="action-btn danger-btn" style="background-color: #dc3545; color: white;" (click)="processarInscricao(inscricaoEmAnalise.id, false)">Rejeitar Inscrição</button>
+        <button class="action-btn success-btn" style="background-color: #28a745; color: white;" (click)="processarInscricao(inscricaoEmAnalise.id, true)">Aprovar Inscrição</button>
+      </div>
     </div>
   </div>
 
