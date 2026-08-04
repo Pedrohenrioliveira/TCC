@@ -1,13 +1,14 @@
 <div class="tournament-details-container">
   
   <div class="header-actions">
-    <button class="back-btn" routerLink="/club/tournaments">← Voltar</button>
+    <button class="back-btn" [routerLink]="isAdmin ? '/admin/tournaments' : '/club/tournaments'">← Voltar</button>
     <h1 class="page-title">Detalhes do Campeonato</h1>
   </div>
 
   <div class="tabs">
     <button class="tab-btn" [class.active]="viewMode === 'tabela'" (click)="viewMode = 'tabela'">Classificação</button>
     <button class="tab-btn" [class.active]="viewMode === 'calendario'" (click)="viewMode = 'calendario'">Calendário</button>
+    <button class="tab-btn" *ngIf="isAdmin" [class.active]="viewMode === 'inscricoes'" (click)="viewMode = 'inscricoes'">Inscrições Pendentes</button>
   </div>
 
   <!-- Tabela de Classificação -->
@@ -77,7 +78,7 @@
             <div class="team-name">{{ partida.nomeVisitante }}</div>
           </div>
 
-          <div class="match-actions">
+          <div class="match-actions" *ngIf="isAdmin">
             <button class="action-btn dark-btn btn-sm" (click)="lancarPlacar(partida.id)" *ngIf="partida.status !== 3">
               Lançar Placar
             </button>
@@ -94,6 +95,44 @@
     
     <div *ngIf="rodadas.length === 0" class="empty-state light-card">
       O calendário ainda não foi gerado.
+    </div>
+  </div>
+
+  <!-- Inscrições Pendentes (Admin) -->
+  <div class="content-section" *ngIf="viewMode === 'inscricoes'">
+    <div class="table-card light-card">
+      <table class="standings-table">
+        <thead>
+          <tr>
+            <th>Data Solicitação</th>
+            <th>Clube</th>
+            <th>Aceitou Termos</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let inscricao of inscricoes">
+            <td>{{ inscricao.dataSolicitacao | date:'dd/MM/yyyy HH:mm' }}</td>
+            <td><strong>{{ inscricao.nomeClube }}</strong></td>
+            <td>{{ inscricao.aceitouRegulamento ? 'Sim ✅' : 'Não ❌' }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="{'warning': inscricao.status === 1, 'success': inscricao.status === 2, 'closed': inscricao.status === 3}">
+                {{ inscricao.status === 1 ? 'Pendente' : (inscricao.status === 2 ? 'Aprovada' : 'Rejeitada') }}
+              </span>
+            </td>
+            <td>
+              <div class="admin-actions" style="display: flex; gap: 8px;" *ngIf="inscricao.status === 1">
+                <button class="action-btn success-btn btn-sm" style="background-color: #28a745; color: white; padding: 4px 8px;" (click)="processarInscricao(inscricao.id, true)">Aprovar</button>
+                <button class="action-btn danger-btn btn-sm" style="background-color: #dc3545; color: white; padding: 4px 8px;" (click)="processarInscricao(inscricao.id, false)">Rejeitar</button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="inscricoes.length === 0">
+            <td colspan="5" class="empty-state">Nenhuma inscrição encontrada.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 

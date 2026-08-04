@@ -1,9 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { CampeonatoApiService } from '../../../../core/infrastructure/api/campeonato-api.service';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { CampeonatoApiService, InscricaoCampeonatoDto } from '../../../../core/infrastructure/api/campeonato-api.service';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../../environments/environment';
+
 
 @Component({
   selector: 'app-club-tournament-details',
@@ -14,42 +14,80 @@ import { environment } from '../../../../../environments/environment';
 })
 export class ClubTournamentDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private api = inject(CampeonatoApiService);
   private http = inject(HttpClient); // To call Partidas API directly if needed
 
   campeonatoId: string = '';
   classificacao: any[] = [];
   rodadas: any[] = [];
+  inscricoes: InscricaoCampeonatoDto[] = [];
+  isAdmin = false;
   
-  viewMode: 'tabela' | 'calendario' = 'tabela';
+  viewMode: 'tabela' | 'calendario' | 'inscricoes' = 'tabela';
 
   ngOnInit(): void {
     this.campeonatoId = this.route.snapshot.paramMap.get('id') || '';
+    this.isAdmin = this.router.url.includes('/admin');
     if (this.campeonatoId) {
       this.carregarClassificacao();
       this.carregarRodadas();
+      if (this.isAdmin) {
+        this.carregarInscricoes();
+      }
     }
   }
 
   carregarClassificacao() {
     this.api.obterClassificacao(this.campeonatoId).subscribe({
-      next: (res) => {
-        if (res.deuCerto) {
+      next: (res: any) => {
+        if (res.ok) {
           this.classificacao = res.dados;
         }
       },
-      error: (err) => console.error(err)
+      error: (err: any) => console.error(err)
     });
   }
 
   carregarRodadas() {
     this.api.obterRodadas(this.campeonatoId).subscribe({
-      next: (res) => {
-        if (res.deuCerto) {
+      next: (res: any) => {
+        if (res.ok) {
           this.rodadas = res.dados;
         }
       },
-      error: (err) => console.error(err)
+      error: (err: any) => console.error(err)
+    });
+  }
+
+  carregarInscricoes() {
+    this.api.obterInscricoesCampeonato(this.campeonatoId).subscribe({
+      next: (res: any) => {
+        if (res.ok) {
+          this.inscricoes = res.dados;
+        }
+      },
+      error: (err: any) => console.error(err)
+    });
+  }
+
+  processarInscricao(inscricaoId: string, aprovar: boolean) {
+    const acao = aprovar ? 'aprovar' : 'rejeitar';
+    if (!confirm(`Tem certeza que deseja ${acao} esta inscrição?`)) return;
+
+    this.api.processarInscricao(inscricaoId, aprovar).subscribe({
+      next: (res: any) => {
+        if (res.ok) {
+          alert(res.mensagem);
+          this.carregarInscricoes();
+          if (aprovar) {
+            this.carregarClassificacao();
+          }
+        } else {
+          alert('Erro: ' + res.mensagem);
+        }
+      },
+      error: (err: any) => console.error(err)
     });
   }
 
@@ -67,12 +105,12 @@ export class ClubTournamentDetailsComponent implements OnInit {
       return;
     }
 
-    this.http.put<any>(`${environment.apiUrl}/Partidas/${partidaId}/placar`, {
+    this.http.put<any>(`http://localhost:5000/api/Partidas/${partidaId}/placar`, {
       golsMandante: golsMandante,
       golsVisitante: golsVisitante
     }).subscribe({
-      next: (res) => {
-        if (res.deuCerto) {
+      next: (res: any) => {
+        if (res.ok) {
           alert('Placar atualizado!');
           this.carregarClassificacao(); // Reload table
           this.carregarRodadas(); // Reload matches
@@ -80,7 +118,7 @@ export class ClubTournamentDetailsComponent implements OnInit {
           alert('Erro: ' + res.mensagem);
         }
       },
-      error: (err) => {
+      error: (err: any) => {
         alert('Erro de comunicação.');
         console.error(err);
       }

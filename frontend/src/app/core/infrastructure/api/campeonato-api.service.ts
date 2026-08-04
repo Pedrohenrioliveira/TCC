@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../environments/environment';
 
 export interface CampeonatoDto {
   id: string;
@@ -9,9 +8,9 @@ export interface CampeonatoDto {
   local: string;
   dataInicio: string;
   dataFim: string;
-  status: number;
   limiteEquipes: number;
   caminhoLogo: string;
+  status: number;
 }
 
 export interface CriarCampeonatoRequest {
@@ -23,11 +22,22 @@ export interface CriarCampeonatoRequest {
   caminhoLogo: string;
 }
 
+export interface InscricaoCampeonatoDto {
+  id: string;
+  campeonatoId: string;
+  clubeId: string;
+  nomeClube: string;
+  caminhoEscudo: string;
+  status: number; // 1 = Pendente, 2 = Aprovada, 3 = Rejeitada
+  aceitouRegulamento: boolean;
+  dataSolicitacao: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class CampeonatoApiService {
-  private apiUrl = `${environment.apiUrl}/Campeonatos`;
+  private apiUrl = `http://localhost:5000/api/Campeonatos`;
 
   constructor(private http: HttpClient) {}
 
@@ -47,10 +57,25 @@ export class CampeonatoApiService {
     return this.http.put<any>(`${this.apiUrl}/${id}/status`, status);
   }
 
-  inscreverClube(campeonatoId: string, clubeId: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/${campeonatoId}/clubes`, `"${clubeId}"`, {
-      headers: { 'Content-Type': 'application/json' }
-    });
+  inscreverClube(campeonatoId: string, clubeId: string, aceitouRegulamento: boolean): Observable<any> {
+    const payload = {
+      clubeId: clubeId,
+      aceitouRegulamento: aceitouRegulamento
+    };
+    return this.http.post<any>(`${this.apiUrl}/${campeonatoId}/clubes`, payload);
+  }
+
+  obterInscricoesCampeonato(campeonatoId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${campeonatoId}/inscricoes`);
+  }
+
+  obterMinhasInscricoes(clubeId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/minhas-inscricoes/${clubeId}`);
+  }
+
+  processarInscricao(inscricaoId: string, aprovar: boolean): Observable<any> {
+    const payload = { aprovar };
+    return this.http.put<any>(`${this.apiUrl}/inscricoes/${inscricaoId}/processar`, payload);
   }
 
   obterClassificacao(campeonatoId: string): Observable<any> {
@@ -59,5 +84,13 @@ export class CampeonatoApiService {
 
   obterRodadas(campeonatoId: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${campeonatoId}/rodadas`);
+  }
+
+  editarCampeonato(id: string, request: CriarCampeonatoRequest): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, request);
+  }
+
+  excluirCampeonato(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 }

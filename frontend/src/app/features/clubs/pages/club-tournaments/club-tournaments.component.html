@@ -2,7 +2,7 @@
   
   <div class="header-actions">
     <h1 class="page-title">Campeonatos</h1>
-    <button class="action-btn dark-btn" (click)="toggleForm()">
+    <button class="action-btn dark-btn" (click)="toggleForm()" *ngIf="isAdmin">
       {{ showForm ? 'Voltar para Lista' : '+ Novo Campeonato' }}
     </button>
   </div>
@@ -80,10 +80,61 @@
       </div>
 
       <div class="card-actions">
-        <button class="action-btn dark-btn mt-2" (click)="inscreverClube(camp.id)" *ngIf="camp.status === 1">Inscrever Meu Clube</button>
-        <button class="action-btn light-btn mt-2" [routerLink]="['/club/tournaments', camp.id]">Ver Detalhes</button>
+        <!-- Badge and enrollment flow for Clubs -->
+        <ng-container *ngIf="!isAdmin">
+          <button class="action-btn dark-btn mt-2" (click)="abrirModalInscricao(camp)" *ngIf="camp.status === 1 && getInscricaoStatus(camp.id) === null">
+            Inscrever Meu Clube
+          </button>
+          
+          <div class="status-badge-container mt-2" *ngIf="getInscricaoStatus(camp.id) === 1">
+            <span class="status-badge warning" style="display: block; text-align: center;">⏳ Aguardando Aprovação</span>
+          </div>
+
+          <div class="status-badge-container mt-2" *ngIf="getInscricaoStatus(camp.id) === 2">
+            <span class="status-badge success" style="display: block; text-align: center; background-color: #28a745; color: white;">✅ Inscrito</span>
+          </div>
+
+          <div class="status-badge-container mt-2" *ngIf="getInscricaoStatus(camp.id) === 3">
+            <span class="status-badge closed" style="display: block; text-align: center; background-color: #dc3545;">❌ Inscrição Rejeitada</span>
+          </div>
+        </ng-container>
+        
+        <!-- O admin pode editar e excluir -->
+        <div class="admin-actions mt-2" *ngIf="isAdmin">
+          <button class="action-btn outline-btn" (click)="prepararEdicao(camp)">✏️ Editar</button>
+          <button class="action-btn danger-btn" (click)="excluirCampeonato(camp.id)">🗑️ Excluir</button>
+        </div>
+
+        <button class="action-btn light-btn mt-2" [routerLink]="isAdmin ? ['/admin/tournaments', camp.id] : ['/club/tournaments', camp.id]">Ver Detalhes</button>
       </div>
     </div>
 
+  </div>
+
+  <!-- Modal de Solicitação de Inscrição -->
+  <div class="modal-backdrop" *ngIf="showInscricaoModal">
+    <div class="modal-content light-card">
+      <h3 class="t-title mb-3">Solicitação de Inscrição</h3>
+      <p class="mb-3">Você está solicitando inscrição para o campeonato: <strong>{{ campeonatoAlvoInscricao?.nome }}</strong>.</p>
+      
+      <div class="terms-container mb-4" style="background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #ddd; max-height: 150px; overflow-y: auto; font-size: 0.9rem;">
+        <h4>Regulamento Geral e Termo de Responsabilidade</h4>
+        <p>1. O clube concorda com todas as regras estabelecidas pela organização do torneio.</p>
+        <p>2. O clube atesta e se responsabiliza pelas plenas condições de saúde física e mental de todos os atletas inscritos para a prática de esportes de alto rendimento.</p>
+        <p>3. A inscrição está sujeita à aprovação da liga organizadora.</p>
+      </div>
+
+      <div class="form-group checkbox-group" style="display: flex; align-items: flex-start; gap: 10px;">
+        <input type="checkbox" id="aceiteRegulamento" [(ngModel)]="aceitouRegulamento" style="margin-top: 4px;">
+        <label for="aceiteRegulamento" style="font-weight: 500;">
+          Declaro ter lido e aceito o Regulamento do Campeonato e assumo responsabilidade pelas condições de saúde dos atletas vinculados.
+        </label>
+      </div>
+
+      <div class="modal-actions mt-4" style="display: flex; gap: 10px; justify-content: flex-end;">
+        <button class="action-btn light-btn" (click)="fecharModalInscricao()">Cancelar</button>
+        <button class="action-btn dark-btn" (click)="inscreverClube()" [disabled]="!aceitouRegulamento">Enviar Solicitação</button>
+      </div>
+    </div>
   </div>
 </div>

@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { PlayerLayoutComponent } from './core/layout/player-layout/player-layout.component';
 
 import { ClubLayoutComponent } from './core/layout/club-layout/club-layout.component';
+import { AdminLayoutComponent } from './core/layout/admin-layout/admin-layout.component';
 
 export const routes: Routes = [
   {
@@ -78,6 +79,25 @@ export const routes: Routes = [
       {
         path: '',
         redirectTo: 'home',
+        pathMatch: 'full'
+      }
+    ]
+  },
+  {
+    path: 'admin',
+    component: AdminLayoutComponent,
+    children: [
+      {
+        path: 'tournaments',
+        loadComponent: () => import('./features/clubs/pages/club-tournaments/club-tournaments.component').then(m => m.ClubTournamentsComponent)
+      },
+      {
+        path: 'tournaments/:id',
+        loadComponent: () => import('./features/clubs/pages/club-tournament-details/club-tournament-details.component').then(m => m.ClubTournamentDetailsComponent)
+      },
+      {
+        path: '',
+        redirectTo: 'tournaments',
         pathMatch: 'full'
       }
     ]
