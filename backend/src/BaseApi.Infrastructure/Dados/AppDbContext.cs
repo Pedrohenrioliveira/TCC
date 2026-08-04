@@ -1,3 +1,4 @@
+using BaseApi.Application.Comum.Interfaces;
 using BaseApi.Domain.Entidades;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +12,7 @@ namespace BaseApi.Infrastructure.Dados;
 /// Para criar uma nova migration após alterar entidades:
 ///   dotnet ef migrations add NomeDaMigration --project src/BaseApi.Infrastructure --startup-project src/BaseApi.API
 /// </summary>
-public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options), IAppDbContext
 {
     public DbSet<Usuario> Usuarios => Set<Usuario>();
     public DbSet<Perfil> Perfis => Set<Perfil>();
@@ -22,6 +23,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Rodada> Rodadas => Set<Rodada>();
     public DbSet<Partida> Partidas => Set<Partida>();
     public DbSet<Classificacao> Classificacoes => Set<Classificacao>();
+    public DbSet<InscricaoCampeonato> InscricoesCampeonatos => Set<InscricaoCampeonato>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

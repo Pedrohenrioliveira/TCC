@@ -18,7 +18,7 @@ public class RodadasController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> Criar([FromBody] CriarRodadaCommand command, CancellationToken ct)
     {
         var resultado = await mediator.Send(command, ct);
-        if (!resultado.DeuCerto)
+        if (!resultado.Ok)
             return BadRequest(resultado);
             
         return Ok(resultado);

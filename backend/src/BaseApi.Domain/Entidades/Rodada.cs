@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace BaseApi.Domain.Entidades;
 
@@ -17,4 +18,6 @@ public class Rodada
     
     public DateTime CriadoEm { get; set; } = DateTime.UtcNow;
     public DateTime AtualizadoEm { get; set; } = DateTime.UtcNow;
+
+    public ICollection<Partida> Partidas { get; set; } = new List<Partida>();
 }

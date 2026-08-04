@@ -4,10 +4,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using BaseApi.Application.Campeonatos.Commands.AtualizarStatusCampeonato;
 using BaseApi.Application.Campeonatos.Commands.CriarCampeonato;
+using BaseApi.Application.Campeonatos.Commands.EditarCampeonato;
+using BaseApi.Application.Campeonatos.Commands.ExcluirCampeonato;
 using BaseApi.Application.Campeonatos.Commands.InscreverClubeCampeonato;
 using BaseApi.Application.Campeonatos.Queries.ListarCampeonatos;
 using BaseApi.Application.Campeonatos.Queries.ObterClassificacao;
+using BaseApi.Application.Campeonatos.Queries.ObterInscricoesCampeonato;
+using BaseApi.Application.Campeonatos.Queries.ObterMinhasInscricoes;
 using BaseApi.Application.Campeonatos.Queries.ObterRodadasCampeonato;
+using BaseApi.Application.Campeonatos.Commands.ProcessarInscricaoCampeonato;
 using BaseApi.Application.Comum.Modelos;
 using BaseApi.Domain.Entidades;
 using MediatR;
@@ -34,7 +39,7 @@ public class CampeonatosController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> Criar([FromBody] CriarCampeonatoCommand command, CancellationToken ct)
     {
         var resultado = await mediator.Send(command, ct);
-        if (!resultado.DeuCerto)
+        if (!resultado.Ok)
             return BadRequest(resultado);
             
         return Ok(resultado);
@@ -46,7 +51,7 @@ public class CampeonatosController(IMediator mediator) : ControllerBase
     {
         var command = new AtualizarStatusCampeonatoCommand { CampeonatoId = id, NovoStatus = novoStatus };
         var resultado = await mediator.Send(command, ct);
-        if (!resultado.DeuCerto)
+        if (!resultado.Ok)
             return BadRequest(resultado);
             
         return Ok(resultado);
@@ -54,11 +59,41 @@ public class CampeonatosController(IMediator mediator) : ControllerBase
 
     [HttpPost("{id}/clubes")]
     [ProducesResponseType(typeof(RespostaApi<bool>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> InscreverClube(Guid id, [FromBody] Guid clubeId, CancellationToken ct)
+    public async Task<IActionResult> InscreverClube(Guid id, [FromBody] InscreverClubeCampeonatoCommand command, CancellationToken ct)
     {
-        var command = new InscreverClubeCampeonatoCommand { CampeonatoId = id, ClubeId = clubeId };
+        command.CampeonatoId = id;
         var resultado = await mediator.Send(command, ct);
-        if (!resultado.DeuCerto)
+        if (!resultado.Ok)
+            return BadRequest(resultado);
+            
+        return Ok(resultado);
+    }
+
+    [HttpGet("{id}/inscricoes")]
+    [ProducesResponseType(typeof(RespostaApi<IEnumerable<InscricaoCampeonatoDto>>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> ObterInscricoes(Guid id, CancellationToken ct)
+    {
+        var query = new ObterInscricoesCampeonatoQuery { CampeonatoId = id };
+        var resultado = await mediator.Send(query, ct);
+        return Ok(resultado);
+    }
+
+    [HttpGet("minhas-inscricoes/{clubeId}")]
+    [ProducesResponseType(typeof(RespostaApi<IEnumerable<InscricaoCampeonatoDto>>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> ObterMinhasInscricoes(Guid clubeId, CancellationToken ct)
+    {
+        var query = new ObterMinhasInscricoesQuery { ClubeId = clubeId };
+        var resultado = await mediator.Send(query, ct);
+        return Ok(resultado);
+    }
+
+    [HttpPut("inscricoes/{inscricaoId}/processar")]
+    [ProducesResponseType(typeof(RespostaApi<bool>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> ProcessarInscricao(Guid inscricaoId, [FromBody] ProcessarInscricaoCampeonatoCommand command, CancellationToken ct)
+    {
+        command.InscricaoId = inscricaoId;
+        var resultado = await mediator.Send(command, ct);
+        if (!resultado.Ok)
             return BadRequest(resultado);
             
         return Ok(resultado);
@@ -80,5 +115,23 @@ public class CampeonatosController(IMediator mediator) : ControllerBase
         var query = new ObterRodadasCampeonatoQuery { CampeonatoId = id };
         var resultado = await mediator.Send(query, ct);
         return Ok(resultado);
+    }
+
+    [HttpPut("{id}")]
+    [ProducesResponseType(typeof(RespostaApi<bool>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Editar(Guid id, [FromBody] EditarCampeonatoCommand command, CancellationToken ct)
+    {
+        command.Id = id;
+        var resultado = await mediator.Send(command, ct);
+        return Ok(RespostaApi<bool>.Sucesso(resultado, "Campeonato atualizado com sucesso"));
+    }
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(typeof(RespostaApi<bool>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> Excluir(Guid id, CancellationToken ct)
+    {
+        var command = new ExcluirCampeonatoCommand { Id = id };
+        var resultado = await mediator.Send(command, ct);
+        return Ok(RespostaApi<bool>.Sucesso(resultado, "Campeonato excluído com sucesso"));
     }
 }

@@ -19,7 +19,7 @@ public class PartidasController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> Agendar([FromBody] AgendarPartidaCommand command, CancellationToken ct)
     {
         var resultado = await mediator.Send(command, ct);
-        if (!resultado.DeuCerto)
+        if (!resultado.Ok)
             return BadRequest(resultado);
             
         return Ok(resultado);
@@ -31,7 +31,7 @@ public class PartidasController(IMediator mediator) : ControllerBase
     {
         command.PartidaId = id;
         var resultado = await mediator.Send(command, ct);
-        if (!resultado.DeuCerto)
+        if (!resultado.Ok)
             return BadRequest(resultado);
             
         return Ok(resultado);

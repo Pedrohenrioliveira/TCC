@@ -14,12 +14,12 @@ namespace BaseApi.Application.Campeonatos.Queries.ObterRodadasCampeonato;
 public class PartidaDto
 {
     public Guid Id { get; set; }
-    public string NomeMandante { get; set; }
-    public string NomeVisitante { get; set; }
-    public int GolsMandante { get; set; }
-    public int GolsVisitante { get; set; }
+    public string NomeMandante { get; set; } = string.Empty;
+    public string NomeVisitante { get; set; } = string.Empty;
+    public int? GolsMandante { get; set; }
+    public int? GolsVisitante { get; set; }
     public DateTime DataHora { get; set; }
-    public string Local { get; set; }
+    public string Local { get; set; } = string.Empty;
     public StatusPartida Status { get; set; }
 }
 
@@ -27,7 +27,7 @@ public class RodadaDto
 {
     public Guid Id { get; set; }
     public int Numero { get; set; }
-    public string Nome { get; set; }
+    public string Nome { get; set; } = string.Empty;
     public List<PartidaDto> Partidas { get; set; } = new();
 }
 

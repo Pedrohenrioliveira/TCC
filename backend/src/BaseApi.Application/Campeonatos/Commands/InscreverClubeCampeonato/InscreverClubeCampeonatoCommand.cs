@@ -13,6 +13,7 @@ public class InscreverClubeCampeonatoCommand : IRequest<RespostaApi<bool>>
 {
     public Guid CampeonatoId { get; set; }
     public Guid ClubeId { get; set; }
+    public bool AceitouRegulamento { get; set; }
 }
 
 public class InscreverClubeCampeonatoCommandHandler(IAppDbContext dbContext) : IRequestHandler<InscreverClubeCampeonatoCommand, RespostaApi<bool>>
@@ -27,29 +28,27 @@ public class InscreverClubeCampeonatoCommandHandler(IAppDbContext dbContext) : I
         if (clube == null)
             return RespostaApi<bool>.Falha("Clube não encontrado.");
 
-        var inscricaoExistente = await dbContext.Classificacoes
-            .AnyAsync(c => c.CampeonatoId == request.CampeonatoId && c.ClubeId == request.ClubeId, cancellationToken);
+        var jaInscritoOuPendente = await dbContext.InscricoesCampeonatos
+            .AnyAsync(i => i.CampeonatoId == request.CampeonatoId && i.ClubeId == request.ClubeId, cancellationToken);
 
-        if (inscricaoExistente)
-            return RespostaApi<bool>.Falha("O clube já está inscrito neste campeonato.");
+        if (jaInscritoOuPendente)
+            return RespostaApi<bool>.Falha("O clube já solicitou inscrição ou está inscrito neste campeonato.");
 
-        // Ao inscrever o clube, inicializamos sua linha na tabela de classificação com zero
-        var novaClassificacao = new Classificacao
+        if (!request.AceitouRegulamento)
+            return RespostaApi<bool>.Falha("O clube deve aceitar o regulamento para solicitar a inscrição.");
+
+        var inscricao = new InscricaoCampeonato
         {
             CampeonatoId = request.CampeonatoId,
             ClubeId = request.ClubeId,
-            Pontos = 0,
-            PartidasJogadas = 0,
-            Vitorias = 0,
-            Empates = 0,
-            Derrotas = 0,
-            GolsPro = 0,
-            GolsContra = 0
+            AceitouRegulamento = request.AceitouRegulamento,
+            Status = StatusInscricao.Pendente,
+            DataSolicitacao = DateTime.UtcNow
         };
 
-        dbContext.Classificacoes.Add(novaClassificacao);
+        dbContext.InscricoesCampeonatos.Add(inscricao);
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return RespostaApi<bool>.Sucesso(true, "Clube inscrito com sucesso e tabela de classificação inicializada.");
+        return RespostaApi<bool>.Sucesso(true, "Solicitação de inscrição enviada com sucesso e aguardando aprovação.");
     }
 }

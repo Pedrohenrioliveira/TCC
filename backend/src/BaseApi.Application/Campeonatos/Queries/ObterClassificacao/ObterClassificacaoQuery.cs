@@ -13,7 +13,7 @@ namespace BaseApi.Application.Campeonatos.Queries.ObterClassificacao;
 public class ClassificacaoDto
 {
     public Guid ClubeId { get; set; }
-    public string NomeClube { get; set; }
+    public string NomeClube { get; set; } = string.Empty;
     public int Pontos { get; set; }
     public int PartidasJogadas { get; set; }
     public int Vitorias { get; set; }

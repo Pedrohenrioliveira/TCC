@@ -26,6 +26,8 @@ public static class DependencyInjection
         services.AddDbContext<AppDbContext>(opt =>
             opt.UseMySql(connectionString, serverVersion));
 
+        services.AddScoped<BaseApi.Application.Comum.Interfaces.IAppDbContext>(provider => provider.GetRequiredService<AppDbContext>());
+
         // Repositórios
         services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
         services.AddScoped<IPerfilRepositorio, PerfilRepositorio>();
