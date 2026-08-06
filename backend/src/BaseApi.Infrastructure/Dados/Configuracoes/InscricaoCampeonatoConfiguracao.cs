@@ -21,5 +21,17 @@ public class InscricaoCampeonatoConfiguracao : IEntityTypeConfiguration<Inscrica
             .WithMany()
             .HasForeignKey(i => i.ClubeId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Property(i => i.NomeResponsavel)
+            .HasMaxLength(200);
+
+        builder.Property(i => i.TelefoneResponsavel)
+            .HasMaxLength(20);
+
+        builder.Property(i => i.CaminhoDocumentoIdentidade)
+            .HasMaxLength(1000);
+
+        builder.Property(i => i.CaminhoComprovantePagamento)
+            .HasMaxLength(1000);
     }
 }

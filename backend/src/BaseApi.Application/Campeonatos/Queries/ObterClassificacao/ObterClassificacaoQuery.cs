@@ -14,6 +14,7 @@ public class ClassificacaoDto
 {
     public Guid ClubeId { get; set; }
     public string NomeClube { get; set; } = string.Empty;
+    public string CaminhoEscudo { get; set; } = string.Empty;
     public int Pontos { get; set; }
     public int PartidasJogadas { get; set; }
     public int Vitorias { get; set; }
@@ -42,6 +43,7 @@ public class ObterClassificacaoQueryHandler(IAppDbContext dbContext) : IRequestH
         {
             ClubeId = c.ClubeId,
             NomeClube = c.Clube.Nome,
+            CaminhoEscudo = c.Clube.CaminhoEscudo ?? string.Empty,
             Pontos = c.Pontos,
             PartidasJogadas = c.PartidasJogadas,
             Vitorias = c.Vitorias,

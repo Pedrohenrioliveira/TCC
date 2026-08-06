@@ -18,9 +18,7 @@ export class ClubTournamentsComponent implements OnInit {
   
   isAdmin = false;
   
-  // Fake AuthService just for now to get the current Club ID, or read from localStorage if needed
-  // In a real app we would get the logged user's club id from auth state.
-  private currentClubId = localStorage.getItem('usuarioId') || '11111111-1111-1111-1111-111111111111';
+  private currentClubId = localStorage.getItem('loggedClubId') || '';
 
   campeonatos: CampeonatoDto[] = [];
   minhasInscricoes: InscricaoCampeonatoDto[] = [];
@@ -39,6 +37,9 @@ export class ClubTournamentsComponent implements OnInit {
   base64DocumentoIdentidade = '';
   base64ComprovantePagamento = '';
 
+  // Form fields additions
+  base64ImagemCampo = '';
+
   constructor() {
     this.form = this.fb.group({
       nome: ['', Validators.required],
@@ -46,6 +47,10 @@ export class ClubTournamentsComponent implements OnInit {
       dataInicio: ['', Validators.required],
       dataFim: ['', Validators.required],
       limiteEquipes: [16, [Validators.required, Validators.min(2)]],
+      taxaInscricao: [0, Validators.required],
+      chavePix: [''],
+      diasDosJogos: [''],
+      descricao: [''],
       caminhoLogo: ['assets/campeonato1.jpg']
     });
   }
@@ -71,7 +76,7 @@ export class ClubTournamentsComponent implements OnInit {
 
   getInscricaoStatus(campeonatoId: string): number | null {
     const inscricao = this.minhasInscricoes.find(i => i.campeonatoId === campeonatoId);
-    return inscricao ? inscricao.status : null; // 1 = Pendente, 2 = Aprovada, 3 = Rejeitada
+    return inscricao ? inscricao.status : null; 
   }
 
   carregarCampeonatos() {
@@ -88,30 +93,52 @@ export class ClubTournamentsComponent implements OnInit {
   toggleForm() {
     this.showForm = !this.showForm;
     if (!this.showForm) {
-      this.form.reset();
+      this.form.reset({ limiteEquipes: 16, taxaInscricao: 0 });
       this.editMode = false;
       this.campeonatoEditId = null;
+      this.base64ImagemCampo = '';
     }
   }
 
   prepararEdicao(camp: CampeonatoDto) {
     this.editMode = true;
     this.campeonatoEditId = camp.id;
+    this.base64ImagemCampo = '';
     this.form.patchValue({
       nome: camp.nome,
       local: camp.local,
       dataInicio: camp.dataInicio ? new Date(camp.dataInicio).toISOString().split('T')[0] : '',
       dataFim: camp.dataFim ? new Date(camp.dataFim).toISOString().split('T')[0] : '',
-      limiteEquipes: camp.limiteEquipes
+      limiteEquipes: camp.limiteEquipes,
+      taxaInscricao: camp.taxaInscricao,
+      chavePix: camp.chavePix,
+      diasDosJogos: camp.diasDosJogos,
+      descricao: camp.descricao
     });
     this.showForm = true;
+  }
+
+  onImagemCampoSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.base64ImagemCampo = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   criarCampeonato() {
     if (this.form.invalid) return;
 
+    const payload = {
+      ...this.form.value,
+      base64ImagemCampo: this.base64ImagemCampo
+    };
+
     if (this.editMode && this.campeonatoEditId) {
-      this.api.editarCampeonato(this.campeonatoEditId, this.form.value).subscribe({
+      this.api.editarCampeonato(this.campeonatoEditId, payload).subscribe({
         next: (res: any) => {
           if (res.ok) {
             alert('Campeonato atualizado com sucesso!');
@@ -124,7 +151,7 @@ export class ClubTournamentsComponent implements OnInit {
         error: (err: any) => console.error(err)
       });
     } else {
-      this.api.criarCampeonato(this.form.value).subscribe({
+      this.api.criarCampeonato(payload).subscribe({
         next: (res: any) => {
           if (res.ok) {
             alert('Campeonato criado com sucesso!');
@@ -227,5 +254,10 @@ export class ClubTournamentsComponent implements OnInit {
         alert('Erro ao solicitar inscrição.');
       }
     });
+  }
+
+  getFullImageUrl(path: string): string {
+    if (!path) return '';
+    return `http://localhost:5000${path}`;
   }
 }

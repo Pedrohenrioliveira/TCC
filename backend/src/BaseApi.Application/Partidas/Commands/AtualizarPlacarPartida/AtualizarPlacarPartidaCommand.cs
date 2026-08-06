@@ -47,41 +47,8 @@ public class AtualizarPlacarPartidaCommandHandler(IAppDbContext dbContext) : IRe
         partida.Status = StatusPartida.Finalizada;
         partida.AtualizadoEm = DateTime.UtcNow;
 
-        // Atualizar tabela Mandante
-        classifMandante.PartidasJogadas++;
-        classifMandante.GolsPro += request.GolsMandante;
-        classifMandante.GolsContra += request.GolsVisitante;
-
-        // Atualizar tabela Visitante
-        classifVisitante.PartidasJogadas++;
-        classifVisitante.GolsPro += request.GolsVisitante;
-        classifVisitante.GolsContra += request.GolsMandante;
-
-        if (request.GolsMandante > request.GolsVisitante)
-        {
-            classifMandante.Vitorias++;
-            classifMandante.Pontos += 3;
-            classifVisitante.Derrotas++;
-        }
-        else if (request.GolsMandante < request.GolsVisitante)
-        {
-            classifVisitante.Vitorias++;
-            classifVisitante.Pontos += 3;
-            classifMandante.Derrotas++;
-        }
-        else
-        {
-            classifMandante.Empates++;
-            classifMandante.Pontos += 1;
-            classifVisitante.Empates++;
-            classifVisitante.Pontos += 1;
-        }
-
-        classifMandante.AtualizadoEm = DateTime.UtcNow;
-        classifVisitante.AtualizadoEm = DateTime.UtcNow;
-
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return RespostaApi<bool>.Sucesso(true, "Placar atualizado e tabela de classificação recalculada com sucesso.");
+        return RespostaApi<bool>.Sucesso(true, "Placar atualizado com sucesso. (Pontuação deve ser gerida manualmente)");
     }
 }

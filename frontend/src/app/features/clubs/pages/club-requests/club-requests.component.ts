@@ -48,8 +48,7 @@ export class ClubRequestsComponent implements OnInit {
     let clubeId = localStorage.getItem('loggedClubId');
     
     if (!clubeId) {
-       // Apenas por fallback para testes
-       clubeId = '11111111-1111-1111-1111-111111111111';
+       clubeId = '';
     }
 
     this.requestService.getRequestsForClub(clubeId).subscribe({

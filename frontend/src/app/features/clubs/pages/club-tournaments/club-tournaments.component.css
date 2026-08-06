@@ -6,7 +6,7 @@
 
 .header-actions {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: 24px;
 }
@@ -238,8 +238,25 @@
   width: 90%;
   max-width: 500px;
   padding: 2rem;
+  border-radius: 12px;
 }
 .checkbox-group input {
   width: auto;
   margin-right: 8px;
+}
+
+/* Enhanced Card Styles */
+.enhanced-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.enhanced-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+}
+.enhanced-card .card-cover {
+  border-radius: 12px 12px 0 0;
+}
+.enhanced-card .info-badges span {
+  display: inline-block;
+  white-space: nowrap;
 }

@@ -16,6 +16,11 @@ public class InscricaoCampeonato
     
     public bool AceitouRegulamento { get; set; }
     
+    public string NomeResponsavel { get; set; } = string.Empty;
+    public string TelefoneResponsavel { get; set; } = string.Empty;
+    public string CaminhoDocumentoIdentidade { get; set; } = string.Empty;
+    public string CaminhoComprovantePagamento { get; set; } = string.Empty;
+    
     public DateTime DataSolicitacao { get; set; } = DateTime.UtcNow;
     
     public DateTime? DataResposta { get; set; }

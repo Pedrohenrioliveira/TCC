@@ -29,7 +29,7 @@ export class PlayerHomeComponent implements OnInit {
 
   loadDashboardData(): void {
     // Usar o ID do usuário cadastrado, ou o mock de teste caso não tenha feito login/cadastro
-    const playerId = localStorage.getItem('loggedUserId') || '00000000-0000-0000-0000-000000000001';
+    const playerId = localStorage.getItem('loggedUserId') || '';
     
     this.playerHomeService.getHomeDashboard(playerId).subscribe({
       next: (response) => {

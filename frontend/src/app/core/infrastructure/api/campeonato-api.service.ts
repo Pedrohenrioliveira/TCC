@@ -5,17 +5,29 @@ import { Observable } from 'rxjs';
 export interface CampeonatoDto {
   id: string;
   nome: string;
+  descricao: string;
   local: string;
+  premiacao: string;
+  taxaInscricao: number;
+  chavePix: string;
+  diasDosJogos: string;
   dataInicio: string;
   dataFim: string;
   limiteEquipes: number;
+  vagasDisponiveis: number;
   caminhoLogo: string;
+  caminhoImagemCampo: string;
   status: number;
 }
 
 export interface CriarCampeonatoRequest {
   nome: string;
+  descricao: string;
   local: string;
+  premiacao: string;
+  taxaInscricao: number;
+  chavePix: string;
+  diasDosJogos: string;
   dataInicio: string;
   dataFim: string;
   limiteEquipes: number;
@@ -65,8 +77,8 @@ export class CampeonatoApiService {
     return this.http.post<any>(`${this.apiUrl}/${campeonatoId}/clubes`, payload);
   }
 
-  obterInscricoesCampeonato(campeonatoId: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${campeonatoId}/inscricoes`);
+  obterInscricoes(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}/inscricoes`);
   }
 
   obterMinhasInscricoes(clubeId: string): Observable<any> {
@@ -84,6 +96,18 @@ export class CampeonatoApiService {
 
   obterRodadas(campeonatoId: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${campeonatoId}/rodadas`);
+  }
+
+  gerarCalendario(id: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/${id}/gerar-calendario`, {});
+  }
+
+  agendarPartidaManual(id: string, payload: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/${id}/agendar-partida-manual`, payload);
+  }
+
+  atualizarClassificacaoManual(id: string, payload: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}/classificacao-manual`, payload);
   }
 
   editarCampeonato(id: string, request: CriarCampeonatoRequest): Observable<any> {

@@ -13,4 +13,10 @@ public class CampeonatoDto
     public StatusCampeonato Status { get; set; }
     public string CaminhoLogo { get; set; } = string.Empty;
     public int LimiteEquipes { get; set; }
+    public decimal TaxaInscricao { get; set; }
+    public string ChavePix { get; set; } = string.Empty;
+    public string DiasDosJogos { get; set; } = string.Empty;
+    public string CaminhoImagemCampo { get; set; } = string.Empty;
+    public string Descricao { get; set; } = string.Empty;
+    public int VagasDisponiveis { get; set; }
 }

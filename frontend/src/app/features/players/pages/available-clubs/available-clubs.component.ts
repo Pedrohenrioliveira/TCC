@@ -30,7 +30,7 @@ export class AvailableClubsComponent implements OnInit {
   }
 
   loadPendingRequests(): void {
-    const jogadorId = localStorage.getItem('loggedUserId') || '00000000-0000-0000-0000-000000000001';
+    const jogadorId = localStorage.getItem('loggedUserId') || '';
     this.requestService.getRequests(jogadorId).subscribe({
       next: (res: any) => {
         if (res.ok && res.dados) {
@@ -69,7 +69,7 @@ export class AvailableClubsComponent implements OnInit {
   }
 
   solicitarEntrada(clubeId: string): void {
-    const jogadorId = localStorage.getItem('loggedUserId') || '00000000-0000-0000-0000-000000000001';
+    const jogadorId = localStorage.getItem('loggedUserId') || '';
     localStorage.setItem('lastAppliedClubId', clubeId); // Salva para facilitar o teste no dashboard do clube
 
     this.requestService.createRequest(jogadorId, clubeId, this.mensagem || 'Gostaria de participar do clube!').subscribe({

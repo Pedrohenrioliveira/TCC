@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CampeonatoApiService, InscricaoCampeonatoDto } from '../../../../core/infrastructure/api/campeonato-api.service';
 import { HttpClient } from '@angular/common/http';
-
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-club-tournament-details',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './club-tournament-details.component.html',
   styleUrl: './club-tournament-details.component.css'
 })
@@ -16,12 +16,13 @@ export class ClubTournamentDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private api = inject(CampeonatoApiService);
-  private http = inject(HttpClient); // To call Partidas API directly if needed
+  private http = inject(HttpClient); 
 
   campeonatoId: string = '';
   classificacao: any[] = [];
   rodadas: any[] = [];
   inscricoes: InscricaoCampeonatoDto[] = [];
+  clubesAprovados: any[] = [];
   isAdmin = false;
   
   viewMode: 'tabela' | 'calendario' | 'inscricoes' = 'tabela';
@@ -29,6 +30,20 @@ export class ClubTournamentDetailsComponent implements OnInit {
   // Modal de Análise
   showAnaliseModal = false;
   inscricaoEmAnalise: InscricaoCampeonatoDto | null = null;
+
+  // Modal Agendar
+  showAgendarModal = false;
+  novaPartida = {
+    numeroRodada: 1,
+    clubeMandanteId: '',
+    clubeVisitanteId: '',
+    dataHora: '',
+    local: ''
+  };
+
+  // Modal Classificação
+  showClassificacaoModal = false;
+  classificacaoEdicao: any = null;
 
   ngOnInit(): void {
     this.campeonatoId = this.route.snapshot.paramMap.get('id') || '';
@@ -47,6 +62,10 @@ export class ClubTournamentDetailsComponent implements OnInit {
       next: (res: any) => {
         if (res.ok) {
           this.classificacao = res.dados;
+          this.clubesAprovados = this.classificacao.map(c => ({
+            id: c.clubeId,
+            nome: c.nomeClube
+          }));
         }
       },
       error: (err: any) => console.error(err)
@@ -65,7 +84,7 @@ export class ClubTournamentDetailsComponent implements OnInit {
   }
 
   carregarInscricoes() {
-    this.api.obterInscricoesCampeonato(this.campeonatoId).subscribe({
+    this.api.obterInscricoes(this.campeonatoId).subscribe({
       next: (res: any) => {
         if (res.ok) {
           this.inscricoes = res.dados;
@@ -106,15 +125,83 @@ export class ClubTournamentDetailsComponent implements OnInit {
     });
   }
 
-  // Helper para montar url de imagem
-  getFullImageUrl(path: string): string {
-    if (!path) return '';
-    return `http://localhost:5000${path}`;
+  abrirModalAgendar() {
+    this.showAgendarModal = true;
+    this.novaPartida = {
+      numeroRodada: 1,
+      clubeMandanteId: '',
+      clubeVisitanteId: '',
+      dataHora: '',
+      local: ''
+    };
   }
 
-  // Method to launch a score (Lançamento de Placar)
+  fecharModalAgendar() {
+    this.showAgendarModal = false;
+  }
+
+  salvarPartidaManual() {
+    if (!this.novaPartida.clubeMandanteId || !this.novaPartida.clubeVisitanteId) {
+      alert('Selecione os dois times.');
+      return;
+    }
+    if (!this.novaPartida.dataHora) {
+      alert('Informe a data e hora do jogo.');
+      return;
+    }
+    if (!this.novaPartida.local) {
+      alert('Informe o local do jogo.');
+      return;
+    }
+    
+    this.api.agendarPartidaManual(this.campeonatoId, this.novaPartida).subscribe({
+      next: (res: any) => {
+        if (res.ok) {
+          alert('Partida agendada com sucesso!');
+          this.fecharModalAgendar();
+          this.carregarRodadas();
+        } else {
+          alert('Erro: ' + res.mensagem);
+        }
+      },
+      error: (err) => {
+        const msg = err.error?.mensagem || err.error?.title || 'Erro desconhecido';
+        alert('Erro ao agendar a partida: ' + msg);
+        console.error('Erro na requisição:', err);
+      }
+    });
+  }
+
+  abrirModalClassificacao(classif: any) {
+    this.classificacaoEdicao = { ...classif };
+    this.showClassificacaoModal = true;
+  }
+
+  fecharModalClassificacao() {
+    this.showClassificacaoModal = false;
+    this.classificacaoEdicao = null;
+  }
+
+  salvarClassificacaoManual() {
+    this.api.atualizarClassificacaoManual(this.campeonatoId, this.classificacaoEdicao).subscribe({
+      next: (res: any) => {
+        if (res.ok) {
+          alert('Classificação atualizada!');
+          this.fecharModalClassificacao();
+          this.carregarClassificacao();
+        } else {
+          alert('Erro: ' + res.mensagem);
+        }
+      },
+      error: (err) => {
+        alert('Erro ao atualizar classificação.');
+        console.error(err);
+      }
+    });
+  }
+
   lancarPlacar(partidaId: string) {
-    const placar = prompt('Digite o placar (ex: 2x1):');
+    const placar = prompt('Digite o placar (ex: 2x1). Lembre-se que a pontuação deve ser inserida manualmente depois.');
     if (!placar || !placar.includes('x')) return;
     
     const partes = placar.split('x');
@@ -132,9 +219,8 @@ export class ClubTournamentDetailsComponent implements OnInit {
     }).subscribe({
       next: (res: any) => {
         if (res.ok) {
-          alert('Placar atualizado!');
-          this.carregarClassificacao(); // Reload table
-          this.carregarRodadas(); // Reload matches
+          alert('Placar atualizado! Lembre-se de ir na Tabela de Classificação para atualizar os pontos.');
+          this.carregarRodadas(); 
         } else {
           alert('Erro: ' + res.mensagem);
         }
@@ -144,5 +230,10 @@ export class ClubTournamentDetailsComponent implements OnInit {
         console.error(err);
       }
     });
+  }
+
+  getFullImageUrl(path: string): string {
+    if (!path) return '';
+    return `http://localhost:5000${path}`;
   }
 }

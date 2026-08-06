@@ -31,6 +31,10 @@ public class ObterMinhasInscricoesQueryHandler(IAppDbContext dbContext) : IReque
                 ClubeId = i.ClubeId,
                 NomeClube = i.Clube!.Nome,
                 CaminhoEscudo = i.Clube.CaminhoEscudo,
+                NomeResponsavel = i.NomeResponsavel,
+                TelefoneResponsavel = i.TelefoneResponsavel,
+                CaminhoDocumentoIdentidade = i.CaminhoDocumentoIdentidade,
+                CaminhoComprovantePagamento = i.CaminhoComprovantePagamento,
                 Status = i.Status,
                 AceitouRegulamento = i.AceitouRegulamento,
                 DataSolicitacao = i.DataSolicitacao

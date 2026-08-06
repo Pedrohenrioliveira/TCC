@@ -4,6 +4,7 @@ using BaseApi.Infrastructure.Dados;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BaseApi.Infrastructure.Dados.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260804230428_AddDadosEnriquecidosCampeonato")]
+    partial class AddDadosEnriquecidosCampeonato
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,11 +94,11 @@ namespace BaseApi.Infrastructure.Dados.Migrations
                         new
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
-                            AtualizadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(5962),
+                            AtualizadoEm = new DateTime(2026, 8, 4, 23, 4, 28, 101, DateTimeKind.Utc).AddTicks(9297),
                             CaminhoImagemCampo = "",
                             CaminhoLogo = "assets/campeonato1.jpg",
                             ChavePix = "",
-                            CriadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(5959),
+                            CriadoEm = new DateTime(2026, 8, 4, 23, 4, 28, 101, DateTimeKind.Utc).AddTicks(9293),
                             DataFim = new DateTime(2026, 12, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             DataInicio = new DateTime(2026, 8, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Descricao = "",
@@ -109,11 +112,11 @@ namespace BaseApi.Infrastructure.Dados.Migrations
                         new
                         {
                             Id = new Guid("22222222-2222-2222-2222-222222222222"),
-                            AtualizadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(5977),
+                            AtualizadoEm = new DateTime(2026, 8, 4, 23, 4, 28, 101, DateTimeKind.Utc).AddTicks(9313),
                             CaminhoImagemCampo = "",
                             CaminhoLogo = "assets/campeonato2.jpg",
                             ChavePix = "",
-                            CriadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(5977),
+                            CriadoEm = new DateTime(2026, 8, 4, 23, 4, 28, 101, DateTimeKind.Utc).AddTicks(9313),
                             DataFim = new DateTime(2026, 10, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             DataInicio = new DateTime(2026, 5, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Descricao = "",
@@ -127,11 +130,11 @@ namespace BaseApi.Infrastructure.Dados.Migrations
                         new
                         {
                             Id = new Guid("33333333-3333-3333-3333-333333333333"),
-                            AtualizadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(5980),
+                            AtualizadoEm = new DateTime(2026, 8, 4, 23, 4, 28, 101, DateTimeKind.Utc).AddTicks(9316),
                             CaminhoImagemCampo = "",
                             CaminhoLogo = "assets/campeonato3.jpg",
                             ChavePix = "",
-                            CriadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(5980),
+                            CriadoEm = new DateTime(2026, 8, 4, 23, 4, 28, 101, DateTimeKind.Utc).AddTicks(9316),
                             DataFim = new DateTime(2025, 8, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             DataInicio = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Descricao = "",
@@ -267,11 +270,11 @@ namespace BaseApi.Infrastructure.Dados.Migrations
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
                             AnoFundacao = 1990,
-                            AtualizadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(6050),
+                            AtualizadoEm = new DateTime(2026, 8, 4, 23, 4, 28, 101, DateTimeKind.Utc).AddTicks(9410),
                             BreveHistoria = "Um clube criado para testes.",
                             CaminhoEscudo = "https://robohash.org/clube1?set=set1",
                             CidadeEstado = "São Paulo / SP",
-                            CriadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(6050),
+                            CriadoEm = new DateTime(2026, 8, 4, 23, 4, 28, 101, DateTimeKind.Utc).AddTicks(9410),
                             LigaCompeticao = "Série A",
                             Nome = "Clube Atlético Teste",
                             UsuarioId = new Guid("00000000-0000-0000-0000-000000000001")
@@ -394,10 +397,10 @@ namespace BaseApi.Infrastructure.Dados.Migrations
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000001"),
                             Altura = 180,
-                            AtualizadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(6015),
+                            AtualizadoEm = new DateTime(2026, 8, 4, 23, 4, 28, 101, DateTimeKind.Utc).AddTicks(9362),
                             BioHistorico = "Jogador de teste do sistema.",
                             CaminhoFoto = "https://robohash.org/pedro?set=set5",
-                            CriadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(6015),
+                            CriadoEm = new DateTime(2026, 8, 4, 23, 4, 28, 101, DateTimeKind.Utc).AddTicks(9361),
                             DataNascimento = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             NomeCompleto = "Pedro Oliveira (Teste)",
                             PePreferencial = 3,
@@ -442,6 +445,9 @@ namespace BaseApi.Infrastructure.Dados.Migrations
                     b.Property<Guid>("RodadaId")
                         .HasColumnType("char(36)");
 
+                    b.Property<Guid?>("RodadaId1")
+                        .HasColumnType("char(36)");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -452,6 +458,8 @@ namespace BaseApi.Infrastructure.Dados.Migrations
                     b.HasIndex("ClubeVisitanteId");
 
                     b.HasIndex("RodadaId");
+
+                    b.HasIndex("RodadaId1");
 
                     b.ToTable("Partidas", (string)null);
                 });
@@ -662,7 +670,7 @@ namespace BaseApi.Infrastructure.Dados.Migrations
                             NomeCompleto = "Administrador do Sistema",
                             NomeUsuario = "admin",
                             PerfilId = 1,
-                            SenhaHash = "$2a$11$zTVYyQq9u/tRNQwHa6Xpo.YsiLDzaL6vavcA8Ht/eK0buOUcshiiO"
+                            SenhaHash = "$2a$11$va7whIsfJaLgixgIcxI5ZeoXO4MJ7QjRcI4tYfjZu6xA/lLnu9LYy"
                         });
                 });
 
@@ -748,10 +756,14 @@ namespace BaseApi.Infrastructure.Dados.Migrations
                         .IsRequired();
 
                     b.HasOne("BaseApi.Domain.Entidades.Rodada", "Rodada")
-                        .WithMany("Partidas")
+                        .WithMany()
                         .HasForeignKey("RodadaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("BaseApi.Domain.Entidades.Rodada", null)
+                        .WithMany("Partidas")
+                        .HasForeignKey("RodadaId1");
 
                     b.Navigation("ClubeMandante");
 

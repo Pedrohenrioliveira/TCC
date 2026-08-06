@@ -4,6 +4,7 @@ using BaseApi.Infrastructure.Dados;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BaseApi.Infrastructure.Dados.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260804225051_AddDadosInscricaoCampeonato")]
+    partial class AddDadosInscricaoCampeonato
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,20 +34,9 @@ namespace BaseApi.Infrastructure.Dados.Migrations
                     b.Property<DateTime>("AtualizadoEm")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("CaminhoImagemCampo")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000)");
-
                     b.Property<string>("CaminhoLogo")
                         .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000)");
-
-                    b.Property<string>("ChavePix")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("CriadoEm")
                         .HasColumnType("datetime(6)");
@@ -55,92 +47,63 @@ namespace BaseApi.Infrastructure.Dados.Migrations
                     b.Property<DateTime>("DataInicio")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Descricao")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("DiasDosJogos")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
-
                     b.Property<int>("LimiteEquipes")
                         .HasColumnType("int");
 
                     b.Property<string>("Local")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("TaxaInscricao")
-                        .HasColumnType("decimal(18,2)");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Campeonatos", (string)null);
+                    b.ToTable("Campeonatos");
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
-                            AtualizadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(5962),
-                            CaminhoImagemCampo = "",
+                            AtualizadoEm = new DateTime(2026, 8, 4, 22, 50, 51, 106, DateTimeKind.Utc).AddTicks(3549),
                             CaminhoLogo = "assets/campeonato1.jpg",
-                            ChavePix = "",
-                            CriadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(5959),
+                            CriadoEm = new DateTime(2026, 8, 4, 22, 50, 51, 106, DateTimeKind.Utc).AddTicks(3543),
                             DataFim = new DateTime(2026, 12, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             DataInicio = new DateTime(2026, 8, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Descricao = "",
-                            DiasDosJogos = "",
                             LimiteEquipes = 16,
                             Local = "Estádio Municipal",
                             Nome = "Copa Regional Norte 2026",
-                            Status = 1,
-                            TaxaInscricao = 0m
+                            Status = 1
                         },
                         new
                         {
                             Id = new Guid("22222222-2222-2222-2222-222222222222"),
-                            AtualizadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(5977),
-                            CaminhoImagemCampo = "",
+                            AtualizadoEm = new DateTime(2026, 8, 4, 22, 50, 51, 106, DateTimeKind.Utc).AddTicks(3567),
                             CaminhoLogo = "assets/campeonato2.jpg",
-                            ChavePix = "",
-                            CriadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(5977),
+                            CriadoEm = new DateTime(2026, 8, 4, 22, 50, 51, 106, DateTimeKind.Utc).AddTicks(3567),
                             DataFim = new DateTime(2026, 10, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             DataInicio = new DateTime(2026, 5, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Descricao = "",
-                            DiasDosJogos = "",
                             LimiteEquipes = 32,
                             Local = "Vários Estádios",
                             Nome = "Liga dos Campeões Amadora",
-                            Status = 2,
-                            TaxaInscricao = 0m
+                            Status = 2
                         },
                         new
                         {
                             Id = new Guid("33333333-3333-3333-3333-333333333333"),
-                            AtualizadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(5980),
-                            CaminhoImagemCampo = "",
+                            AtualizadoEm = new DateTime(2026, 8, 4, 22, 50, 51, 106, DateTimeKind.Utc).AddTicks(3572),
                             CaminhoLogo = "assets/campeonato3.jpg",
-                            ChavePix = "",
-                            CriadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(5980),
+                            CriadoEm = new DateTime(2026, 8, 4, 22, 50, 51, 106, DateTimeKind.Utc).AddTicks(3572),
                             DataFim = new DateTime(2025, 8, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             DataInicio = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Descricao = "",
-                            DiasDosJogos = "",
                             LimiteEquipes = 8,
                             Local = "Arena Sul",
                             Nome = "Torneio de Inverno 2025",
-                            Status = 3,
-                            TaxaInscricao = 0m
+                            Status = 3
                         });
                 });
 
@@ -267,11 +230,11 @@ namespace BaseApi.Infrastructure.Dados.Migrations
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
                             AnoFundacao = 1990,
-                            AtualizadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(6050),
+                            AtualizadoEm = new DateTime(2026, 8, 4, 22, 50, 51, 106, DateTimeKind.Utc).AddTicks(3653),
                             BreveHistoria = "Um clube criado para testes.",
                             CaminhoEscudo = "https://robohash.org/clube1?set=set1",
                             CidadeEstado = "São Paulo / SP",
-                            CriadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(6050),
+                            CriadoEm = new DateTime(2026, 8, 4, 22, 50, 51, 106, DateTimeKind.Utc).AddTicks(3653),
                             LigaCompeticao = "Série A",
                             Nome = "Clube Atlético Teste",
                             UsuarioId = new Guid("00000000-0000-0000-0000-000000000001")
@@ -394,10 +357,10 @@ namespace BaseApi.Infrastructure.Dados.Migrations
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000001"),
                             Altura = 180,
-                            AtualizadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(6015),
+                            AtualizadoEm = new DateTime(2026, 8, 4, 22, 50, 51, 106, DateTimeKind.Utc).AddTicks(3618),
                             BioHistorico = "Jogador de teste do sistema.",
                             CaminhoFoto = "https://robohash.org/pedro?set=set5",
-                            CriadoEm = new DateTime(2026, 8, 6, 23, 8, 51, 615, DateTimeKind.Utc).AddTicks(6015),
+                            CriadoEm = new DateTime(2026, 8, 4, 22, 50, 51, 106, DateTimeKind.Utc).AddTicks(3618),
                             DataNascimento = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             NomeCompleto = "Pedro Oliveira (Teste)",
                             PePreferencial = 3,
@@ -442,6 +405,9 @@ namespace BaseApi.Infrastructure.Dados.Migrations
                     b.Property<Guid>("RodadaId")
                         .HasColumnType("char(36)");
 
+                    b.Property<Guid?>("RodadaId1")
+                        .HasColumnType("char(36)");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -452,6 +418,8 @@ namespace BaseApi.Infrastructure.Dados.Migrations
                     b.HasIndex("ClubeVisitanteId");
 
                     b.HasIndex("RodadaId");
+
+                    b.HasIndex("RodadaId1");
 
                     b.ToTable("Partidas", (string)null);
                 });
@@ -662,7 +630,7 @@ namespace BaseApi.Infrastructure.Dados.Migrations
                             NomeCompleto = "Administrador do Sistema",
                             NomeUsuario = "admin",
                             PerfilId = 1,
-                            SenhaHash = "$2a$11$zTVYyQq9u/tRNQwHa6Xpo.YsiLDzaL6vavcA8Ht/eK0buOUcshiiO"
+                            SenhaHash = "$2a$11$sf6LB3FcSOvXRDUps84lH.bpw2ALkHZGmRD6vVojACbaK/ueJW.WS"
                         });
                 });
 
@@ -748,10 +716,14 @@ namespace BaseApi.Infrastructure.Dados.Migrations
                         .IsRequired();
 
                     b.HasOne("BaseApi.Domain.Entidades.Rodada", "Rodada")
-                        .WithMany("Partidas")
+                        .WithMany()
                         .HasForeignKey("RodadaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("BaseApi.Domain.Entidades.Rodada", null)
+                        .WithMany("Partidas")
+                        .HasForeignKey("RodadaId1");
 
                     b.Navigation("ClubeMandante");
 

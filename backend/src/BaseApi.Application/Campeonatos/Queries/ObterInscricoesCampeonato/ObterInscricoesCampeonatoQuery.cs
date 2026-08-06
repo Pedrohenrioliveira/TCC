@@ -18,6 +18,10 @@ public class InscricaoCampeonatoDto
     public Guid ClubeId { get; set; }
     public string NomeClube { get; set; } = string.Empty;
     public string CaminhoEscudo { get; set; } = string.Empty;
+    public string NomeResponsavel { get; set; } = string.Empty;
+    public string TelefoneResponsavel { get; set; } = string.Empty;
+    public string CaminhoDocumentoIdentidade { get; set; } = string.Empty;
+    public string CaminhoComprovantePagamento { get; set; } = string.Empty;
     public StatusInscricao Status { get; set; }
     public bool AceitouRegulamento { get; set; }
     public DateTime DataSolicitacao { get; set; }
@@ -43,6 +47,10 @@ public class ObterInscricoesCampeonatoQueryHandler(IAppDbContext dbContext) : IR
                 ClubeId = i.ClubeId,
                 NomeClube = i.Clube!.Nome,
                 CaminhoEscudo = i.Clube.CaminhoEscudo,
+                NomeResponsavel = i.NomeResponsavel,
+                TelefoneResponsavel = i.TelefoneResponsavel,
+                CaminhoDocumentoIdentidade = i.CaminhoDocumentoIdentidade,
+                CaminhoComprovantePagamento = i.CaminhoComprovantePagamento,
                 Status = i.Status,
                 AceitouRegulamento = i.AceitouRegulamento,
                 DataSolicitacao = i.DataSolicitacao

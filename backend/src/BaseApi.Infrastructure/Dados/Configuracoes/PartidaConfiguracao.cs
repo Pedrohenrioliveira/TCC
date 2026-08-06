@@ -23,7 +23,7 @@ public class PartidaConfiguracao : IEntityTypeConfiguration<Partida>
             .IsRequired();
 
         builder.HasOne(p => p.Rodada)
-            .WithMany()
+            .WithMany(r => r.Partidas)
             .HasForeignKey(p => p.RodadaId)
             .OnDelete(DeleteBehavior.Cascade);
 

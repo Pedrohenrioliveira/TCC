@@ -15,7 +15,7 @@ import { ImageUploadComponent } from '../../../players/components/image-upload/i
 })
 export class ClubProfileEditComponent implements OnInit {
   // TODO: Obter do auth / login
-  clubeId = localStorage.getItem('loggedClubId') || '00000000-0000-0000-0000-000000000001'; 
+  clubeId = localStorage.getItem('loggedClubId') || ''; 
   club!: ClubDetails;
   loading = true;
   error: string | null = null;

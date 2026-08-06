@@ -7,12 +7,15 @@ using BaseApi.Application.Campeonatos.Commands.CriarCampeonato;
 using BaseApi.Application.Campeonatos.Commands.EditarCampeonato;
 using BaseApi.Application.Campeonatos.Commands.ExcluirCampeonato;
 using BaseApi.Application.Campeonatos.Commands.InscreverClubeCampeonato;
+using BaseApi.Application.Campeonatos.Commands.ProcessarInscricaoCampeonato;
+using BaseApi.Application.Campeonatos.Commands.GerarCalendario;
+using BaseApi.Application.Campeonatos.Commands.AgendarPartidaManual;
+using BaseApi.Application.Campeonatos.Commands.AtualizarClassificacaoManual;
 using BaseApi.Application.Campeonatos.Queries.ListarCampeonatos;
 using BaseApi.Application.Campeonatos.Queries.ObterClassificacao;
 using BaseApi.Application.Campeonatos.Queries.ObterInscricoesCampeonato;
 using BaseApi.Application.Campeonatos.Queries.ObterMinhasInscricoes;
 using BaseApi.Application.Campeonatos.Queries.ObterRodadasCampeonato;
-using BaseApi.Application.Campeonatos.Commands.ProcessarInscricaoCampeonato;
 using BaseApi.Application.Comum.Modelos;
 using BaseApi.Domain.Entidades;
 using MediatR;
@@ -92,6 +95,42 @@ public class CampeonatosController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> ProcessarInscricao(Guid inscricaoId, [FromBody] ProcessarInscricaoCampeonatoCommand command, CancellationToken ct)
     {
         command.InscricaoId = inscricaoId;
+        var resultado = await mediator.Send(command, ct);
+        if (!resultado.Ok)
+            return BadRequest(resultado);
+            
+        return Ok(resultado);
+    }
+
+    [HttpPost("{id}/gerar-calendario")]
+    [ProducesResponseType(typeof(RespostaApi<bool>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GerarCalendario(Guid id, CancellationToken ct)
+    {
+        var command = new GerarCalendarioCampeonatoCommand { CampeonatoId = id };
+        var resultado = await mediator.Send(command, ct);
+        if (!resultado.Ok)
+            return BadRequest(resultado);
+            
+        return Ok(resultado);
+    }
+
+    [HttpPost("{id}/agendar-partida-manual")]
+    [ProducesResponseType(typeof(RespostaApi<Guid>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> AgendarPartidaManual(Guid id, [FromBody] AgendarPartidaManualCommand command, CancellationToken ct)
+    {
+        command.CampeonatoId = id;
+        var resultado = await mediator.Send(command, ct);
+        if (!resultado.Ok)
+            return BadRequest(resultado);
+            
+        return Ok(resultado);
+    }
+
+    [HttpPut("{id}/classificacao-manual")]
+    [ProducesResponseType(typeof(RespostaApi<bool>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> AtualizarClassificacaoManual(Guid id, [FromBody] AtualizarClassificacaoManualCommand command, CancellationToken ct)
+    {
+        command.CampeonatoId = id;
         var resultado = await mediator.Send(command, ct);
         if (!resultado.Ok)
             return BadRequest(resultado);

@@ -15,7 +15,7 @@ export class RequestListComponent implements OnInit {
   error: string | null = null;
   activeStatus: number = 1;
   // TODO: Pegar do token autenticado
-  jogadorId = '00000000-0000-0000-0000-000000000001'; 
+  jogadorId = localStorage.getItem('loggedUserId') || ''; 
 
   constructor(private requestService: ClubRequestService) {}
 
@@ -35,7 +35,7 @@ export class RequestListComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    const playerId = localStorage.getItem('loggedUserId') || '00000000-0000-0000-0000-000000000001';
+    const playerId = localStorage.getItem('loggedUserId') || '';
 
     this.requestService.getRequests(playerId).subscribe({
       next: (res) => {
