@@ -24,7 +24,7 @@
         <div class="slot" (click)="openPlayerSelection(9)">
           <div *ngIf="lineup.titulares[9]; else emptySlot" class="player-card">
             <button class="remove-btn" (click)="removePlayer(9, $event)">×</button>
-            <img [src]="lineup.titulares[9].photoUrl" alt="" onerror="this.src='assets/default-avatar.png'" />
+            <img [src]="lineup.titulares[9].photoUrl" alt="" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSIxMiIgY3k9IjgiIHI9IjQiIGZpbGw9IiM1NTUiLz48cGF0aCBkPSJNMTIgMTRjLTQuNDIgMC04IDMuNTgtOCA4aDE2YzAtNC40Mi0zLjU4LTgtOC04eiIgZmlsbD0iIzU1NSIvPjwvc3ZnPg=='" />
             <span class="pos-badge">{{ lineup.titulares[9].position }}</span>
             <span class="p-name">{{ lineup.titulares[9].name }}</span>
             <span class="p-overall">{{ lineup.titulares[9].overall }}</span>
@@ -33,7 +33,7 @@
         <div class="slot" (click)="openPlayerSelection(10)">
           <div *ngIf="lineup.titulares[10]; else emptySlot" class="player-card">
             <button class="remove-btn" (click)="removePlayer(10, $event)">×</button>
-            <img [src]="lineup.titulares[10].photoUrl" alt="" onerror="this.src='assets/default-avatar.png'" />
+            <img [src]="lineup.titulares[10].photoUrl" alt="" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSIxMiIgY3k9IjgiIHI9IjQiIGZpbGw9IiM1NTUiLz48cGF0aCBkPSJNMTIgMTRjLTQuNDIgMC04IDMuNTgtOCA4aDE2YzAtNC40Mi0zLjU4LTgtOC04eiIgZmlsbD0iIzU1NSIvPjwvc3ZnPg=='" />
             <span class="pos-badge">{{ lineup.titulares[10].position }}</span>
             <span class="p-name">{{ lineup.titulares[10].name }}</span>
             <span class="p-overall">{{ lineup.titulares[10].overall }}</span>
@@ -42,7 +42,7 @@
         <div class="slot" (click)="openPlayerSelection(11)">
           <div *ngIf="lineup.titulares[11]; else emptySlot" class="player-card">
             <button class="remove-btn" (click)="removePlayer(11, $event)">×</button>
-            <img [src]="lineup.titulares[11].photoUrl" alt="" onerror="this.src='assets/default-avatar.png'" />
+            <img [src]="lineup.titulares[11].photoUrl" alt="" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSIxMiIgY3k9IjgiIHI9IjQiIGZpbGw9IiM1NTUiLz48cGF0aCBkPSJNMTIgMTRjLTQuNDIgMC04IDMuNTgtOCA4aDE2YzAtNC40Mi0zLjU4LTgtOC04eiIgZmlsbD0iIzU1NSIvPjwvc3ZnPg=='" />
             <span class="pos-badge">{{ lineup.titulares[11].position }}</span>
             <span class="p-name">{{ lineup.titulares[11].name }}</span>
             <span class="p-overall">{{ lineup.titulares[11].overall }}</span>
@@ -55,7 +55,7 @@
         <div class="slot" (click)="openPlayerSelection(6)">
           <div *ngIf="lineup.titulares[6]; else emptySlot" class="player-card">
             <button class="remove-btn" (click)="removePlayer(6, $event)">×</button>
-            <img [src]="lineup.titulares[6].photoUrl" alt="" onerror="this.src='assets/default-avatar.png'" />
+            <img [src]="lineup.titulares[6].photoUrl" alt="" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSIxMiIgY3k9IjgiIHI9IjQiIGZpbGw9IiM1NTUiLz48cGF0aCBkPSJNMTIgMTRjLTQuNDIgMC04IDMuNTgtOCA4aDE2YzAtNC40Mi0zLjU4LTgtOC04eiIgZmlsbD0iIzU1NSIvPjwvc3ZnPg=='" />
             <span class="pos-badge">{{ lineup.titulares[6].position }}</span>
             <span class="p-name">{{ lineup.titulares[6].name }}</span>
             <span class="p-overall">{{ lineup.titulares[6].overall }}</span>
@@ -64,7 +64,7 @@
         <div class="slot" (click)="openPlayerSelection(7)" style="margin-top: 30px;">
           <div *ngIf="lineup.titulares[7]; else emptySlot" class="player-card">
             <button class="remove-btn" (click)="removePlayer(7, $event)">×</button>
-            <img [src]="lineup.titulares[7].photoUrl" alt="" onerror="this.src='assets/default-avatar.png'" />
+            <img [src]="lineup.titulares[7].photoUrl" alt="" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSIxMiIgY3k9IjgiIHI9IjQiIGZpbGw9IiM1NTUiLz48cGF0aCBkPSJNMTIgMTRjLTQuNDIgMC04IDMuNTgtOCA4aDE2YzAtNC40Mi0zLjU4LTgtOC04eiIgZmlsbD0iIzU1NSIvPjwvc3ZnPg=='" />
             <span class="pos-badge">{{ lineup.titulares[7].position }}</span>
             <span class="p-name">{{ lineup.titulares[7].name }}</span>
             <span class="p-overall">{{ lineup.titulares[7].overall }}</span>
@@ -73,7 +73,7 @@
         <div class="slot" (click)="openPlayerSelection(8)">
           <div *ngIf="lineup.titulares[8]; else emptySlot" class="player-card">
             <button class="remove-btn" (click)="removePlayer(8, $event)">×</button>
-            <img [src]="lineup.titulares[8].photoUrl" alt="" onerror="this.src='assets/default-avatar.png'" />
+            <img [src]="lineup.titulares[8].photoUrl" alt="" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSIxMiIgY3k9IjgiIHI9IjQiIGZpbGw9IiM1NTUiLz48cGF0aCBkPSJNMTIgMTRjLTQuNDIgMC04IDMuNTgtOCA4aDE2YzAtNC40Mi0zLjU4LTgtOC04eiIgZmlsbD0iIzU1NSIvPjwvc3ZnPg=='" />
             <span class="pos-badge">{{ lineup.titulares[8].position }}</span>
             <span class="p-name">{{ lineup.titulares[8].name }}</span>
             <span class="p-overall">{{ lineup.titulares[8].overall }}</span>
@@ -86,7 +86,7 @@
         <div class="slot" (click)="openPlayerSelection(2)">
           <div *ngIf="lineup.titulares[2]; else emptySlot" class="player-card">
             <button class="remove-btn" (click)="removePlayer(2, $event)">×</button>
-            <img [src]="lineup.titulares[2].photoUrl" alt="" onerror="this.src='assets/default-avatar.png'" />
+            <img [src]="lineup.titulares[2].photoUrl" alt="" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSIxMiIgY3k9IjgiIHI9IjQiIGZpbGw9IiM1NTUiLz48cGF0aCBkPSJNMTIgMTRjLTQuNDIgMC04IDMuNTgtOCA4aDE2YzAtNC40Mi0zLjU4LTgtOC04eiIgZmlsbD0iIzU1NSIvPjwvc3ZnPg=='" />
             <span class="pos-badge">{{ lineup.titulares[2].position }}</span>
             <span class="p-name">{{ lineup.titulares[2].name }}</span>
             <span class="p-overall">{{ lineup.titulares[2].overall }}</span>
@@ -95,7 +95,7 @@
         <div class="slot" (click)="openPlayerSelection(3)" style="margin-top: 20px;">
           <div *ngIf="lineup.titulares[3]; else emptySlot" class="player-card">
             <button class="remove-btn" (click)="removePlayer(3, $event)">×</button>
-            <img [src]="lineup.titulares[3].photoUrl" alt="" onerror="this.src='assets/default-avatar.png'" />
+            <img [src]="lineup.titulares[3].photoUrl" alt="" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSIxMiIgY3k9IjgiIHI9IjQiIGZpbGw9IiM1NTUiLz48cGF0aCBkPSJNMTIgMTRjLTQuNDIgMC04IDMuNTgtOCA4aDE2YzAtNC40Mi0zLjU4LTgtOC04eiIgZmlsbD0iIzU1NSIvPjwvc3ZnPg=='" />
             <span class="pos-badge">{{ lineup.titulares[3].position }}</span>
             <span class="p-name">{{ lineup.titulares[3].name }}</span>
             <span class="p-overall">{{ lineup.titulares[3].overall }}</span>
@@ -104,7 +104,7 @@
         <div class="slot" (click)="openPlayerSelection(4)" style="margin-top: 20px;">
           <div *ngIf="lineup.titulares[4]; else emptySlot" class="player-card">
             <button class="remove-btn" (click)="removePlayer(4, $event)">×</button>
-            <img [src]="lineup.titulares[4].photoUrl" alt="" onerror="this.src='assets/default-avatar.png'" />
+            <img [src]="lineup.titulares[4].photoUrl" alt="" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSIxMiIgY3k9IjgiIHI9IjQiIGZpbGw9IiM1NTUiLz48cGF0aCBkPSJNMTIgMTRjLTQuNDIgMC04IDMuNTgtOCA4aDE2YzAtNC40Mi0zLjU4LTgtOC04eiIgZmlsbD0iIzU1NSIvPjwvc3ZnPg=='" />
             <span class="pos-badge">{{ lineup.titulares[4].position }}</span>
             <span class="p-name">{{ lineup.titulares[4].name }}</span>
             <span class="p-overall">{{ lineup.titulares[4].overall }}</span>
@@ -113,7 +113,7 @@
         <div class="slot" (click)="openPlayerSelection(5)">
           <div *ngIf="lineup.titulares[5]; else emptySlot" class="player-card">
             <button class="remove-btn" (click)="removePlayer(5, $event)">×</button>
-            <img [src]="lineup.titulares[5].photoUrl" alt="" onerror="this.src='assets/default-avatar.png'" />
+            <img [src]="lineup.titulares[5].photoUrl" alt="" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSIxMiIgY3k9IjgiIHI9IjQiIGZpbGw9IiM1NTUiLz48cGF0aCBkPSJNMTIgMTRjLTQuNDIgMC04IDMuNTgtOCA4aDE2YzAtNC40Mi0zLjU4LTgtOC04eiIgZmlsbD0iIzU1NSIvPjwvc3ZnPg=='" />
             <span class="pos-badge">{{ lineup.titulares[5].position }}</span>
             <span class="p-name">{{ lineup.titulares[5].name }}</span>
             <span class="p-overall">{{ lineup.titulares[5].overall }}</span>
@@ -126,7 +126,7 @@
         <div class="slot" (click)="openPlayerSelection(1)">
           <div *ngIf="lineup.titulares[1]; else emptySlot" class="player-card">
             <button class="remove-btn" (click)="removePlayer(1, $event)">×</button>
-            <img [src]="lineup.titulares[1].photoUrl" alt="" onerror="this.src='assets/default-avatar.png'" />
+            <img [src]="lineup.titulares[1].photoUrl" alt="" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSIxMiIgY3k9IjgiIHI9IjQiIGZpbGw9IiM1NTUiLz48cGF0aCBkPSJNMTIgMTRjLTQuNDIgMC04IDMuNTgtOCA4aDE2YzAtNC40Mi0zLjU4LTgtOC04eiIgZmlsbD0iIzU1NSIvPjwvc3ZnPg=='" />
             <span class="pos-badge">{{ lineup.titulares[1].position }}</span>
             <span class="p-name">{{ lineup.titulares[1].name }}</span>
             <span class="p-overall">{{ lineup.titulares[1].overall }}</span>
@@ -156,7 +156,7 @@
     
     <div class="bench-list">
       <div class="bench-card" *ngFor="let p of lineup.reservas; let i = index">
-        <img [src]="p.photoUrl" alt="" onerror="this.src='assets/default-avatar.png'" />
+        <img [src]="p.photoUrl" alt="" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSIxMiIgY3k9IjgiIHI9IjQiIGZpbGw9IiM1NTUiLz48cGF0aCBkPSJNMTIgMTRjLTQuNDIgMC04IDMuNTgtOCA4aDE2YzAtNC40Mi0zLjU4LTgtOC04eiIgZmlsbD0iIzU1NSIvPjwvc3ZnPg=='" />
         <div class="b-info">
           <span class="b-name">{{ p.name }} <span class="b-overall">{{ p.overall }}</span></span>
           <span class="pos-badge-small">{{ p.position }}</span>
@@ -185,7 +185,7 @@
 
     <div class="player-list">
       <div class="list-item" *ngFor="let p of filteredPlayers" (click)="selectPlayer(p)">
-        <img [src]="p.photoUrl" alt="" onerror="this.src='assets/default-avatar.png'" />
+        <img [src]="p.photoUrl" alt="" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSIxMiIgY3k9IjgiIHI9IjQiIGZpbGw9IiM1NTUiLz48cGF0aCBkPSJNMTIgMTRjLTQuNDIgMC04IDMuNTgtOCA4aDE2YzAtNC40Mi0zLjU4LTgtOC04eiIgZmlsbD0iIzU1NSIvPjwvc3ZnPg=='" />
         <div class="item-info">
           <h4>{{ p.name }}</h4>
           <span>{{ p.position }} | Nível {{ p.overall }}</span>
