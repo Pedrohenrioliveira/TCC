@@ -1,9 +1,11 @@
 using BaseApi.Application.Comum.Modelos;
 using BaseApi.Application.Clubes.Commands.AtualizarClube;
+using BaseApi.Application.Clubes.Commands.AtualizarEscalacaoClube;
 using BaseApi.Application.Clubes.Commands.CriarClube;
 using BaseApi.Application.Clubes.Commands.ExcluirClube;
 using BaseApi.Application.Clubes.Queries.ListarClubes;
 using BaseApi.Application.Clubes.Queries.ObterClubePorId;
+using BaseApi.Application.Clubes.Queries.ObterEscalacaoClube;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -128,7 +130,23 @@ public class ClubesController(IMediator mediator) : ControllerBase
         await mediator.Send(new ExcluirClubeCommand(id), ct);
         return Ok(RespostaApi.Sucesso("Clube excluído com sucesso!"));
     }
+
+    [HttpGet("{id}/escalacao")]
+    public async Task<IActionResult> ObterEscalacao(Guid id, CancellationToken ct)
+    {
+        var escalacaoJson = await mediator.Send(new ObterEscalacaoClubeQuery(id), ct);
+        return Ok(RespostaApi<string>.Sucesso(escalacaoJson ?? "{}", "Escalação obtida com sucesso!"));
+    }
+
+    [HttpPut("{id}/escalacao")]
+    public async Task<IActionResult> SalvarEscalacao(Guid id, [FromBody] SalvarEscalacaoRequest request, CancellationToken ct)
+    {
+        await mediator.Send(new AtualizarEscalacaoClubeCommand(id, request.EscalacaoJson), ct);
+        return Ok(RespostaApi.Sucesso("Escalação salva com sucesso!"));
+    }
 }
+
+public record SalvarEscalacaoRequest(string EscalacaoJson);
 
 /// <summary>
 /// Modelo de requisição para atualizar os dados de um clube.

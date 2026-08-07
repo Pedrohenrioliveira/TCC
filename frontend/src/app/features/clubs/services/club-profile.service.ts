@@ -39,4 +39,12 @@ export class ClubProfileService {
   updateProfile(id: string, data: any): Observable<ApiResponse<any>> {
     return this.http.put<ApiResponse<any>>(`${this.apiUrl}/${id}`, data);
   }
+
+  getEscalacao(id: string): Observable<ApiResponse<string>> {
+    return this.http.get<ApiResponse<string>>(`${this.apiUrl}/${id}/escalacao`);
+  }
+
+  updateEscalacao(id: string, escalacaoJson: string): Observable<ApiResponse<any>> {
+    return this.http.put<ApiResponse<any>>(`${this.apiUrl}/${id}/escalacao`, { escalacaoJson });
+  }
 }
