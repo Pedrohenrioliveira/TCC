@@ -187,6 +187,8 @@ export class ClubLineupComponent implements OnInit {
     this.lineup.titulares[slotIndex] = null;
   }
 
+  handleImageError(player: any): void { if(player) player.photoUrl = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSIxMiIgY3k9IjgiIHI9IjQiIGZpbGw9IiM1NTUiLz48cGF0aCBkPSJNMTIgMTRjLTQuNDIgMC04IDMuNTgtOCA4aDE2YzAtNC40Mi0zLjU4LTgtOC04eiIgZmlsbD0iIzU1NSIvPjwvc3ZnPg=='; } 
+
   removeBenchPlayer(index: number): void {
     this.lineup.reservas.splice(index, 1);
   }

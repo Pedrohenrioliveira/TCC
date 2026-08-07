@@ -7,8 +7,8 @@
   </div>
 
   <!-- Form Section -->
-  <div class="form-section light-card" *ngIf="showForm">
-    <h3 class="t-title mb-3">Criar Novo Campeonato</h3>
+  <div class="form-section" *ngIf="showForm">
+    <h3 class="page-title mb-3">Criar Novo Campeonato</h3>
     <form [formGroup]="form" (ngSubmit)="criarCampeonato()" class="modern-form">
       
       <div class="form-row">
@@ -40,103 +40,108 @@
       <div class="form-row">
         <div class="form-group">
           <label>Taxa de Inscrição (R$)</label>
-          <input type="number" formControlName="taxaInscricao" step="0.01" min="0">
+          <input type="number" formControlName="taxaInscricao" step="0.01" min="0" placeholder="0.00">
         </div>
         <div class="form-group">
-          <label>Chave PIX (Admin)</label>
-          <input type="text" formControlName="chavePix" placeholder="Ex: pix@email.com">
+          <label>Dias dos Jogos (Ex: Sábados e Domingos)</label>
+          <input type="text" formControlName="diasDosJogos" placeholder="Sábados e Domingos">
         </div>
+      </div>
+
+      <div class="form-row">
         <div class="form-group">
-          <label>Dias dos Jogos</label>
-          <input type="text" formControlName="diasDosJogos" placeholder="Ex: Sábados e Domingos">
+          <label>Chave PIX para Pagamento da Inscrição</label>
+          <input type="text" formControlName="chavePix" placeholder="E-mail, CPF, Celular ou Aleatória">
         </div>
       </div>
 
-      <div class="form-group">
-        <label>Descrição / Informações Extras</label>
-        <textarea formControlName="descricao" class="modern-input" rows="3" style="width: 100%; border-radius: 4px; padding: 10px; border: 1px solid #ccc;"></textarea>
+      <div class="form-group mb-3">
+        <label>Descrição e Regras Gerais</label>
+        <textarea formControlName="descricao" rows="4" placeholder="Detalhes do campeonato..."></textarea>
       </div>
 
-      <div class="form-group">
-        <label>Foto do Campo (Capa)</label>
-        <input type="file" (change)="onImagemCampoSelected($event)" accept="image/*">
-      </div>
-
-      <button type="submit" class="action-btn dark-btn" [disabled]="form.invalid">Salvar Campeonato</button>
+      <button type="submit" class="action-btn dark-btn mt-2" [disabled]="form.invalid">
+        {{ form.get('id')?.value ? 'Salvar Alterações' : 'Criar Campeonato' }}
+      </button>
     </form>
   </div>
 
-  <!-- List Section -->
-  <div class="cards-list" *ngIf="!showForm" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px;">
-    <div *ngIf="campeonatos.length === 0" class="empty-state" style="grid-column: 1 / -1;">
-      <p>Nenhum campeonato encontrado.</p>
-    </div>
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!showForm && tournaments.length === 0">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 15px; opacity: 0.5;">
+      <circle cx="12" cy="8" r="7"></circle>
+      <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+    </svg>
+    <h3>Nenhum campeonato encontrado.</h3>
+    <p>Os campeonatos abertos aparecerão aqui.</p>
+  </div>
 
-    <!-- Enhanced Card -->
-    <div class="tournament-card enhanced-card" *ngFor="let camp of campeonatos" style="background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; flex-direction: column;">
-      
-      <div class="card-cover" style="height: 160px; background: #eee; position: relative;">
-        <img *ngIf="camp.caminhoImagemCampo" [src]="getFullImageUrl(camp.caminhoImagemCampo)" alt="Campo" style="width: 100%; height: 100%; object-fit: cover;">
-        <div *ngIf="!camp.caminhoImagemCampo" style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #aaa;">Sem Imagem</div>
-        
-        <span class="status-badge" style="position: absolute; top: 10px; right: 10px; font-weight: bold; padding: 6px 12px; border-radius: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);" 
+  <!-- Cards List -->
+  <div class="cards-list" *ngIf="!showForm && tournaments.length > 0">
+    <div class="tournament-card" *ngFor="let camp of tournaments">
+      <div class="card-cover">
+        <span class="status-badge" 
               [ngClass]="{'open': camp.status === 1, 'warning': camp.status === 2, 'closed': camp.status === 3}">
           {{ camp.status === 1 ? 'Aberto' : (camp.status === 2 ? 'Em Andamento' : 'Finalizado') }}
         </span>
       </div>
 
-      <div class="card-body" style="padding: 20px; flex: 1; display: flex; flex-direction: column;">
-        <h3 class="t-title" style="margin-top: 0; font-size: 1.3rem;">{{ camp.nome }}</h3>
-        <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px; display: flex; align-items: center; gap: 5px;">
-          📍 {{ camp.local }}
+      <div class="card-body">
+        <h3 class="t-title">{{ camp.nome }}</h3>
+        <p class="t-location">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          {{ camp.local }}
         </p>
 
-        <div class="info-badges" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
-          <span style="background: #eef2ff; color: #4338ca; padding: 5px 10px; border-radius: 6px; font-size: 0.85rem; font-weight: 500;">
-            💰 Taxa: {{ camp.taxaInscricao > 0 ? ('R$ ' + camp.taxaInscricao) : 'Grátis' }}
+        <div class="info-badges">
+          <span class="highlight-green">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            Taxa: {{ camp.taxaInscricao > 0 ? ('R$' + camp.taxaInscricao) : 'Grátis' }}
           </span>
-          <span style="background: #ecfdf5; color: #047857; padding: 5px 10px; border-radius: 6px; font-size: 0.85rem; font-weight: 500;">
-            ✅ Vagas: {{ camp.vagasDisponiveis }} / {{ camp.limiteEquipes }}
+          <span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            Vagas: {{ camp.vagasDisponiveis }} / {{ camp.limiteEquipes }}
           </span>
-          <span style="background: #fdf4ff; color: #a21caf; padding: 5px 10px; border-radius: 6px; font-size: 0.85rem; font-weight: 500;" *ngIf="camp.diasDosJogos">
-            📅 {{ camp.diasDosJogos }}
+          <span *ngIf="camp.diasDosJogos">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            {{ camp.diasDosJogos }}
           </span>
         </div>
         
-        <p style="color: #555; font-size: 0.85rem; line-height: 1.4; margin-bottom: 20px; flex: 1;">
+        <p class="t-desc">
           {{ camp.descricao || 'Nenhuma descrição informada.' }}
         </p>
 
-        <div class="card-actions" style="margin-top: auto;">
+        <div class="card-actions">
           <!-- Flow for Clubs -->
           <ng-container *ngIf="!isAdmin">
-            <button class="action-btn dark-btn mt-2" style="width: 100%;" (click)="abrirModalInscricao(camp)" *ngIf="camp.status === 1 && getInscricaoStatus(camp.id) === null && camp.vagasDisponiveis > 0">
+            <button class="action-btn dark-btn" (click)="abrirModalInscricao(camp)" *ngIf="camp.status === 1 && getInscricaoStatus(camp.id) === null && camp.vagasDisponiveis > 0">
               Inscrever Meu Clube
             </button>
-            <div *ngIf="camp.status === 1 && getInscricaoStatus(camp.id) === null && camp.vagasDisponiveis <= 0" style="text-align: center; color: #dc3545; font-weight: 500; font-size: 0.9rem; padding: 10px;">
-              Esgotado
+            <div *ngIf="camp.status === 1 && getInscricaoStatus(camp.id) === null && camp.vagasDisponiveis <= 0" style="text-align: center; color: #ff4757; font-weight: 600; padding: 10px;">
+              Vagas Esgotadas
             </div>
             
-            <div class="status-badge-container mt-2" *ngIf="getInscricaoStatus(camp.id) === 1">
-              <span class="status-badge warning" style="display: block; text-align: center;">⏳ Aguardando Aprovação</span>
+            <div class="status-badge-container" *ngIf="getInscricaoStatus(camp.id) === 1">
+              <span class="status-badge warning">⏳ Aguardando Aprovação</span>
             </div>
 
-            <div class="status-badge-container mt-2" *ngIf="getInscricaoStatus(camp.id) === 2">
-              <span class="status-badge success" style="display: block; text-align: center; background-color: #28a745; color: white;">🎉 Inscrito</span>
+            <div class="status-badge-container" *ngIf="getInscricaoStatus(camp.id) === 2">
+              <span class="status-badge success">✅ Clube Inscrito</span>
             </div>
 
-            <div class="status-badge-container mt-2" *ngIf="getInscricaoStatus(camp.id) === 3">
-              <span class="status-badge closed" style="display: block; text-align: center; background-color: #dc3545;">❌ Inscrição Rejeitada</span>
+            <div class="status-badge-container" *ngIf="getInscricaoStatus(camp.id) === 3">
+              <span class="status-badge closed">❌ Inscrição Rejeitada</span>
             </div>
           </ng-container>
           
           <!-- Admin actions -->
-          <div class="admin-actions mt-3" *ngIf="isAdmin" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <button class="action-btn outline-btn" (click)="prepararEdicao(camp)">✏️ Editar</button>
-            <button class="action-btn danger-btn" (click)="excluirCampeonato(camp.id)">🗑️ Excluir</button>
+          <div class="admin-actions" *ngIf="isAdmin">
+            <button class="action-btn outline-btn" (click)="prepararEdicao(camp)">Editar</button>
+            <button class="action-btn danger-btn" (click)="excluirCampeonato(camp.id)">Excluir</button>
           </div>
 
-          <button class="action-btn light-btn mt-2" style="width: 100%; border: 1px solid #ddd;" [routerLink]="isAdmin ? ['/admin/tournaments', camp.id] : ['/club/tournaments', camp.id]">
+          <button class="action-btn light-btn" [routerLink]="isAdmin ? ['/admin/tournaments', camp.id] : ['/club/tournaments', camp.id]">
             Ver Detalhes do Torneio
           </button>
         </div>
@@ -146,58 +151,59 @@
 
   <!-- Modal de Solicitação de Inscrição -->
   <div class="modal-backdrop" *ngIf="showInscricaoModal">
-    <div class="modal-content light-card" style="max-width: 600px;">
-      <h3 class="t-title mb-3">Solicitação de Inscrição</h3>
+    <div class="modal-content">
+      <h3 class="page-title mb-3">Solicitação de Inscrição</h3>
       
-      <div style="background: #eef2ff; border: 1px solid #c7d2fe; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-        <h4 style="margin: 0 0 10px 0; color: #3730a3; font-size: 1.1rem;">Resumo da Inscrição</h4>
+      <div class="resumo-inscricao">
+        <h4>Resumo da Inscrição</h4>
         <p style="margin: 0 0 5px 0;"><strong>Campeonato:</strong> {{ campeonatoAlvoInscricao?.nome }}</p>
-        <p style="margin: 0 0 5px 0;"><strong>Taxa de Inscrição:</strong> <span style="font-size: 1.1rem; color: #15803d; font-weight: bold;">R$ {{ campeonatoAlvoInscricao?.taxaInscricao }}</span></p>
-        <p style="margin: 0; padding: 8px; background: #fff; border-radius: 4px; border: 1px dashed #ccc;">
-          <strong>Efetue o pagamento na Chave PIX:</strong> <br>
-          <span style="font-family: monospace; font-size: 1.1rem; display: block; margin-top: 5px;">{{ campeonatoAlvoInscricao?.chavePix || 'Não informada' }}</span>
-        </p>
+        <p style="margin: 0 0 5px 0;"><strong>Taxa de Inscrição:</strong> <span style="color: var(--primary-green); font-weight: bold; font-size: 1.1rem;">R$ {{ campeonatoAlvoInscricao?.taxaInscricao }}</span></p>
+        
+        <p style="margin: 15px 0 5px 0;"><strong>Efetue o pagamento na Chave PIX:</strong></p>
+        <div class="pix-key">{{ campeonatoAlvoInscricao?.chavePix || 'Não informada' }}</div>
       </div>
       
-      <div class="terms-container mb-4" style="background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #ddd; max-height: 120px; overflow-y: auto; font-size: 0.9rem;">
-        <h4>Regulamento Geral e Termo de Responsabilidade</h4>
+      <div class="terms-container">
+        <h4>Regulamento e Termo de Responsabilidade</h4>
         <p>1. O clube concorda com todas as regras estabelecidas pela organização do torneio.</p>
         <p>2. O clube atesta e se responsabiliza pelas plenas condições de saúde de todos os atletas.</p>
         <p>3. A inscrição está sujeita à verificação do pagamento e aprovação do administrador.</p>
       </div>
 
-      <div class="form-row mb-3" style="display: flex; gap: 15px;">
-        <div class="form-group" style="flex: 1;">
-          <label style="font-weight: 500; margin-bottom: 5px; display: block;">Nome do Responsável</label>
-          <input type="text" [(ngModel)]="nomeResponsavel" class="modern-input" placeholder="Ex: João Silva" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+      <form class="modern-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nome do Responsável</label>
+            <input type="text" [(ngModel)]="nomeResponsavel" name="respNome" placeholder="Ex: João Silva">
+          </div>
+          <div class="form-group">
+            <label>Telefone / WhatsApp</label>
+            <input type="text" [(ngModel)]="telefoneResponsavel" name="respTel" placeholder="Ex: (11) 99999-9999">
+          </div>
         </div>
-        <div class="form-group" style="flex: 1;">
-          <label style="font-weight: 500; margin-bottom: 5px; display: block;">Telefone / WhatsApp</label>
-          <input type="text" [(ngModel)]="telefoneResponsavel" class="modern-input" placeholder="Ex: (11) 99999-9999" style="width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
-        </div>
-      </div>
 
-      <div class="form-row mb-3" style="display: flex; gap: 15px;">
-        <div class="form-group" style="flex: 1;">
-          <label style="font-weight: 500; margin-bottom: 5px; display: block;">Foto/Cópia da Identidade</label>
-          <input type="file" (change)="onFileSelected($event, 'documento')" accept="image/*,.pdf" style="font-size: 0.85rem;">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Foto/Cópia da Identidade</label>
+            <input type="file" (change)="onFileSelected($event, 'documento')" accept="image/*,.pdf" style="padding: 8px;">
+          </div>
+          <div class="form-group">
+            <label>Comprovante de Pagamento</label>
+            <input type="file" (change)="onFileSelected($event, 'comprovante')" accept="image/*,.pdf" style="padding: 8px;">
+          </div>
         </div>
-        <div class="form-group" style="flex: 1;">
-          <label style="font-weight: 500; margin-bottom: 5px; display: block;">Comprovante de Pagamento</label>
-          <input type="file" (change)="onFileSelected($event, 'comprovante')" accept="image/*,.pdf" style="font-size: 0.85rem;">
-        </div>
-      </div>
+      </form>
 
-      <div class="form-group checkbox-group" style="display: flex; align-items: flex-start; gap: 10px; margin-top: 15px;">
-        <input type="checkbox" id="aceiteRegulamento" [(ngModel)]="aceitouRegulamento" style="margin-top: 4px;">
-        <label for="aceiteRegulamento" style="font-weight: 500; font-size: 0.9rem;">
+      <div class="checkbox-group">
+        <input type="checkbox" id="aceiteRegulamento" [(ngModel)]="aceitouRegulamento">
+        <label for="aceiteRegulamento">
           Declaro ter lido e aceito o Regulamento do Campeonato, assumo a responsabilidade pelos atletas e certifico a veracidade do comprovante.
         </label>
       </div>
 
-      <div class="modal-actions mt-4" style="display: flex; gap: 10px; justify-content: flex-end;">
-        <button class="action-btn light-btn" (click)="fecharModalInscricao()">Cancelar</button>
-        <button class="action-btn dark-btn" (click)="inscreverClube()">Enviar Inscrição e Comprovante</button>
+      <div class="modal-actions">
+        <button class="action-btn light-btn" style="flex: 1;" (click)="fecharModalInscricao()">Cancelar</button>
+        <button class="action-btn dark-btn" style="flex: 2;" (click)="inscreverClube()">Confirmar Inscrição</button>
       </div>
     </div>
   </div>

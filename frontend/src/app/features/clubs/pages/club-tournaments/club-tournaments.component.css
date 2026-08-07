@@ -1,7 +1,9 @@
 .tournaments-container {
-  padding: 16px 20px;
+  padding: 20px;
   max-width: 600px;
   margin: 0 auto;
+  color: var(--white);
+  padding-bottom: 80px;
 }
 
 .header-actions {
@@ -14,14 +16,17 @@
 .page-title {
   font-size: 20px;
   font-weight: 800;
-  color: var(--text-dark);
+  color: var(--white);
   margin: 0;
 }
 
+/* Forms Section */
 .form-section {
   padding: 24px;
-  border-radius: var(--border-radius-card);
+  border-radius: 16px;
   margin-bottom: 24px;
+  background: var(--dark-grey);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .mb-3 {
@@ -32,10 +37,12 @@
   display: flex;
   gap: 16px;
   margin-bottom: 16px;
+  flex-wrap: wrap;
 }
 
 .modern-form .form-group {
   flex: 1;
+  min-width: 200px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -44,20 +51,24 @@
 .modern-form label {
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-dark);
+  color: var(--light-grey);
 }
 
-.modern-form input {
+.modern-form input, .modern-form textarea {
   padding: 12px;
-  border: 1px solid var(--border-color);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   font-size: 14px;
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--white);
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
+  font-family: inherit;
 }
 
-.modern-form input:focus {
-  border-color: var(--primary-dark-green);
+.modern-form input:focus, .modern-form textarea:focus {
+  border-color: var(--primary-green);
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .mt-2 {
@@ -66,197 +77,305 @@
 
 .empty-state {
   text-align: center;
-  color: var(--text-muted);
+  color: var(--light-grey);
   padding: 40px;
-  background: white;
+  background: var(--dark-grey);
   border-radius: 16px;
-  border: 1px dashed var(--border-color);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
 }
 
-/* Original styles below */
+/* Enhanced Card Styles */
 .cards-list {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding-bottom: 32px;
 }
 
 .tournament-card {
-  border-radius: var(--border-radius-card);
-  padding: 24px 20px;
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+  background: var(--dark-grey);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
-.light-card {
-  background-color: white;
-  border: 1px solid var(--border-color);
+.tournament-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
 }
 
-.dark-card {
-  background-color: var(--primary-dark-green);
-  color: white;
-  box-shadow: 0 8px 24px rgba(13, 80, 60, 0.2);
-}
-
-.card-top {
+.card-cover {
+  height: 60px;
+  background: linear-gradient(135deg, var(--primary-dark-green), #113627);
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 20px;
-}
-
-.title-col {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-}
-
-.t-title {
-  font-size: 18px;
-  font-weight: 800;
-  margin: 0;
-  line-height: 1.2;
-}
-
-.light-card .t-title {
-  color: var(--text-dark);
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 15px;
 }
 
 .status-badge {
-  padding: 4px 12px;
-  border-radius: var(--border-radius-pill);
-  font-size: 10px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
   font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .status-badge.open {
-  background-color: var(--secondary-light-green);
-  color: var(--primary-dark-green);
+  background-color: rgba(25, 230, 140, 0.15);
+  color: var(--primary-green);
 }
 
 .status-badge.warning {
-  background-color: #FFF3CD;
-  color: #856404;
+  background-color: rgba(255, 215, 0, 0.15);
+  color: #FFD700;
 }
 
 .status-badge.closed {
-  background-color: #F8D7DA;
-  color: #721C24;
+  background-color: rgba(220, 53, 69, 0.15);
+  color: #dc3545;
 }
 
-.icon-circle {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background-color: #f0f2fb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  color: var(--primary-dark-green);
+.status-badge.success {
+  background-color: rgba(40, 167, 69, 0.15);
+  color: #28a745;
 }
 
-.card-details {
+.card-body {
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 24px;
+  flex: 1;
 }
 
-.detail-row {
+.t-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin: 0 0 10px 0;
+  color: var(--white);
+}
+
+.t-location {
+  color: var(--light-grey);
+  font-size: 0.9rem;
+  margin-bottom: 15px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 12px;
+  gap: 6px;
 }
 
-.light-card .detail-row {
-  color: var(--text-muted);
+.info-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.info-badges span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--light-grey);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.info-badges span.highlight-green {
+  background: rgba(25, 230, 140, 0.1);
+  color: var(--primary-green);
+}
+
+.t-desc {
+  color: #aaa;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.card-actions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .action-btn {
   width: 100%;
-  padding: 16px;
+  padding: 14px;
   border: none;
-  border-radius: var(--border-radius-pill);
+  border-radius: 12px;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 }
 
 .dark-btn {
-  background-color: var(--primary-dark-green);
-  color: white;
+  background-color: var(--primary-green);
+  color: var(--black);
 }
 
 .dark-btn:hover:not(:disabled) {
-  background-color: #0A3D2E;
+  background-color: #16c87a;
 }
 
 .dark-btn:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
-.admin-actions {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
+.light-btn {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--white);
 }
+
+.light-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
 .outline-btn {
   background: transparent;
-  color: var(--primary-dark-green);
-  border: 1px solid var(--primary-dark-green);
-  flex: 1;
+  color: var(--primary-green);
+  border: 1px solid var(--primary-green);
 }
+
 .outline-btn:hover {
-  background: var(--primary-dark-green);
-  color: white;
+  background: rgba(25, 230, 140, 0.1);
 }
+
 .danger-btn {
-  background: #dc3545;
-  color: white;
-  flex: 1;
+  background: rgba(220, 53, 69, 0.1);
+  color: #ff4757;
+  border: 1px solid rgba(220, 53, 69, 0.3);
 }
+
 .danger-btn:hover {
-  background: #c82333;
+  background: rgba(220, 53, 69, 0.2);
 }
+
+.admin-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.status-badge-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.status-badge-container .status-badge {
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+/* Modal styles matching dark theme */
 .modal-backdrop {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
 }
+
 .modal-content {
   width: 90%;
   max-width: 500px;
   padding: 2rem;
-  border-radius: 12px;
-}
-.checkbox-group input {
-  width: auto;
-  margin-right: 8px;
+  border-radius: 16px;
+  background: var(--dark-grey);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
-/* Enhanced Card Styles */
-.enhanced-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+.modal-content h3 {
+  color: var(--white);
+  margin-top: 0;
 }
-.enhanced-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+
+.modal-content .resumo-inscricao {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 20px;
 }
-.enhanced-card .card-cover {
-  border-radius: 12px 12px 0 0;
+
+.modal-content .resumo-inscricao h4 {
+  color: var(--primary-green);
+  margin-top: 0;
 }
-.enhanced-card .info-badges span {
-  display: inline-block;
-  white-space: nowrap;
+
+.modal-content .resumo-inscricao .pix-key {
+  background: var(--black);
+  padding: 10px;
+  border-radius: 8px;
+  font-family: monospace;
+  color: var(--white);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  margin-top: 10px;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.terms-container {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  max-height: 120px;
+  overflow-y: auto;
+  font-size: 0.85rem;
+  color: var(--light-grey);
+  margin-bottom: 20px;
+}
+
+.terms-container h4 {
+  color: var(--white);
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.checkbox-group input {
+  margin-top: 4px;
+}
+
+.checkbox-group label {
+  font-size: 0.85rem;
+  color: var(--light-grey);
+  line-height: 1.4;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 24px;
 }
