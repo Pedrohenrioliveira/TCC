@@ -2,12 +2,9 @@
   
   <!-- Global Top Header -->
   <header class="top-nav">
-    <div class="header-left">
-      <a routerLink="/club/profile" class="club-avatar-wrapper" style="cursor: pointer;" title="Ir para o perfil">
-        <img *ngIf="clubPhoto" [src]="clubPhoto" alt="Escudo do Clube" class="club-avatar" />
-        <svg *ngIf="!clubPhoto" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="default-shield">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-        </svg>
+    <div class="header-left" style="display: flex; align-items: center; gap: 12px;">
+      <a routerLink="/club/home" class="logo-wrapper" style="cursor: pointer;" title="Ir para o início">
+        <img src="assets/logo.png" alt="FUTBASE Logo" style="width: 32px; height: 32px; object-fit: contain;" />
       </a>
       <div class="brand-title">FUTBASE</div>
     </div>
