@@ -158,3 +158,45 @@
 .nav-item.active svg {
   color: var(--primary-dark-green);
 }
+
+.desktop-nav {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .bottom-nav {
+    display: none;
+  }
+  
+  .desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  
+  .desktop-nav a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 15px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+  
+  .desktop-nav a:hover {
+    color: var(--text-dark);
+    background-color: #f8fafc;
+  }
+  
+  .desktop-nav a.active {
+    color: var(--primary-dark-green);
+    background-color: var(--secondary-light-green);
+  }
+  
+  .top-nav {
+    border-bottom: 1px solid var(--border-color);
+    background-color: #ffffff;
+    padding: 16px 32px;
+  }
+}

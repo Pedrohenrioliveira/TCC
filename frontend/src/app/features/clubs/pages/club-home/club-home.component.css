@@ -1,6 +1,6 @@
 .club-home-container {
   padding: 20px;
-  max-width: 600px;
+  max-width: 1000px;
   margin: 0 auto;
   position: relative;
   padding-bottom: 80px; /* Space for FAB */
@@ -112,7 +112,8 @@
 
 /* Summary Cards */
 .summary-cards-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
   margin-bottom: 16px;
 }
@@ -274,8 +275,9 @@
 /* Quick Actions */
 .quick-actions-row {
   display: flex;
-  justify-content: space-between;
-  gap: 8px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .quick-action-item {
@@ -283,7 +285,7 @@
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  flex: 1;
+  width: 80px;
 }
 
 .action-btn-square {

@@ -32,8 +32,11 @@
           <tr *ngFor="let row of classificacao; let i = index">
             <td class="pos-col">{{ i + 1 }}º</td>
             <td class="club-col">
-              <div class="club-info">
-                <img [src]="getFullImageUrl(row.caminhoEscudo)" alt="Escudo" class="club-shield">
+              <div class="club-info" style="display: flex; align-items: center; gap: 10px;">
+                <img *ngIf="row.caminhoEscudo" [src]="getFullImageUrl(row.caminhoEscudo)" alt="Escudo" class="club-shield" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                <div *ngIf="!row.caminhoEscudo" class="default-shield" style="width: 32px; height: 32px; border-radius: 50%; background-color: #f0f2fb; color: var(--primary-dark-green); display: flex; align-items: center; justify-content: center; font-size: 14px;">
+                  <i class="fas fa-shield-alt"></i>
+                </div>
                 <span>{{ row.nomeClube }}</span>
               </div>
             </td>
@@ -73,7 +76,7 @@
           
           <div class="match-date-loc">
             <span>{{ partida.dataHora | date:'dd/MM/yy HH:mm' }}</span>
-            <span>📍 {{ partida.local }}</span>
+            <span><i class="fas fa-map-marker-alt" style="margin-right: 5px;"></i> {{ partida.local }}</span>
           </div>
 
           <div class="match-teams">
@@ -128,7 +131,7 @@
           <tr *ngFor="let inscricao of inscricoes">
             <td>{{ inscricao.dataSolicitacao | date:'dd/MM/yyyy HH:mm' }}</td>
             <td><strong>{{ inscricao.nomeClube }}</strong></td>
-            <td>{{ inscricao.aceitouRegulamento ? 'Sim ✅' : 'Não ❌' }}</td>
+            <td>{{ inscricao.aceitouRegulamento ? 'Sim ' : 'Não ' }} <i [ngClass]="inscricao.aceitouRegulamento ? 'fas fa-check' : 'fas fa-times'"></i></td>
             <td>
               <span class="status-badge" [ngClass]="{'warning': inscricao.status === 1, 'success': inscricao.status === 2, 'closed': inscricao.status === 3}">
                 {{ inscricao.status === 1 ? 'Pendente' : (inscricao.status === 2 ? 'Aprovada' : 'Rejeitada') }}
@@ -136,7 +139,7 @@
             </td>
             <td>
               <div class="admin-actions" style="display: flex; gap: 8px;" *ngIf="inscricao.status === 1">
-                <button class="action-btn dark-btn btn-sm" (click)="abrirModalAnalise(inscricao)">🔍 Analisar Dados</button>
+                <button class="action-btn dark-btn btn-sm" (click)="abrirModalAnalise(inscricao)"><i class="fas fa-search" style="margin-right: 5px;"></i> Analisar Dados</button>
               </div>
             </td>
           </tr>
@@ -151,9 +154,9 @@
   <!-- Modal Agendar Partida -->
   <div class="modal-backdrop" *ngIf="showAgendarModal">
     <div class="modal-content light-card" style="max-width: 500px;">
-      <div class="mb-3" style="display: flex; justify-content: space-between; align-items: center;">
+      <div class="mb-4" style="display: flex; justify-content: space-between; align-items: center;">
         <h3 class="t-title">Agendar Novo Jogo</h3>
-        <button class="action-btn light-btn btn-sm" (click)="fecharModalAgendar()">X</button>
+        <button style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-muted);" (click)="fecharModalAgendar()"><i class="fas fa-times"></i></button>
       </div>
 
       <div class="form-group mb-3">
@@ -187,9 +190,9 @@
         <input type="text" class="form-control" [(ngModel)]="novaPartida.local" placeholder="Ex: Campo do Marão">
       </div>
 
-      <div style="display: flex; justify-content: flex-end; gap: 10px;">
-        <button class="action-btn light-btn" (click)="fecharModalAgendar()">Cancelar</button>
-        <button class="action-btn success-btn" (click)="salvarPartidaManual()">Agendar Jogo</button>
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px;">
+        <button class="action-btn outline-btn" style="width: auto; padding: 12px 24px;" (click)="fecharModalAgendar()">Cancelar</button>
+        <button class="action-btn dark-btn" style="width: auto; padding: 12px 24px;" (click)="salvarPartidaManual()">Agendar Jogo</button>
       </div>
     </div>
   </div>
@@ -197,9 +200,9 @@
   <!-- Modal Editar Classificação -->
   <div class="modal-backdrop" *ngIf="showClassificacaoModal && classificacaoEdicao">
     <div class="modal-content light-card" style="max-width: 500px;">
-      <div class="mb-3" style="display: flex; justify-content: space-between; align-items: center;">
+      <div class="mb-4" style="display: flex; justify-content: space-between; align-items: center;">
         <h3 class="t-title">Editar Classificação: {{ classificacaoEdicao.clubeNome }}</h3>
-        <button class="action-btn light-btn btn-sm" (click)="fecharModalClassificacao()">X</button>
+        <button style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-muted);" (click)="fecharModalClassificacao()"><i class="fas fa-times"></i></button>
       </div>
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;" class="mb-4">
@@ -233,9 +236,9 @@
         </div>
       </div>
 
-      <div style="display: flex; justify-content: flex-end; gap: 10px;">
-        <button class="action-btn light-btn" (click)="fecharModalClassificacao()">Cancelar</button>
-        <button class="action-btn success-btn" (click)="salvarClassificacaoManual()">Salvar Tabela</button>
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px;">
+        <button class="action-btn outline-btn" style="width: auto; padding: 12px 24px;" (click)="fecharModalClassificacao()">Cancelar</button>
+        <button class="action-btn dark-btn" style="width: auto; padding: 12px 24px;" (click)="salvarClassificacaoManual()">Salvar Tabela</button>
       </div>
     </div>
   </div>
@@ -243,13 +246,16 @@
   <!-- Modal de Análise (Omitido para focar no resto se necessário, ou incluido) -->
   <div class="modal-backdrop" *ngIf="showAnaliseModal && inscricaoEmAnalise">
     <div class="modal-content light-card" style="max-width: 600px;">
-      <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-3">
+      <div style="display: flex; justify-content: space-between; align-items: center;" class="mb-4">
         <h3 class="t-title">Análise de Inscrição</h3>
-        <button class="action-btn light-btn btn-sm" (click)="fecharModalAnalise()">X</button>
+        <button style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-muted);" (click)="fecharModalAnalise()"><i class="fas fa-times"></i></button>
       </div>
 
       <div class="club-header mb-4" style="display: flex; align-items: center; gap: 15px;">
-        <img [src]="getFullImageUrl(inscricaoEmAnalise.caminhoEscudo)" alt="Escudo" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+        <img *ngIf="inscricaoEmAnalise.caminhoEscudo" [src]="getFullImageUrl(inscricaoEmAnalise.caminhoEscudo)" alt="Escudo" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div *ngIf="!inscricaoEmAnalise.caminhoEscudo" style="width: 50px; height: 50px; border-radius: 50%; background-color: #f0f2fb; color: var(--primary-dark-green); display: flex; align-items: center; justify-content: center; font-size: 20px;">
+          <i class="fas fa-shield-alt"></i>
+        </div>
         <div>
           <h4 style="margin: 0; font-size: 1.2rem;">{{ inscricaoEmAnalise.nomeClube }}</h4>
           <span style="font-size: 0.9rem; color: #666;">Data da solicitação: {{ inscricaoEmAnalise.dataSolicitacao | date:'dd/MM/yyyy HH:mm' }}</span>
@@ -267,7 +273,7 @@
         </div>
         <div>
           <label style="font-size: 0.8rem; color: #666; display: block; margin-bottom: 4px;">Termo e Regulamento</label>
-          <strong>{{ inscricaoEmAnalise.aceitouRegulamento ? 'Aceito ✅' : 'Não Aceito ❌' }}</strong>
+          <strong>{{ inscricaoEmAnalise.aceitouRegulamento ? 'Aceito ' : 'Não Aceito ' }}<i [ngClass]="inscricaoEmAnalise.aceitouRegulamento ? 'fas fa-check-circle' : 'fas fa-times-circle'"></i></strong>
         </div>
       </div>
 
@@ -292,9 +298,9 @@
         </div>
       </div>
 
-      <div class="modal-actions" style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
-        <button class="action-btn danger-btn" style="background-color: #dc3545; color: white;" (click)="processarInscricao(inscricaoEmAnalise.id, false)">Rejeitar Inscrição</button>
-        <button class="action-btn success-btn" style="background-color: #28a745; color: white;" (click)="processarInscricao(inscricaoEmAnalise.id, true)">Aprovar Inscrição</button>
+      <div class="modal-actions" style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 32px;">
+        <button class="action-btn danger-btn" style="width: auto; padding: 12px 24px;" (click)="processarInscricao(inscricaoEmAnalise.id, false)">Rejeitar</button>
+        <button class="action-btn dark-btn" style="width: auto; padding: 12px 24px;" (click)="processarInscricao(inscricaoEmAnalise.id, true)">Aprovar</button>
       </div>
     </div>
   </div>

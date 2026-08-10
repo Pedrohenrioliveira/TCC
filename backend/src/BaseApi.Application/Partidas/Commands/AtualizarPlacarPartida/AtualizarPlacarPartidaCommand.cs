@@ -41,14 +41,48 @@ public class AtualizarPlacarPartidaCommandHandler(IAppDbContext dbContext) : IRe
         if (classifMandante == null || classifVisitante == null)
             return RespostaApi<bool>.Falha("Um ou ambos os clubes não estão com a tabela de classificação inicializada.");
 
-        // Atualizar placar e status
+        // Atualizar placar e status da partida
         partida.GolsMandante = request.GolsMandante;
         partida.GolsVisitante = request.GolsVisitante;
         partida.Status = StatusPartida.Finalizada;
         partida.AtualizadoEm = DateTime.UtcNow;
 
+        // Atualizar estatísticas do Mandante
+        classifMandante.PartidasJogadas += 1;
+        classifMandante.GolsPro += request.GolsMandante;
+        classifMandante.GolsContra += request.GolsVisitante;
+
+        // Atualizar estatísticas do Visitante
+        classifVisitante.PartidasJogadas += 1;
+        classifVisitante.GolsPro += request.GolsVisitante;
+        classifVisitante.GolsContra += request.GolsMandante;
+
+        // Lógica de Vitória, Empate, Derrota e Pontos
+        if (request.GolsMandante > request.GolsVisitante)
+        {
+            // Mandante venceu
+            classifMandante.Vitorias += 1;
+            classifMandante.Pontos += 3;
+            classifVisitante.Derrotas += 1;
+        }
+        else if (request.GolsMandante < request.GolsVisitante)
+        {
+            // Visitante venceu
+            classifVisitante.Vitorias += 1;
+            classifVisitante.Pontos += 3;
+            classifMandante.Derrotas += 1;
+        }
+        else
+        {
+            // Empate
+            classifMandante.Empates += 1;
+            classifMandante.Pontos += 1;
+            classifVisitante.Empates += 1;
+            classifVisitante.Pontos += 1;
+        }
+
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        return RespostaApi<bool>.Sucesso(true, "Placar atualizado com sucesso. (Pontuação deve ser gerida manualmente)");
+        return RespostaApi<bool>.Sucesso(true, "Placar atualizado e tabela de classificação calculada com sucesso.");
     }
 }

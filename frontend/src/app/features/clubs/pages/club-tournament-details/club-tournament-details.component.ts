@@ -202,14 +202,19 @@ export class ClubTournamentDetailsComponent implements OnInit {
 
   lancarPlacar(partidaId: string) {
     const placar = prompt('Digite o placar (ex: 2x1). Lembre-se que a pontuação deve ser inserida manualmente depois.');
-    if (!placar || !placar.includes('x')) return;
+    if (!placar) return;
     
-    const partes = placar.split('x');
-    const golsMandante = parseInt(partes[0].trim(), 10);
-    const golsVisitante = parseInt(partes[1].trim(), 10);
+    const match = placar.match(/(\d+)\s*[xX]\s*(\d+)/);
+    if (!match) {
+      alert('Formato de placar inválido. Por favor, digite no formato "2x1".');
+      return;
+    }
+    
+    const golsMandante = parseInt(match[1], 10);
+    const golsVisitante = parseInt(match[2], 10);
 
     if (isNaN(golsMandante) || isNaN(golsVisitante)) {
-      alert('Placar inválido.');
+      alert('Valores de gols inválidos.');
       return;
     }
 
@@ -219,8 +224,9 @@ export class ClubTournamentDetailsComponent implements OnInit {
     }).subscribe({
       next: (res: any) => {
         if (res.ok) {
-          alert('Placar atualizado! Lembre-se de ir na Tabela de Classificação para atualizar os pontos.');
+          alert('Placar e Classificação atualizados com sucesso!');
           this.carregarRodadas(); 
+          this.carregarClassificacao();
         } else {
           alert('Erro: ' + res.mensagem);
         }
