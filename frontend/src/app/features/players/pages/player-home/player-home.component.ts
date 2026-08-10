@@ -30,6 +30,7 @@ export class PlayerHomeComponent implements OnInit {
     this.loadDashboardData();
   }
 
+  loadDashboardData(): void {
     const playerId = localStorage.getItem('loggedUserId') || '';
     if (!playerId) {
       this.router.navigate(['/login']);
