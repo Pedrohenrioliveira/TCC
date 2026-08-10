@@ -15,7 +15,7 @@
 }
 
 .header-content {
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
@@ -35,7 +35,7 @@
 
 /* Corpo principal da página */
 .register-main {
-  max-width: 800px;
+  max-width: 600px;
   width: 100%;
   margin: 0 auto;
   padding: 0 24px 48px 24px;
@@ -43,8 +43,8 @@
 }
 
 .athlete-form {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 

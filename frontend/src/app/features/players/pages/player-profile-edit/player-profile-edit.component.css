@@ -1,6 +1,6 @@
 .profile-container {
   padding: 20px;
-  max-width: 1000px;
+  max-width: 600px;
   margin: 0 auto;
 }
 
@@ -100,8 +100,8 @@
 }
 
 .tab-content form {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
@@ -131,8 +131,8 @@ label {
 .form-control {
   width: 100%;
   padding: 12px 16px;
-  background-color: white;
-  border: 1px solid var(--border-color);
+  background-color: transparent;
+  border: 1px solid var(--border-color, #444);
   border-radius: 8px;
   font-size: 14px;
   color: var(--text-dark);
@@ -151,10 +151,7 @@ textarea.form-control {
 }
 
 .submit-btn {
-  grid-column: 1 / -1;
-  width: auto;
-  min-width: 200px;
-  justify-self: end;
+  width: 100%;
   padding: 14px 32px;
   background-color: var(--primary-dark-green);
   color: white;
@@ -163,7 +160,7 @@ textarea.form-control {
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  margin-top: 12px;
+  margin-top: 24px;
   transition: background-color 0.2s;
 }
 
