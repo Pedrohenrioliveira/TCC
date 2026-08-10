@@ -2,17 +2,31 @@
   
   <!-- Global Top Header (Hidden on Profile Page) -->
   <header class="top-nav" *ngIf="!isProfilePage">
-    <div class="user-avatar-wrapper">
-      <img [src]="userPhoto" alt="Avatar do Jogador" class="user-avatar" />
+    <div class="header-left" style="display: flex; align-items: center; gap: 12px;">
+      <a routerLink="/player/home" class="logo-wrapper" style="cursor: pointer;" title="Ir para o início">
+        <img src="assets/logo.png" alt="FUTBASE Logo" style="width: 32px; height: 32px; object-fit: contain;" />
+      </a>
+      <div class="brand-title">FUTBASE</div>
     </div>
-    <div class="brand-title">Talent Match</div>
-    <button class="icon-button notification-btn" aria-label="Notificações">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-      </svg>
-      <span class="notification-badge"></span>
-    </button>
+    
+    <nav class="desktop-nav">
+      <a routerLink="/player/home" routerLinkActive="active">Início</a>
+      <a routerLink="/player/leagues" routerLinkActive="active">Classificação</a>
+      <a routerLink="/player/tournaments" routerLinkActive="active">Campeonatos</a>
+      <a routerLink="/player/available-clubs" routerLinkActive="active">Clubes</a>
+      <a routerLink="/player/club-requests" routerLinkActive="active">Solicitações</a>
+      <a routerLink="/player/profile" routerLinkActive="active">Perfil</a>
+    </nav>
+
+    <div class="header-right">
+      <button class="icon-button notification-btn" aria-label="Notificações">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <span class="notification-badge"></span>
+      </button>
+    </div>
   </header>
 
   <!-- Profile Specific Header -->

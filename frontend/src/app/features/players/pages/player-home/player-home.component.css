@@ -1,6 +1,6 @@
 .player-home-container {
   padding: 20px;
-  max-width: 600px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -28,7 +28,8 @@
 }
 
 .stats-grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
 }
 
@@ -68,4 +69,65 @@
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
+}
+/* Quick Actions Section (same as club-home) */
+.section-container {
+  margin-top: 24px;
+}
+
+.section-header {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.quick-actions-row {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.quick-actions-row::-webkit-scrollbar {
+  display: none;
+}
+
+.quick-action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 80px;
+}
+
+.quick-action-item span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.action-btn-square {
+  width: 60px;
+  height: 60px;
+  background: white;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.quick-action-item:hover .action-btn-square {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(13, 80, 60, 0.15);
 }

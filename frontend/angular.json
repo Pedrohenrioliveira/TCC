@@ -27,7 +27,8 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/assets"
             ],
             "styles": [
               "src/styles.css"
@@ -45,7 +46,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumError": "10kb"
                 }
               ],
               "outputHashing": "all"
@@ -85,7 +86,8 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/assets"
             ],
             "styles": [
               "src/styles.css"

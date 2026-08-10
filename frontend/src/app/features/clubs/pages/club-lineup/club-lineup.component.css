@@ -1,0 +1,489 @@
+.lineup-container {
+  padding: 1rem;
+  color: var(--white);
+  padding-bottom: 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: var(--dark-grey);
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  gap: 0.5rem;
+}
+
+.search-box input {
+  background: transparent;
+  border: none;
+  color: var(--white);
+  outline: none;
+  font-size: 0.9rem;
+  width: 120px;
+}
+
+.search-box svg {
+  color: var(--light-grey);
+}
+
+.icon-btn {
+  background: var(--dark-grey);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  cursor: pointer;
+}
+
+.formation-badge {
+  background: rgba(255, 215, 0, 0.15);
+  color: #FFD700;
+  padding: 0.4rem 0.8rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.btn-save {
+  background: var(--primary-green);
+  color: var(--black);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-save:active {
+  transform: scale(0.95);
+}
+
+.btn-save[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Pitch */
+.pitch-container {
+  background: #0f1c14; /* very dark green edge */
+  border-radius: 16px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.football-pitch {
+  background: repeating-linear-gradient(
+    0deg,
+    #182d1f,
+    #182d1f 40px,
+    #1a3122 40px,
+    #1a3122 80px
+  );
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  position: relative;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 20px 0;
+  overflow: hidden;
+}
+
+/* Field Markings */
+.football-pitch::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%);
+}
+
+.football-pitch::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Penalty areas */
+.pitch-container {
+  position: relative;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.forward-row {
+  gap: 1.5rem;
+}
+
+.mid-row {
+  gap: 1.5rem;
+}
+
+.def-row {
+  gap: 1rem;
+}
+
+.gk-row {
+  margin-top: 20px;
+}
+
+/* Player Slot */
+.slot {
+  width: 70px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.slot:active {
+  transform: scale(0.95);
+}
+
+.empty-card {
+  width: 60px;
+  height: 85px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1.5px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-card {
+  width: 74px;
+  height: 105px;
+  background: var(--dark-grey);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 4px;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.player-card img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--black);
+  margin-bottom: 4px;
+}
+
+.pos-badge {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--light-grey);
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.p-name {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--white);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.p-overall {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #FFD700;
+  position: absolute;
+  top: 45px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.remove-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  background: #ff4757;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.player-card:hover .remove-btn {
+  opacity: 1;
+}
+
+
+/* Bench Section */
+.bench-section {
+  margin-top: 1.5rem;
+  background: var(--dark-grey);
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.bench-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.bench-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.bench-count {
+  font-size: 0.85rem;
+  color: var(--light-grey);
+}
+
+.bench-list {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.bench-card {
+  min-width: 130px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.bench-card img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.b-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.b-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.b-overall {
+  color: #FFD700;
+  font-weight: 800;
+}
+
+.pos-badge-small {
+  font-size: 0.65rem;
+  color: var(--light-grey);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  width: fit-content;
+  margin-top: 3px;
+}
+
+.icon-btn-small {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: transparent;
+  border: none;
+  color: var(--light-grey);
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.add-bench-btn {
+  min-width: 60px;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--light-grey);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.add-bench-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--white);
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #1e1e1e;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: var(--light-grey);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.modal-search {
+  padding: 1rem;
+}
+
+.modal-search input {
+  width: 100%;
+  background: var(--dark-grey);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  outline: none;
+}
+
+.player-list {
+  overflow-y: auto;
+  padding: 0 1rem 1rem 1rem;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.list-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.list-item img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.item-info h4 {
+  margin: 0 0 0.2rem 0;
+  font-size: 0.95rem;
+}
+
+.item-info span {
+  font-size: 0.8rem;
+  color: var(--light-grey);
+}
+
+.no-results {
+  text-align: center;
+  color: var(--light-grey);
+  padding: 2rem 0;
+}

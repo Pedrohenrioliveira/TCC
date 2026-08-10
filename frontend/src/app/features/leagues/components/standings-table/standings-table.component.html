@@ -18,9 +18,15 @@
           <span class="pos-text" [class.top-tier]="i < 3">{{ team.posicao }}º</span>
         </td>
         <td class="col-team">
-          <div class="team-info">
-            <div class="team-logo-wrapper">
-              <img [src]="team.escudoUrl" alt="Escudo" class="team-logo" onerror="this.src='assets/default-shield.png'">
+          <div class="team-info" style="display: flex; align-items: center; gap: 10px;">
+            <div class="team-logo-wrapper" *ngIf="team.escudoUrl">
+              <img [src]="team.escudoUrl" alt="Escudo" class="team-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+              <div class="default-shield" style="display: none; width: 32px; height: 32px; border-radius: 50%; background-color: #f0f2fb; color: var(--primary-dark-green); align-items: center; justify-content: center; font-size: 14px;">
+                <i class="fas fa-shield-alt"></i>
+              </div>
+            </div>
+            <div class="default-shield" *ngIf="!team.escudoUrl" style="width: 32px; height: 32px; border-radius: 50%; background-color: #f0f2fb; color: var(--primary-dark-green); display: flex; align-items: center; justify-content: center; font-size: 14px;">
+              <i class="fas fa-shield-alt"></i>
             </div>
             <span class="team-name">{{ team.nomeClube }}</span>
           </div>

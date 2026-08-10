@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { PlayerHomeNavbarComponent } from '../../components/player-home-navbar/player-home-navbar.component';
 import { PlayerSummaryCardComponent } from '../../components/player-summary-card/player-summary-card.component';
 import { StatCardComponent } from '../../components/stat-card/stat-card.component';
@@ -21,6 +22,8 @@ export class PlayerHomeComponent implements OnInit {
   loading: boolean = true;
   error: string | null = null;
 
+  private router = inject(Router);
+
   constructor(private playerHomeService: PlayerHomeService) {}
 
   ngOnInit(): void {
@@ -28,13 +31,19 @@ export class PlayerHomeComponent implements OnInit {
   }
 
   loadDashboardData(): void {
-    // Usar o ID do usuário cadastrado, ou o mock de teste caso não tenha feito login/cadastro
-    const playerId = localStorage.getItem('loggedUserId') || '00000000-0000-0000-0000-000000000001';
+    const playerId = localStorage.getItem('loggedUserId') || '';
+    if (!playerId) {
+      this.router.navigate(['/login']);
+      return;
+    }
     
     this.playerHomeService.getHomeDashboard(playerId).subscribe({
       next: (response) => {
-        if (response.ok) {
+        if (response.ok && response.dados) {
           this.dashboardData = response.dados;
+          if (this.dashboardData.caminhoFoto && !this.dashboardData.caminhoFoto.startsWith('data:') && !this.dashboardData.caminhoFoto.startsWith('http') && !this.dashboardData.caminhoFoto.startsWith('assets/')) {
+            this.dashboardData.caminhoFoto = `data:image/png;base64,${this.dashboardData.caminhoFoto}`;
+          }
         } else {
           this.error = response.mensagem;
         }

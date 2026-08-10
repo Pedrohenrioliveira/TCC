@@ -2,17 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { PlayerApiService } from '../../../../core/infrastructure/api/player-api.service';
+import { FormsModule } from '@angular/forms';
 import { PlayerResponseData } from '../../../../core/infrastructure/api/dtos/player.dto';
 
 @Component({
   selector: 'app-club-roster',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './club-roster.component.html',
   styleUrl: './club-roster.component.css'
 })
 export class ClubRosterComponent implements OnInit {
   players: PlayerResponseData[] = [];
+  filteredPlayers: PlayerResponseData[] = [];
+  searchTerm: string = '';
   loading = true;
   error = '';
 
@@ -30,6 +33,7 @@ export class ClubRosterComponent implements OnInit {
     this.playerApi.getPlayers(1, 50).subscribe({
       next: (data) => {
         this.players = data;
+        this.filteredPlayers = data;
         this.loading = false;
       },
       error: (err) => {
@@ -38,6 +42,17 @@ export class ClubRosterComponent implements OnInit {
         console.error(err);
       }
     });
+  }
+
+  filterPlayers(): void {
+    if (!this.searchTerm) {
+      this.filteredPlayers = [...this.players];
+      return;
+    }
+    const term = this.searchTerm.toLowerCase();
+    this.filteredPlayers = this.players.filter(p => 
+      p.nomeCompleto.toLowerCase().includes(term)
+    );
   }
 
   verPerfil(id: string): void {

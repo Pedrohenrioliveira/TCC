@@ -30,6 +30,8 @@ public class Clube
 
     public string BreveHistoria { get; set; } = string.Empty;
 
+    public string? EscalacaoJson { get; set; }
+
     public DateTime CriadoEm { get; set; } = DateTime.UtcNow;
 
     public DateTime AtualizadoEm { get; set; } = DateTime.UtcNow;

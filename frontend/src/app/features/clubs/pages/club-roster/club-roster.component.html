@@ -5,7 +5,7 @@
       <circle cx="11" cy="11" r="8"></circle>
       <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
     </svg>
-    <input type="text" class="search-input" placeholder="Buscar por nome ou cidade...">
+    <input type="text" class="search-input" placeholder="Buscar por nome..." [(ngModel)]="searchTerm" (input)="filterPlayers()">
   </div>
 
   <h1 class="page-title">Jogadores Cadastrados</h1>
@@ -22,7 +22,7 @@
     </div>
   } @else {
     <div class="players-grid">
-      @for (player of players; track player.id) {
+      @for (player of filteredPlayers; track player.id) {
         <div class="player-card">
           <div class="avatar-wrapper">
             <!-- Usando a foto do jogador ou uma imagem padrão baseada no nome se não existir foto -->

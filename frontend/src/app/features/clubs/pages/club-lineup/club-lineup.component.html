@@ -1,0 +1,192 @@
+<div class="lineup-container">
+  <div class="header-actions">
+    <div class="filters">
+      <button class="icon-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg></button>
+      <div class="formation-badge">4-3-3</div>
+    </div>
+    
+    <button class="btn-save" (click)="saveLineup()" [disabled]="saving">
+      {{ saving ? 'Salvando...' : 'SAVE' }}
+    </button>
+  </div>
+
+  <div class="pitch-container" *ngIf="!loading">
+    <div class="football-pitch">
+      <!-- Top Row (ATA) -->
+      <div class="row forward-row">
+        <div class="slot" (click)="openPlayerSelection(9)">
+          <div *ngIf="lineup.titulares[9]; else emptySlot" class="player-card">
+            <button class="remove-btn" (click)="removePlayer(9, $event)">×</button>
+            <img [src]="lineup.titulares[9].photoUrl" alt="" (error)="handleImageError(lineup.titulares[9])" />
+            <span class="pos-badge">{{ lineup.titulares[9].position }}</span>
+            <span class="p-name">{{ lineup.titulares[9].name }}</span>
+            <span class="p-overall">{{ lineup.titulares[9].overall }}</span>
+          </div>
+        </div>
+        <div class="slot" (click)="openPlayerSelection(10)">
+          <div *ngIf="lineup.titulares[10]; else emptySlot" class="player-card">
+            <button class="remove-btn" (click)="removePlayer(10, $event)">×</button>
+            <img [src]="lineup.titulares[10].photoUrl" alt="" (error)="handleImageError(lineup.titulares[10])" />
+            <span class="pos-badge">{{ lineup.titulares[10].position }}</span>
+            <span class="p-name">{{ lineup.titulares[10].name }}</span>
+            <span class="p-overall">{{ lineup.titulares[10].overall }}</span>
+          </div>
+        </div>
+        <div class="slot" (click)="openPlayerSelection(11)">
+          <div *ngIf="lineup.titulares[11]; else emptySlot" class="player-card">
+            <button class="remove-btn" (click)="removePlayer(11, $event)">×</button>
+            <img [src]="lineup.titulares[11].photoUrl" alt="" (error)="handleImageError(lineup.titulares[11])" />
+            <span class="pos-badge">{{ lineup.titulares[11].position }}</span>
+            <span class="p-name">{{ lineup.titulares[11].name }}</span>
+            <span class="p-overall">{{ lineup.titulares[11].overall }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mid Row (MEI, VOL, MEI) -->
+      <div class="row mid-row">
+        <div class="slot" (click)="openPlayerSelection(6)">
+          <div *ngIf="lineup.titulares[6]; else emptySlot" class="player-card">
+            <button class="remove-btn" (click)="removePlayer(6, $event)">×</button>
+            <img [src]="lineup.titulares[6].photoUrl" alt="" (error)="handleImageError(lineup.titulares[6])" />
+            <span class="pos-badge">{{ lineup.titulares[6].position }}</span>
+            <span class="p-name">{{ lineup.titulares[6].name }}</span>
+            <span class="p-overall">{{ lineup.titulares[6].overall }}</span>
+          </div>
+        </div>
+        <div class="slot" (click)="openPlayerSelection(7)" style="margin-top: 30px;">
+          <div *ngIf="lineup.titulares[7]; else emptySlot" class="player-card">
+            <button class="remove-btn" (click)="removePlayer(7, $event)">×</button>
+            <img [src]="lineup.titulares[7].photoUrl" alt="" (error)="handleImageError(lineup.titulares[7])" />
+            <span class="pos-badge">{{ lineup.titulares[7].position }}</span>
+            <span class="p-name">{{ lineup.titulares[7].name }}</span>
+            <span class="p-overall">{{ lineup.titulares[7].overall }}</span>
+          </div>
+        </div>
+        <div class="slot" (click)="openPlayerSelection(8)">
+          <div *ngIf="lineup.titulares[8]; else emptySlot" class="player-card">
+            <button class="remove-btn" (click)="removePlayer(8, $event)">×</button>
+            <img [src]="lineup.titulares[8].photoUrl" alt="" (error)="handleImageError(lineup.titulares[8])" />
+            <span class="pos-badge">{{ lineup.titulares[8].position }}</span>
+            <span class="p-name">{{ lineup.titulares[8].name }}</span>
+            <span class="p-overall">{{ lineup.titulares[8].overall }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Def Row (LAT, ZAG, ZAG, LAT) -->
+      <div class="row def-row">
+        <div class="slot" (click)="openPlayerSelection(2)">
+          <div *ngIf="lineup.titulares[2]; else emptySlot" class="player-card">
+            <button class="remove-btn" (click)="removePlayer(2, $event)">×</button>
+            <img [src]="lineup.titulares[2].photoUrl" alt="" (error)="handleImageError(lineup.titulares[2])" />
+            <span class="pos-badge">{{ lineup.titulares[2].position }}</span>
+            <span class="p-name">{{ lineup.titulares[2].name }}</span>
+            <span class="p-overall">{{ lineup.titulares[2].overall }}</span>
+          </div>
+        </div>
+        <div class="slot" (click)="openPlayerSelection(3)" style="margin-top: 20px;">
+          <div *ngIf="lineup.titulares[3]; else emptySlot" class="player-card">
+            <button class="remove-btn" (click)="removePlayer(3, $event)">×</button>
+            <img [src]="lineup.titulares[3].photoUrl" alt="" (error)="handleImageError(lineup.titulares[3])" />
+            <span class="pos-badge">{{ lineup.titulares[3].position }}</span>
+            <span class="p-name">{{ lineup.titulares[3].name }}</span>
+            <span class="p-overall">{{ lineup.titulares[3].overall }}</span>
+          </div>
+        </div>
+        <div class="slot" (click)="openPlayerSelection(4)" style="margin-top: 20px;">
+          <div *ngIf="lineup.titulares[4]; else emptySlot" class="player-card">
+            <button class="remove-btn" (click)="removePlayer(4, $event)">×</button>
+            <img [src]="lineup.titulares[4].photoUrl" alt="" (error)="handleImageError(lineup.titulares[4])" />
+            <span class="pos-badge">{{ lineup.titulares[4].position }}</span>
+            <span class="p-name">{{ lineup.titulares[4].name }}</span>
+            <span class="p-overall">{{ lineup.titulares[4].overall }}</span>
+          </div>
+        </div>
+        <div class="slot" (click)="openPlayerSelection(5)">
+          <div *ngIf="lineup.titulares[5]; else emptySlot" class="player-card">
+            <button class="remove-btn" (click)="removePlayer(5, $event)">×</button>
+            <img [src]="lineup.titulares[5].photoUrl" alt="" (error)="handleImageError(lineup.titulares[5])" />
+            <span class="pos-badge">{{ lineup.titulares[5].position }}</span>
+            <span class="p-name">{{ lineup.titulares[5].name }}</span>
+            <span class="p-overall">{{ lineup.titulares[5].overall }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- GK Row (GOL) -->
+      <div class="row gk-row">
+        <div class="slot" (click)="openPlayerSelection(1)">
+          <div *ngIf="lineup.titulares[1]; else emptySlot" class="player-card">
+            <button class="remove-btn" (click)="removePlayer(1, $event)">×</button>
+            <img [src]="lineup.titulares[1].photoUrl" alt="" (error)="handleImageError(lineup.titulares[1])" />
+            <span class="pos-badge">{{ lineup.titulares[1].position }}</span>
+            <span class="p-name">{{ lineup.titulares[1].name }}</span>
+            <span class="p-overall">{{ lineup.titulares[1].overall }}</span>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #emptySlot>
+        <div class="empty-card">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="bench-section" *ngIf="!loading">
+    <div class="bench-header">
+      <div class="bench-title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary-green)" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        Banco de Reservas
+      </div>
+      <div class="bench-count">{{ lineup.reservas.length }} Jogadores</div>
+    </div>
+    
+    <div class="bench-list">
+      <div class="bench-card" *ngFor="let p of lineup.reservas; let i = index">
+        <img [src]="p.photoUrl" alt="" (error)="handleImageError(p)" />
+        <div class="b-info">
+          <span class="b-name">{{ p.name }} <span class="b-overall">{{ p.overall }}</span></span>
+          <span class="pos-badge-small">{{ p.position }}</span>
+        </div>
+        <button class="icon-btn-small" (click)="removeBenchPlayer(i)">×</button>
+      </div>
+
+      <button class="add-bench-btn" (click)="openBenchSelection()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Player Selection -->
+<div class="modal-overlay" *ngIf="showPlayerModal" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Selecionar Jogador</h3>
+      <button class="close-btn" (click)="closeModal()">×</button>
+    </div>
+    
+    <div class="modal-search">
+      <input type="text" placeholder="Buscar no elenco..." [(ngModel)]="searchQuery" />
+    </div>
+
+    <div class="player-list">
+      <div class="list-item" *ngFor="let p of filteredPlayers" (click)="selectPlayer(p)">
+        <img [src]="p.photoUrl" alt="" (error)="handleImageError(p)" />
+        <div class="item-info">
+          <h4>{{ p.name }}</h4>
+          <span>{{ p.position }} | Nível {{ p.overall }}</span>
+        </div>
+      </div>
+      <div *ngIf="filteredPlayers.length === 0" class="no-results">
+        Nenhum jogador disponível.
+      </div>
+    </div>
+  </div>
+</div>

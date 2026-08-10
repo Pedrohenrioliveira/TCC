@@ -1,136 +1,210 @@
 <div class="tournaments-container">
   
-  <h1 class="page-title">Campeonatos</h1>
+  <div class="header-actions">
+    <button class="action-btn dark-btn" (click)="toggleForm()" *ngIf="isAdmin">
+      {{ showForm ? 'Voltar para Lista' : '+ Novo Campeonato' }}
+    </button>
+  </div>
 
-  <div class="cards-list">
-    
-    <!-- Card 1 -->
-    <div class="tournament-card light-card">
-      <div class="card-top">
-        <div class="title-col">
-          <h3 class="t-title">Copa dos Campeões 2024</h3>
-          <span class="status-badge open">Inscrições Abertas</span>
+  <!-- Form Section -->
+  <div class="form-section" *ngIf="showForm">
+    <h3 class="page-title mb-3">Criar Novo Campeonato</h3>
+    <form [formGroup]="form" (ngSubmit)="criarCampeonato()" class="modern-form">
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nome do Campeonato</label>
+          <input type="text" formControlName="nome" placeholder="Ex: Copa dos Campeões">
         </div>
-        <div class="icon-circle">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M8 21h8"></path><path d="M12 17v4"></path><path d="M7 4h10a5 5 0 0 1 5 5v0a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5v0a5 5 0 0 1 5-5z"></path>
-          </svg>
+        <div class="form-group">
+          <label>Local (Estádio/Arena)</label>
+          <input type="text" formControlName="local" placeholder="Ex: Arena Sul">
         </div>
       </div>
 
-      <div class="card-details">
-        <div class="detail-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-          </svg>
-          <span>Categoria: Adulto Masculino - Livre</span>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Data de Início</label>
+          <input type="date" formControlName="dataInicio">
         </div>
-        <div class="detail-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
-          <span>Início: 15 de Outubro, 2024</span>
+        <div class="form-group">
+          <label>Data de Fim</label>
+          <input type="date" formControlName="dataFim">
+        </div>
+        <div class="form-group">
+          <label>Limite de Equipes</label>
+          <input type="number" formControlName="limiteEquipes" min="2">
         </div>
       </div>
 
-      <button class="action-btn dark-btn">Inscrever Clube</button>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Taxa de Inscrição (R$)</label>
+          <input type="number" formControlName="taxaInscricao" step="0.01" min="0" placeholder="0.00">
+        </div>
+        <div class="form-group">
+          <label>Dias dos Jogos (Ex: Sábados e Domingos)</label>
+          <input type="text" formControlName="diasDosJogos" placeholder="Sábados e Domingos">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Chave PIX para Pagamento da Inscrição</label>
+          <input type="text" formControlName="chavePix" placeholder="E-mail, CPF, Celular ou Aleatória">
+        </div>
+      </div>
+
+      <div class="form-group mb-3">
+        <label>Descrição e Regras Gerais</label>
+        <textarea formControlName="descricao" rows="4" placeholder="Detalhes do campeonato..."></textarea>
+      </div>
+
+      <button type="submit" class="action-btn dark-btn mt-2" [disabled]="form.invalid">
+        {{ form.get('id')?.value ? 'Salvar Alterações' : 'Criar Campeonato' }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="!showForm && campeonatos.length === 0">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 15px; opacity: 0.5;">
+      <circle cx="12" cy="8" r="7"></circle>
+      <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+    </svg>
+    <h3>Nenhum campeonato encontrado.</h3>
+    <p>Os campeonatos abertos aparecerão aqui.</p>
+  </div>
+
+  <!-- Cards List -->
+  <div class="cards-list" *ngIf="!showForm && campeonatos.length > 0">
+    <div class="tournament-card" *ngFor="let camp of campeonatos">
+      <div class="card-cover">
+        <span class="status-badge" 
+              [ngClass]="{'open': camp.status === 1, 'warning': camp.status === 2, 'closed': camp.status === 3}">
+          {{ camp.status === 1 ? 'Aberto' : (camp.status === 2 ? 'Em Andamento' : 'Finalizado') }}
+        </span>
+      </div>
+
+      <div class="card-body">
+        <h3 class="t-title">{{ camp.nome }}</h3>
+        <p class="t-location">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          {{ camp.local }}
+        </p>
+
+        <div class="info-badges">
+          <span class="highlight-green">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+            Taxa: {{ camp.taxaInscricao > 0 ? ('R$' + camp.taxaInscricao) : 'Grátis' }}
+          </span>
+          <span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            Vagas: {{ camp.vagasDisponiveis }} / {{ camp.limiteEquipes }}
+          </span>
+          <span *ngIf="camp.diasDosJogos">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            {{ camp.diasDosJogos }}
+          </span>
+        </div>
+        
+        <p class="t-desc">
+          {{ camp.descricao || 'Nenhuma descrição informada.' }}
+        </p>
+
+        <div class="card-actions">
+          <!-- Flow for Clubs -->
+          <ng-container *ngIf="!isAdmin">
+            <button class="action-btn dark-btn" (click)="abrirModalInscricao(camp)" *ngIf="camp.status === 1 && getInscricaoStatus(camp.id) === null && camp.vagasDisponiveis > 0">
+              Inscrever Meu Clube
+            </button>
+            <div *ngIf="camp.status === 1 && getInscricaoStatus(camp.id) === null && camp.vagasDisponiveis <= 0" style="text-align: center; color: #ff4757; font-weight: 600; padding: 10px;">
+              Vagas Esgotadas
+            </div>
+            
+            <div class="status-badge-container" *ngIf="getInscricaoStatus(camp.id) === 1">
+              <span class="status-badge warning">⏳ Aguardando Aprovação</span>
+            </div>
+
+            <div class="status-badge-container" *ngIf="getInscricaoStatus(camp.id) === 2">
+              <span class="status-badge success">✅ Clube Inscrito</span>
+            </div>
+
+            <div class="status-badge-container" *ngIf="getInscricaoStatus(camp.id) === 3">
+              <span class="status-badge closed">❌ Inscrição Rejeitada</span>
+            </div>
+          </ng-container>
+          
+          <!-- Admin actions -->
+          <div class="admin-actions" *ngIf="isAdmin">
+            <button class="action-btn outline-btn" (click)="prepararEdicao(camp)">Editar</button>
+            <button class="action-btn danger-btn" (click)="excluirCampeonato(camp.id)">Excluir</button>
+          </div>
+
+          <button class="action-btn light-btn" [routerLink]="isAdmin ? ['/admin/tournaments', camp.id] : ['/club/tournaments', camp.id]">
+            Ver Detalhes do Torneio
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <!-- Card 2 -->
-    <div class="tournament-card light-card">
-      <div class="card-top">
-        <div class="title-col">
-          <h3 class="t-title">Liga das Estrelas Sub-20</h3>
-          <span class="status-badge open">Inscrições Abertas</span>
-        </div>
-        <div class="icon-circle">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path>
-          </svg>
-        </div>
+  <!-- Modal de Solicitação de Inscrição -->
+  <div class="modal-backdrop" *ngIf="showInscricaoModal">
+    <div class="modal-content">
+      <h3 class="page-title mb-3">Solicitação de Inscrição</h3>
+      
+      <div class="resumo-inscricao">
+        <h4>Resumo da Inscrição</h4>
+        <p style="margin: 0 0 5px 0;"><strong>Campeonato:</strong> {{ campeonatoAlvoInscricao?.nome }}</p>
+        <p style="margin: 0 0 5px 0;"><strong>Taxa de Inscrição:</strong> <span style="color: var(--primary-green); font-weight: bold; font-size: 1.1rem;">R$ {{ campeonatoAlvoInscricao?.taxaInscricao }}</span></p>
+        
+        <p style="margin: 15px 0 5px 0;"><strong>Efetue o pagamento na Chave PIX:</strong></p>
+        <div class="pix-key">{{ campeonatoAlvoInscricao?.chavePix || 'Não informada' }}</div>
+      </div>
+      
+      <div class="terms-container">
+        <h4>Regulamento e Termo de Responsabilidade</h4>
+        <p>1. O clube concorda com todas as regras estabelecidas pela organização do torneio.</p>
+        <p>2. O clube atesta e se responsabiliza pelas plenas condições de saúde de todos os atletas.</p>
+        <p>3. A inscrição está sujeita à verificação do pagamento e aprovação do administrador.</p>
       </div>
 
-      <div class="card-details">
-        <div class="detail-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-          </svg>
-          <span>Categoria: Juvenil Sub-20</span>
+      <form class="modern-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nome do Responsável</label>
+            <input type="text" [(ngModel)]="nomeResponsavel" name="respNome" placeholder="Ex: João Silva">
+          </div>
+          <div class="form-group">
+            <label>Telefone / WhatsApp</label>
+            <input type="text" [(ngModel)]="telefoneResponsavel" name="respTel" placeholder="Ex: (11) 99999-9999">
+          </div>
         </div>
-        <div class="detail-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
-          <span>Início: 02 de Novembro, 2024</span>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Foto/Cópia da Identidade</label>
+            <input type="file" (change)="onFileSelected($event, 'documento')" accept="image/*,.pdf" style="padding: 8px;">
+          </div>
+          <div class="form-group">
+            <label>Comprovante de Pagamento</label>
+            <input type="file" (change)="onFileSelected($event, 'comprovante')" accept="image/*,.pdf" style="padding: 8px;">
+          </div>
         </div>
+      </form>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="aceiteRegulamento" [(ngModel)]="aceitouRegulamento">
+        <label for="aceiteRegulamento">
+          Declaro ter lido e aceito o Regulamento do Campeonato, assumo a responsabilidade pelos atletas e certifico a veracidade do comprovante.
+        </label>
       </div>
 
-      <button class="action-btn dark-btn">Inscrever Clube</button>
+      <div class="modal-actions">
+        <button class="action-btn light-btn" style="flex: 1;" (click)="fecharModalInscricao()">Cancelar</button>
+        <button class="action-btn dark-btn" style="flex: 2;" (click)="inscreverClube()">Confirmar Inscrição</button>
+      </div>
     </div>
-
-    <!-- Card 3 -->
-    <div class="tournament-card light-card">
-      <div class="card-top">
-        <div class="title-col">
-          <h3 class="t-title">Torneio Relâmpago Verão</h3>
-          <span class="status-badge open">Inscrições Abertas</span>
-        </div>
-        <div class="icon-circle">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-        </div>
-      </div>
-
-      <div class="card-details">
-        <div class="detail-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-          </svg>
-          <span>Categoria: Society Misto</span>
-        </div>
-        <div class="detail-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
-          <span>Início: 20 de Janeiro, 2025</span>
-        </div>
-      </div>
-
-      <button class="action-btn dark-btn">Inscrever Clube</button>
-    </div>
-
-    <!-- Card 4 Highlighted -->
-    <div class="tournament-card dark-card">
-      <div class="card-top">
-        <div class="title-col">
-          <h3 class="t-title">Elite Amadora Regional</h3>
-          <span class="status-badge warning">Últimas Vagas</span>
-        </div>
-        <div class="icon-circle dark-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-          </svg>
-        </div>
-      </div>
-
-      <div class="card-details">
-        <div class="detail-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-          </svg>
-          <span>Categoria: Profissionalizante</span>
-        </div>
-        <div class="detail-row">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
-          <span>Início: 12 de Dezembro, 2024</span>
-        </div>
-      </div>
-
-      <button class="action-btn light-btn">Inscrever Clube</button>
-    </div>
-
   </div>
 </div>

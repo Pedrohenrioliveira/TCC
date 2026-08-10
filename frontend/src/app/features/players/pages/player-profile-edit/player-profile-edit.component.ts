@@ -13,7 +13,7 @@ import { PlayerProfileService, PlayerDetails } from '../../services/player-profi
 })
 export class PlayerProfileEditComponent implements OnInit {
   // TODO: Obter do auth
-  jogadorId = localStorage.getItem('loggedUserId') || '00000000-0000-0000-0000-000000000001'; 
+  jogadorId = localStorage.getItem('loggedUserId') || ''; 
   player!: PlayerDetails;
   loading = true;
   error: string | null = null;

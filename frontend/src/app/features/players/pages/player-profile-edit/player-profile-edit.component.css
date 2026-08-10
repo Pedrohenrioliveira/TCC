@@ -99,13 +99,21 @@
   animation: fadeIn 0.3s ease;
 }
 
+.tab-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .form-group {
-  margin-bottom: 16px;
+  margin-bottom: 0;
 }
 
 .form-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 16px;
+  grid-column: 1 / -1; /* Se o form for grid, form-row ocupa linha toda */
 }
 
 .form-group.half {
@@ -123,8 +131,8 @@ label {
 .form-control {
   width: 100%;
   padding: 12px 16px;
-  background-color: white;
-  border: 1px solid var(--border-color);
+  background-color: transparent;
+  border: 1px solid var(--border-color, #444);
   border-radius: 8px;
   font-size: 14px;
   color: var(--text-dark);
@@ -144,7 +152,7 @@ textarea.form-control {
 
 .submit-btn {
   width: 100%;
-  padding: 14px;
+  padding: 14px 32px;
   background-color: var(--primary-dark-green);
   color: white;
   border: none;

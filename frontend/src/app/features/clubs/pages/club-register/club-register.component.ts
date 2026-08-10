@@ -24,7 +24,6 @@ export class ClubRegisterComponent {
     contato: ['', Validators.required],
     senha: ['', [Validators.required, Validators.minLength(8)]],
     confirmarSenha: ['', Validators.required],
-    competicao: ['', Validators.required],
     estadio: [''],
     historia: ['', Validators.required]
   }, { validators: this.passwordMatchValidator });
@@ -59,7 +58,7 @@ export class ClubRegisterComponent {
       cidadeEstado: formValue.cidadeEstado,
       email: formValue.email,
       senha: formValue.senha,
-      ligaCompeticao: formValue.competicao,
+      ligaCompeticao: '',
       estadioPrincipal: formValue.estadio || null,
       breveHistoria: `Contato: ${formValue.contato}\n\n${formValue.historia}`
     };
