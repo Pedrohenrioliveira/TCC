@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LeagueTabsComponent } from '../../components/league-tabs/league-tabs.component';
 import { StandingsTableComponent } from '../../components/standings-table/standings-table.component';
-import { LeagueService, TabelaClassificacaoDto } from '../../services/league.service';
+import { CampeonatoApiService } from '../../../../core/infrastructure/api/campeonato-api.service';
 
 @Component({
   selector: 'app-league-standings',
@@ -12,22 +12,41 @@ import { LeagueService, TabelaClassificacaoDto } from '../../services/league.ser
   styleUrl: './league-standings.component.css'
 })
 export class LeagueStandingsComponent implements OnInit {
-  tabelaData: TabelaClassificacaoDto | null = null;
   loading: boolean = false;
   error: string | null = null;
   
-  activeLeagueId: string = '1';
+  activeLeagueId: string = '';
   
-  leagues = [
-    { id: '1', name: 'Liga Nacional A' },
-    { id: '2', name: 'Liga Nacional B' },
-    { id: '3', name: 'Copa Regional' }
-  ];
+  leagues: { id: string, name: string }[] = [];
+  tabelaData: any = null;
 
-  constructor(private leagueService: LeagueService) {}
+  constructor(private campeonatoApi: CampeonatoApiService) {}
 
   ngOnInit(): void {
-    this.loadStandings(this.activeLeagueId);
+    this.carregarCampeonatos();
+  }
+
+  carregarCampeonatos(): void {
+    this.loading = true;
+    this.campeonatoApi.listarCampeonatos().subscribe({
+      next: (res: any) => {
+        if (res.ok && res.dados && res.dados.length > 0) {
+          this.leagues = res.dados.map((c: any) => ({
+            id: c.id,
+            name: c.nome
+          }));
+          this.activeLeagueId = this.leagues[0].id;
+          this.loadStandings(this.activeLeagueId);
+        } else {
+          this.error = 'Nenhum campeonato encontrado.';
+          this.loading = false;
+        }
+      },
+      error: (err: any) => {
+        this.error = 'Erro ao carregar campeonatos.';
+        this.loading = false;
+      }
+    });
   }
 
   onTabChange(leagueId: string): void {
@@ -38,19 +57,27 @@ export class LeagueStandingsComponent implements OnInit {
   loadStandings(leagueId: string): void {
     this.loading = true;
     this.error = null;
-    
-    // Simulação com Guid vazio temporário para não dar erro na API
-    const mockId = '00000000-0000-0000-0000-000000000000';
 
-    this.leagueService.getStandings(mockId).subscribe({
-      next: (res) => {
+    this.campeonatoApi.obterClassificacao(leagueId).subscribe({
+      next: (res: any) => {
         if (res.ok) {
-          this.tabelaData = res.dados;
-          // Sobrescreve o nome da liga com base na tab selecionada
-          const selected = this.leagues.find(l => l.id === leagueId);
-          if (selected) {
-             this.tabelaData.nomeLiga = selected.name;
-          }
+          // Transform response to match StandingsTableComponent expectations
+          const times = res.dados.map((c: any, index: number) => ({
+            posicao: index + 1,
+            clubeId: c.clubeId,
+            nomeClube: c.nomeClube,
+            escudoUrl: c.caminhoEscudo ? `http://localhost:5000${c.caminhoEscudo}` : '',
+            pontos: c.pontos,
+            jogos: c.partidasJogadas,
+            vitorias: c.vitorias,
+            empates: c.empates,
+            derrotas: c.derrotas,
+            golsPro: c.golsPro,
+            golsContra: c.golsContra,
+            saldoGols: c.saldoGols
+          }));
+          
+          this.tabelaData = { times };
         } else {
           this.error = res.mensagem;
         }

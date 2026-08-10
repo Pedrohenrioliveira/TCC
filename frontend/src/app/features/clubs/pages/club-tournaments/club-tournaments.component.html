@@ -54,7 +54,7 @@
 
       <div class="form-group">
         <label>Descrição / Informações Extras</label>
-        <textarea formControlName="descricao" class="modern-input" rows="3" style="width: 100%; border-radius: 4px; padding: 10px; border: 1px solid #ccc;"></textarea>
+        <textarea formControlName="descricao" class="modern-input" rows="3" placeholder="Digite mais informações sobre o campeonato"></textarea>
       </div>
 
       <div class="form-group">
@@ -88,18 +88,18 @@
       <div class="card-body" style="padding: 20px; flex: 1; display: flex; flex-direction: column;">
         <h3 class="t-title" style="margin-top: 0; font-size: 1.3rem;">{{ camp.nome }}</h3>
         <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px; display: flex; align-items: center; gap: 5px;">
-          📍 {{ camp.local }}
+          <i class="fas fa-map-marker-alt" style="margin-right: 5px;"></i> {{ camp.local }}
         </p>
 
         <div class="info-badges" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
           <span style="background: #eef2ff; color: #4338ca; padding: 5px 10px; border-radius: 6px; font-size: 0.85rem; font-weight: 500;">
-            💰 Taxa: {{ camp.taxaInscricao > 0 ? ('R$ ' + camp.taxaInscricao) : 'Grátis' }}
+            <i class="fas fa-money-bill-wave" style="margin-right: 5px;"></i> Taxa: {{ camp.taxaInscricao > 0 ? ('R$ ' + camp.taxaInscricao) : 'Grátis' }}
           </span>
           <span style="background: #ecfdf5; color: #047857; padding: 5px 10px; border-radius: 6px; font-size: 0.85rem; font-weight: 500;">
-            ✅ Vagas: {{ camp.vagasDisponiveis }} / {{ camp.limiteEquipes }}
+            <i class="fas fa-check-circle" style="margin-right: 5px;"></i> Vagas: {{ camp.vagasDisponiveis }} / {{ camp.limiteEquipes }}
           </span>
           <span style="background: #fdf4ff; color: #a21caf; padding: 5px 10px; border-radius: 6px; font-size: 0.85rem; font-weight: 500;" *ngIf="camp.diasDosJogos">
-            📅 {{ camp.diasDosJogos }}
+            <i class="fas fa-calendar-alt" style="margin-right: 5px;"></i> {{ camp.diasDosJogos }}
           </span>
         </div>
         
@@ -118,22 +118,22 @@
             </div>
             
             <div class="status-badge-container mt-2" *ngIf="getInscricaoStatus(camp.id) === 1">
-              <span class="status-badge warning" style="display: block; text-align: center;">⏳ Aguardando Aprovação</span>
+              <span class="status-badge warning" style="display: block; text-align: center;"><i class="fas fa-hourglass-half" style="margin-right: 5px;"></i> Aguardando Aprovação</span>
             </div>
 
             <div class="status-badge-container mt-2" *ngIf="getInscricaoStatus(camp.id) === 2">
-              <span class="status-badge success" style="display: block; text-align: center; background-color: #28a745; color: white;">🎉 Inscrito</span>
+              <span class="status-badge success" style="display: block; text-align: center; background-color: #28a745; color: white;"><i class="fas fa-check-double" style="margin-right: 5px;"></i> Inscrito</span>
             </div>
 
             <div class="status-badge-container mt-2" *ngIf="getInscricaoStatus(camp.id) === 3">
-              <span class="status-badge closed" style="display: block; text-align: center; background-color: #dc3545;">❌ Inscrição Rejeitada</span>
+              <span class="status-badge closed" style="display: block; text-align: center; background-color: #dc3545;"><i class="fas fa-times-circle" style="margin-right: 5px;"></i> Inscrição Rejeitada</span>
             </div>
           </ng-container>
           
           <!-- Admin actions -->
           <div class="admin-actions mt-3" *ngIf="isAdmin" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <button class="action-btn outline-btn" (click)="prepararEdicao(camp)">✏️ Editar</button>
-            <button class="action-btn danger-btn" (click)="excluirCampeonato(camp.id)">🗑️ Excluir</button>
+            <button class="action-btn outline-btn" (click)="prepararEdicao(camp)"><i class="fas fa-edit" style="margin-right: 5px;"></i> Editar</button>
+            <button class="action-btn danger-btn" (click)="excluirCampeonato(camp.id)"><i class="fas fa-trash-alt" style="margin-right: 5px;"></i> Excluir</button>
           </div>
 
           <button class="action-btn light-btn mt-2" style="width: 100%; border: 1px solid #ddd;" [routerLink]="isAdmin ? ['/admin/tournaments', camp.id] : ['/club/tournaments', camp.id]">

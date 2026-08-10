@@ -1,6 +1,6 @@
 .profile-container {
   padding: 20px;
-  max-width: 600px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -99,13 +99,21 @@
   animation: fadeIn 0.3s ease;
 }
 
+.tab-content form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
 .form-group {
-  margin-bottom: 16px;
+  margin-bottom: 0;
 }
 
 .form-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 16px;
+  grid-column: 1 / -1; /* Se o form for grid, form-row ocupa linha toda */
 }
 
 .form-group.half {
@@ -143,8 +151,11 @@ textarea.form-control {
 }
 
 .submit-btn {
-  width: 100%;
-  padding: 14px;
+  grid-column: 1 / -1;
+  width: auto;
+  min-width: 200px;
+  justify-self: end;
+  padding: 14px 32px;
   background-color: var(--primary-dark-green);
   color: white;
   border: none;
@@ -152,7 +163,7 @@ textarea.form-control {
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  margin-top: 24px;
+  margin-top: 12px;
   transition: background-color 0.2s;
 }
 

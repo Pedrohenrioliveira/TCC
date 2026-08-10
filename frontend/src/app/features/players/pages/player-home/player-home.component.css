@@ -1,6 +1,6 @@
 .player-home-container {
   padding: 20px;
-  max-width: 600px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -28,7 +28,8 @@
 }
 
 .stats-grid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
 }
 

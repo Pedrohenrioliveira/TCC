@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { ClubProfileService, ClubDetails } from '../../services/club-profile.service';
 import { ClubRequestService } from '../../../club-requests/services/club-request.service';
 import { PlayerApiService } from '../../../../core/infrastructure/api/player-api.service';
@@ -19,6 +20,8 @@ export class ClubHomeComponent implements OnInit {
   activePlayersCount: number = 0;
   newRequestsCount: number = 0;
   
+  private router = inject(Router);
+
   constructor(
     private clubProfileService: ClubProfileService,
     private clubRequestService: ClubRequestService,
@@ -29,6 +32,8 @@ export class ClubHomeComponent implements OnInit {
     this.clubId = localStorage.getItem('loggedClubId') || '';
     if (this.clubId) {
       this.loadDashboardData();
+    } else {
+      this.router.navigate(['/login']);
     }
   }
 
@@ -73,6 +78,9 @@ export class ClubHomeComponent implements OnInit {
   }
 
   getClubShield(): string {
-    return this.clubData?.caminhoEscudo || 'assets/default-club.png';
+    const shield = this.clubData?.caminhoEscudo;
+    if (!shield || shield === 'assets/default-shield.png') return 'assets/default-club.png';
+    if (shield.startsWith('data:') || shield.startsWith('http') || shield.startsWith('assets/')) return shield;
+    return `data:image/png;base64,${shield}`;
   }
 }
