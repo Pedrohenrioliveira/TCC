@@ -39,6 +39,10 @@ export const routes: Routes = [
       },
       {
         path: 'profile',
+        loadComponent: () => import('./features/clubs/pages/club-profile-view/club-profile-view.component').then(m => m.ClubProfileViewComponent)
+      },
+      {
+        path: 'profile/edit',
         loadComponent: () => import('./features/clubs/pages/club-profile-edit/club-profile-edit.component').then(m => m.ClubProfileEditComponent)
       },
       {
@@ -70,6 +74,10 @@ export const routes: Routes = [
       },
       {
         path: 'profile',
+        loadComponent: () => import('./features/players/pages/player-profile-view/player-profile-view.component').then(m => m.PlayerProfileViewComponent)
+      },
+      {
+        path: 'profile/edit',
         loadComponent: () => import('./features/players/pages/player-profile-edit/player-profile-edit.component').then(m => m.PlayerProfileEditComponent)
       },
       {
@@ -79,6 +87,10 @@ export const routes: Routes = [
       {
         path: 'club-requests',
         loadComponent: () => import('./features/club-requests/pages/request-list/request-list.component').then(m => m.RequestListComponent)
+      },
+      {
+        path: 'club/:id',
+        loadComponent: () => import('./features/clubs/pages/club-profile-view/club-profile-view.component').then(m => m.ClubProfileViewComponent)
       },
       {
         path: '',

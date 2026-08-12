@@ -18,5 +18,7 @@ public interface IAppDbContext
     DbSet<Classificacao> Classificacoes { get; }
     DbSet<InscricaoCampeonato> InscricoesCampeonatos { get; }
     
+    DbSet<Postagem> Postagens { get; }
+    
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

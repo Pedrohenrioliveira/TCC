@@ -26,6 +26,9 @@ export interface PlayerResponseData {
   posicaoSecundaria?: number | null;
   bioHistorico?: string;
   clubeId?: string | null;
+  nomeClube?: string;
+  golsOficiais?: number;
+  titulosOficiais?: number;
 }
 
 export interface RespostaApi<T> {

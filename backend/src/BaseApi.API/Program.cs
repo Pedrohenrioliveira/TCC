@@ -109,6 +109,9 @@ using (var scope = app.Services.CreateScope())
         logger.LogInformation("Aplicando migrations...");
         await db.Database.MigrateAsync();
         logger.LogInformation("Banco de dados pronto.");
+        
+        logger.LogInformation("Populando dados base (Seeding)...");
+        BaseApi.Infrastructure.Dados.SeedData.Initialize(db);
     }
     catch (Exception ex)
     {

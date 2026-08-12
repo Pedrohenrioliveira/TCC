@@ -24,6 +24,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Partida> Partidas => Set<Partida>();
     public DbSet<Classificacao> Classificacoes => Set<Classificacao>();
     public DbSet<InscricaoCampeonato> InscricoesCampeonatos => Set<InscricaoCampeonato>();
+    public DbSet<Postagem> Postagens => Set<Postagem>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

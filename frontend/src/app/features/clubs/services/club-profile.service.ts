@@ -12,6 +12,7 @@ export interface ClubDetails {
   ligaCompeticao: string;
   estadioPrincipal: string | null;
   breveHistoria: string;
+  titulosOficiais?: number;
 }
 
 export interface ApiResponse<T> {

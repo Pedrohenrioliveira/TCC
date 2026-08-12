@@ -19,6 +19,8 @@ public record JogadorDetalheDto(
     string BioHistorico,
     Guid? ClubeId,
     string NomeClube,
+    int GolsOficiais,
+    int TitulosOficiais,
     DateTime CriadoEm,
     DateTime AtualizadoEm
 );

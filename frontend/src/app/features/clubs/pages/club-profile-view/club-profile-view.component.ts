@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { PlayerApiService } from '../../../../core/infrastructure/api/player-api.service';
-import { PlayerResponseData } from '../../../../core/infrastructure/api/dtos/player.dto';
+import { ClubProfileService, ClubDetails } from '../../services/club-profile.service';
 import { FeedApiService } from '../../../../core/infrastructure/api/feed-api.service';
 import { PostagemDto } from '../../../../core/infrastructure/api/dtos/feed.dto';
 
 @Component({
-  selector: 'app-player-profile-view',
+  selector: 'app-club-profile-view',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './player-profile-view.component.html',
-  styleUrl: './player-profile-view.component.css'
+  templateUrl: './club-profile-view.component.html',
+  styleUrl: './club-profile-view.component.css'
 })
-export class PlayerProfileViewComponent implements OnInit {
-  player: PlayerResponseData | null = null;
+export class ClubProfileViewComponent implements OnInit {
+  club: ClubDetails | null = null;
   postagens: PostagemDto[] = [];
   loading = true;
   error = '';
@@ -23,38 +22,43 @@ export class PlayerProfileViewComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private playerApi: PlayerApiService,
+    private clubService: ClubProfileService,
     private feedApi: FeedApiService,
     private location: Location
   ) {}
 
   ngOnInit(): void {
     let id = this.route.snapshot.paramMap.get('id');
-    const loggedUserId = localStorage.getItem('loggedUserId');
+    const loggedClubId = localStorage.getItem('loggedClubId');
     
     if (!id) {
-      id = loggedUserId;
+      id = loggedClubId;
     }
 
     if (id) {
       this.perfilId = id;
-      this.isOwner = loggedUserId === id;
-      this.carregarJogador(id);
+      this.isOwner = loggedClubId === id;
+      this.carregarClube(id);
     } else {
-      this.error = 'ID do jogador não fornecido.';
+      this.error = 'ID do clube não fornecido.';
       this.loading = false;
     }
   }
 
-  carregarJogador(id: string): void {
+  carregarClube(id: string): void {
     this.loading = true;
-    this.playerApi.getPlayerById(id).subscribe({
-      next: (data) => {
-        this.player = data;
-        this.carregarFeed(id);
+    this.clubService.getProfile(id).subscribe({
+      next: (res) => {
+        if (res.ok) {
+          this.club = res.dados;
+          this.carregarFeed(id);
+        } else {
+          this.error = res.mensagem;
+          this.loading = false;
+        }
       },
       error: (err) => {
-        this.error = 'Não foi possível carregar o perfil do jogador.';
+        this.error = 'Não foi possível carregar o perfil do clube.';
         this.loading = false;
         console.error(err);
       }
@@ -103,30 +107,5 @@ export class PlayerProfileViewComponent implements OnInit {
 
   voltar(): void {
     this.location.back();
-  }
-
-  getPosicaoNome(idPosicao: number | undefined | null): string {
-    if (!idPosicao) return 'Desconhecida';
-    const posicoes: Record<number, string> = {
-      1: 'Goleiro',
-      2: 'Lateral Direito',
-      3: 'Zagueiro',
-      4: 'Lateral Esquerdo',
-      5: 'Volante',
-      6: 'Meio-Campo',
-      7: 'Ponta',
-      8: 'Centroavante'
-    };
-    return posicoes[idPosicao] || 'Desconhecida';
-  }
-
-  getPePreferencialNome(pe: number | undefined | null): string {
-    if (!pe) return 'Não informado';
-    const pes: Record<number, string> = {
-      1: 'Esquerdo',
-      2: 'Direito',
-      3: 'Ambidestro'
-    };
-    return pes[pe] || 'Não informado';
   }
 }

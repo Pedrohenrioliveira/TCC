@@ -14,6 +14,7 @@ public record ClubeDetalheDto(
     string LigaCompeticao,
     string? EstadioPrincipal,
     string BreveHistoria,
+    int TitulosOficiais,
     DateTime CriadoEm,
     DateTime AtualizadoEm
 );

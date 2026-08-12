@@ -37,6 +37,12 @@ public class Campeonato
     
     public int LimiteEquipes { get; set; }
     
+    /// <summary>
+    /// ID do Clube que foi o campeão, preenchido quando Status for Finalizado.
+    /// </summary>
+    public Guid? ClubeCampeaoId { get; set; }
+    public Clube? ClubeCampeao { get; set; }
+    
     public DateTime CriadoEm { get; set; } = DateTime.UtcNow;
     
     public DateTime AtualizadoEm { get; set; } = DateTime.UtcNow;
